@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://cgxt02jhhvv1s"]
+
+[ext_resource type="Script" path="res://entities/Player.cs" id="1_tjpo1"]
+[ext_resource type="Texture2D" uid="uid://bja8vgnbauqup" path="res://assets/layman.png" id="2_swr5o"]
+[ext_resource type="Script" path="res://entities/CharacterSprite.cs" id="3_fetmq"]
+[ext_resource type="PackedScene" uid="uid://cb6lxtffm8d3w" path="res://camera/camera.tscn" id="3_iy2p2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5cc4p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_swr5o")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_swr5o")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tc81g"]
+size = Vector2(26.5, 56.5)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_tjpo1")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(0.689189, 0.689189)
+sprite_frames = SubResource("SpriteFrames_5cc4p")
+animation = &"walk"
+autoplay = "idle"
+script = ExtResource("3_fetmq")
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(2, 1)
+shape = SubResource("RectangleShape2D_tc81g")
+
+[node name="Camera2D" parent="." instance=ExtResource("3_iy2p2")]
