@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bv5bncli6h42c"]
+[gd_scene load_steps=8 format=3 uid="uid://bv5bncli6h42c"]
 
 [ext_resource type="Script" path="res://entities/Npc.cs" id="1_ptvi7"]
 [ext_resource type="Texture2D" uid="uid://chkdvpml1v33v" path="res://assets/redwarrior.png" id="1_rc28k"]
 [ext_resource type="Script" path="res://entities/CharacterSprite.cs" id="3_v0a3a"]
+[ext_resource type="Script" path="res://entities/InteractTriggerDisplay.cs" id="4_at1t5"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_aiscp"]
 animations = [{
@@ -18,6 +19,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jpgjp"]
 size = Vector2(63, 115)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_5htrr"]
+radius = 105.0
+
 [node name="Npc" type="AnimatableBody2D"]
 scale = Vector2(0.8, 0.8)
 script = ExtResource("1_ptvi7")
@@ -32,3 +36,21 @@ script = ExtResource("3_v0a3a")
 position = Vector2(-4.5, -1.5)
 scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_jpgjp")
+
+[node name="InteractRange" type="Area2D" parent="."]
+texture_filter = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractRange"]
+shape = SubResource("CircleShape2D_5htrr")
+
+[node name="InteractTriggerDisplay" type="RichTextLabel" parent="."]
+offset_left = -340.0
+offset_top = -80.0
+offset_right = 341.0
+offset_bottom = -40.0
+bbcode_enabled = true
+text = "[center][Q] Talk[/center]"
+fit_content = true
+script = ExtResource("4_at1t5")
+
+[connection signal="body_entered" from="InteractRange" to="." method="onInteractBodyEntered"]

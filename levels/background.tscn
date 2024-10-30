@@ -30,6 +30,7 @@ texture = ExtResource("4_lu0xl")
 sources/0 = SubResource("TileSetAtlasSource_eguv8")
 
 [node name="Background" type="Node2D"]
+position = Vector2(552, 320)
 script = ExtResource("1_rwlw2")
 
 [node name="Player" parent="." instance=ExtResource("1_0c7nd")]

@@ -1,0 +1,101 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfbolqsgmpdwr"]
+
+[ext_resource type="Script" path="res://ui/InteractDisplay.cs" id="1_kly7l"]
+[ext_resource type="Script" path="res://ui/SpeakerDetails.cs" id="1_onhbl"]
+[ext_resource type="Texture2D" uid="uid://daskeudoi1pmm" path="res://assets/archer2.png" id="2_7ex64"]
+[ext_resource type="Script" path="res://ui/Speech.cs" id="2_ekna7"]
+
+[node name="GameUI" type="CanvasLayer"]
+
+[node name="ignore" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.00784314)
+offset_right = 46.0
+offset_bottom = 23.0
+text = "."
+
+[node name="Control" type="Control" parent="."]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InteractDisplay" type="ColorRect" parent="Control"]
+modulate = Color(1, 1, 1, 0.623529)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.955
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -463.5
+offset_top = -200.0
+offset_right = 463.5
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 1)
+script = ExtResource("1_kly7l")
+
+[node name="MarginSpeech" type="MarginContainer" parent="Control/InteractDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 25
+
+[node name="Speech" type="RichTextLabel" parent="Control/InteractDisplay/MarginSpeech"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 24
+script = ExtResource("2_ekna7")
+theme_override_font_sizes/normal_font_size = 24
+
+[node name="MarginSpeaker" type="MarginContainer" parent="Control/InteractDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 140
+
+[node name="SpeakerDetails" type="GridContainer" parent="Control/InteractDisplay/MarginSpeaker"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+columns = 2
+script = ExtResource("1_onhbl")
+theme_override_constants/h_separation = 10
+
+[node name="avatar" type="TextureRect" parent="Control/InteractDisplay/MarginSpeaker/SpeakerDetails"]
+layout_mode = 2
+texture = ExtResource("2_7ex64")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/InteractDisplay/MarginSpeaker/SpeakerDetails"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ts" type="Control" parent="Control/InteractDisplay/MarginSpeaker/SpeakerDetails/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="name" type="RichTextLabel" parent="Control/InteractDisplay/MarginSpeaker/SpeakerDetails/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Erika"
+scroll_active = false
+
+[node name="bs" type="Control" parent="Control/InteractDisplay/MarginSpeaker/SpeakerDetails/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
