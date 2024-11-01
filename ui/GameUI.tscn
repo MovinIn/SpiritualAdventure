@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dfbolqsgmpdwr"]
+[gd_scene load_steps=6 format=3 uid="uid://dfbolqsgmpdwr"]
 
 [ext_resource type="Script" path="res://ui/InteractDisplay.cs" id="1_kly7l"]
 [ext_resource type="Script" path="res://ui/SpeakerDetails.cs" id="1_onhbl"]
 [ext_resource type="Texture2D" uid="uid://daskeudoi1pmm" path="res://assets/archer2.png" id="2_7ex64"]
-[ext_resource type="Script" path="res://ui/Speech.cs" id="2_ekna7"]
+[ext_resource type="Script" path="res://ui/SpeechDisplay.cs" id="2_d0ef1"]
+[ext_resource type="PackedScene" uid="uid://btch1sijij8qm" path="res://ui/option.tscn" id="5_lfxmf"]
 
 [node name="GameUI" type="CanvasLayer"]
 
@@ -22,80 +23,115 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="InteractDisplay" type="ColorRect" parent="Control"]
-modulate = Color(1, 1, 1, 0.623529)
+[node name="InteractDisplay" type="MarginContainer" parent="Control"]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.955
-anchor_right = 0.5
+anchors_preset = 2
+anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = -463.5
-offset_top = -200.0
-offset_right = 463.5
-grow_horizontal = 2
+offset_top = -255.0
+offset_right = 1152.0
 grow_vertical = 0
-color = Color(0, 0, 0, 1)
 script = ExtResource("1_kly7l")
 
-[node name="MarginSpeech" type="MarginContainer" parent="Control/InteractDisplay"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_top = 100
-theme_override_constants/margin_right = 50
-theme_override_constants/margin_bottom = 25
-
-[node name="Speech" type="RichTextLabel" parent="Control/InteractDisplay/MarginSpeech"]
+[node name="Color" type="ColorRect" parent="Control/InteractDisplay"]
+modulate = Color(1, 1, 1, 0.623529)
 layout_mode = 2
-theme_override_font_sizes/normal_font_size = 24
-script = ExtResource("2_ekna7")
-theme_override_font_sizes/normal_font_size = 24
+color = Color(0, 0, 0, 1)
 
-[node name="MarginSpeaker" type="MarginContainer" parent="Control/InteractDisplay"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/InteractDisplay"]
+z_index = 1
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="MarginSpeaker" type="MarginContainer" parent="Control/InteractDisplay/VBoxContainer"]
+layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
-theme_override_constants/margin_bottom = 140
+theme_override_constants/margin_right = 10
 
-[node name="SpeakerDetails" type="GridContainer" parent="Control/InteractDisplay/MarginSpeaker"]
+[node name="SpeakerDetails" type="GridContainer" parent="Control/InteractDisplay/VBoxContainer/MarginSpeaker"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/h_separation = 10
-columns = 2
+columns = 3
 script = ExtResource("1_onhbl")
-theme_override_constants/h_separation = 10
 
-[node name="avatar" type="TextureRect" parent="Control/InteractDisplay/MarginSpeaker/SpeakerDetails"]
+[node name="avatarvbox" type="VBoxContainer" parent="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails"]
+layout_mode = 2
+alignment = 1
+
+[node name="Avatar" type="TextureRect" parent="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/avatarvbox"]
+unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("2_7ex64")
-expand_mode = 2
 stretch_mode = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/InteractDisplay/MarginSpeaker/SpeakerDetails"]
+[node name="namevbox" type="VBoxContainer" parent="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails"]
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
+alignment = 1
 
-[node name="ts" type="Control" parent="Control/InteractDisplay/MarginSpeaker/SpeakerDetails/VBoxContainer"]
+[node name="Name" type="RichTextLabel" parent="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/namevbox"]
+unique_name_in_owner = true
+clip_contents = false
 layout_mode = 2
-size_flags_vertical = 3
-
-[node name="name" type="RichTextLabel" parent="Control/InteractDisplay/MarginSpeaker/SpeakerDetails/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 text = "Erika"
+fit_content = true
 scroll_active = false
+autowrap_mode = 0
 
-[node name="bs" type="Control" parent="Control/InteractDisplay/MarginSpeaker/SpeakerDetails/VBoxContainer"]
+[node name="Options" type="GridContainer" parent="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails"]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
+columns = 2
+
+[node name="Set1" type="VBoxContainer" parent="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Option1" parent="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set1" instance=ExtResource("5_lfxmf")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Option2" parent="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set1" instance=ExtResource("5_lfxmf")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Set2" type="VBoxContainer" parent="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Option3" parent="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set2" instance=ExtResource("5_lfxmf")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Option4" parent="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set2" instance=ExtResource("5_lfxmf")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MarginSpeech" type="MarginContainer" parent="Control/InteractDisplay/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 10
+
+[node name="Speech" type="RichTextLabel" parent="Control/InteractDisplay/VBoxContainer/MarginSpeech"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "asdf
+adsf
+asdf
+"
+fit_content = true
+script = ExtResource("2_d0ef1")
+
+[connection signal="OnOptionPressed" from="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set1/Option1" to="Control/InteractDisplay" method="OnOptionPressed"]
+[connection signal="OnOptionPressed" from="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set1/Option2" to="Control/InteractDisplay" method="OnOptionPressed"]
+[connection signal="OnOptionPressed" from="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set2/Option3" to="Control/InteractDisplay" method="OnOptionPressed"]
+[connection signal="OnOptionPressed" from="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set2/Option4" to="Control/InteractDisplay" method="OnOptionPressed"]
+[connection signal="SpeechDisplayFinishedUpdating" from="Control/InteractDisplay/VBoxContainer/MarginSpeech/Speech" to="Control/InteractDisplay" method="SpeechDisplayFinishedUpdating"]

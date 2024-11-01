@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://cryt7qhl2qvek"]
+
+[ext_resource type="Texture2D" uid="uid://45h0jmgawi32" path="res://assets/layman2.png" id="1_hwshx"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_hwshx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

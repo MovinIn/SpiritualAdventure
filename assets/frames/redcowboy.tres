@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://b2e0fj7w8ksif"]
+
+[ext_resource type="Texture2D" uid="uid://cssvj6xbcva3l" path="res://assets/redcowboy.png" id="1_poaa6"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_poaa6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

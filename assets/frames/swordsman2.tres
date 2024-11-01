@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://bybvwg8liw7qt"]
+
+[ext_resource type="Texture2D" uid="uid://cx5vcsbix8t7i" path="res://assets/swordsman2.png" id="1_yrbkh"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_yrbkh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

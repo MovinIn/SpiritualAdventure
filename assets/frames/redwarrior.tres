@@ -1,0 +1,45 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://v7cwyejcymlv"]
+
+[ext_resource type="Texture2D" uid="uid://cv0leqy1smme1" path="res://assets/ani/redwarrioridle.png" id="1_es0yv"]
+[ext_resource type="Texture2D" uid="uid://bcu5o05v3gmv8" path="res://assets/ani/redwarriorwalk.png" id="2_k3yq2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_raa8t"]
+atlas = ExtResource("1_es0yv")
+region = Rect2(0, 0, 106, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_74x5b"]
+atlas = ExtResource("1_es0yv")
+region = Rect2(106, 0, 106, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l2uln"]
+atlas = ExtResource("2_k3yq2")
+region = Rect2(0, 0, 106, 116)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tih4k"]
+atlas = ExtResource("2_k3yq2")
+region = Rect2(106, 0, 106, 116)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_raa8t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_74x5b")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l2uln")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tih4k")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]

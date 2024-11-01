@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://deohisxq5wlaw"]
+
+[ext_resource type="Texture2D" uid="uid://d07vle2vyotno" path="res://assets/blackmerchant.png" id="1_8bl4s"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_8bl4s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

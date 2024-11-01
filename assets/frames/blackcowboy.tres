@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://dn10bat46a32u"]
+
+[ext_resource type="Texture2D" uid="uid://b2pf8qnqy1xuh" path="res://assets/blackcowboy.png" id="1_r3ix6"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_r3ix6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

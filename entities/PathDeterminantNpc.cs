@@ -41,9 +41,6 @@ public partial class PathDeterminantNpc : Npc
 		replay = new Replay();
 		if (path.Count==0) return;
 
-        GD.Print(sprite);
-        GD.Print(sprite.Scale);
-        
 		TimedInfoFrame past = new TimedInfoFrame(path[0], sprite.Scale, 0d);
 		replay.add(past);
 		for (int i = 1; i < path.Count; i++)
@@ -75,8 +72,8 @@ public partial class PathDeterminantNpc : Npc
 	
 	public override void _PhysicsProcess(double delta)
 	{
-		// If not moving or in delay, do not process.
-		if (!moving) return;
+		// If not moving, or interacting, or in delay, do not process.
+		if (!moving||interactTrigger.IsInteracting()) return;
 		if (currTime<MOVE_DELAY)
 		{
 			currTime += delta;

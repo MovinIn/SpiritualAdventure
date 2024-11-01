@@ -1,4 +1,6 @@
-﻿namespace SpiritualAdventure.ui;
+﻿using Godot;
+
+namespace SpiritualAdventure.ui;
 
 public enum Speaker
 {
@@ -29,13 +31,19 @@ public enum Speaker
 
 static class SpeakerExtensions
 {
-    public static string asPath(this Speaker speaker)
+    public static Texture2D asTexture(this Speaker speaker)
     {
-        return "res://assets/"+speaker.ToString().Replace("_","").ToLower()+".png";
+        return ResourceLoader.Load<Texture2D>("res://assets/"+speaker.ToString().Replace("_","").ToLower()+".png");
+    }
+
+    public static SpriteFrames asFrames(this Speaker speaker)
+    {
+        return ResourceLoader.Load<SpriteFrames>("res://assets/frames/" + 
+                                                 speaker.ToString().Replace("_", "").ToLower() + ".tres");
     }
 
     public static string asTitle(this Speaker speaker)
     {
-        return speaker.ToString().Replace("_", " ");
+        return speaker.ToString().Replace("_", " ").Replace("2","");
     }
 }

@@ -1,20 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bv5bncli6h42c"]
+[gd_scene load_steps=7 format=3 uid="uid://bv5bncli6h42c"]
 
 [ext_resource type="Script" path="res://entities/Npc.cs" id="1_ptvi7"]
-[ext_resource type="Texture2D" uid="uid://chkdvpml1v33v" path="res://assets/redwarrior.png" id="1_rc28k"]
+[ext_resource type="SpriteFrames" uid="uid://v7cwyejcymlv" path="res://assets/frames/redwarrior.tres" id="2_64ut5"]
 [ext_resource type="Script" path="res://entities/CharacterSprite.cs" id="3_v0a3a"]
 [ext_resource type="Script" path="res://entities/InteractTriggerDisplay.cs" id="4_at1t5"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_aiscp"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_rc28k")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jpgjp"]
 size = Vector2(63, 115)
@@ -29,10 +18,13 @@ script = ExtResource("1_ptvi7")
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 scale = Vector2(0.8, 0.8)
-sprite_frames = SubResource("SpriteFrames_aiscp")
+sprite_frames = ExtResource("2_64ut5")
+animation = &"idle"
+frame = 1
+frame_progress = 0.401972
 script = ExtResource("3_v0a3a")
 
-[node name="hitbox" type="CollisionShape2D" parent="."]
+[node name="Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2(-4.5, -1.5)
 scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_jpgjp")
@@ -53,4 +45,5 @@ text = "[center][Q] Talk[/center]"
 fit_content = true
 script = ExtResource("4_at1t5")
 
-[connection signal="body_entered" from="InteractRange" to="." method="onInteractBodyEntered"]
+[connection signal="body_entered" from="InteractRange" to="." method="OnInteractBodyEntered"]
+[connection signal="body_exited" from="InteractRange" to="." method="OnInteractBodyExited"]

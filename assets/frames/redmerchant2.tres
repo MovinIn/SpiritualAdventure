@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://dhuhrtptp6qcq"]
+
+[ext_resource type="Texture2D" uid="uid://1pr0436kr7p" path="res://assets/redmerchant2.png" id="1_ynu64"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ynu64")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

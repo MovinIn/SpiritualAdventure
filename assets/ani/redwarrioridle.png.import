@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cx5vcsbix8t7i"
-path="res://.godot/imported/swordsman2.png-9230eb655f45d36bcdca4ed524d7c4d2.ctex"
+uid="uid://cv0leqy1smme1"
+path="res://.godot/imported/redwarrioridle.png-bf91754a122b72fa7f23344cf390fc50.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/swordsman2.png"
-dest_files=["res://.godot/imported/swordsman2.png-9230eb655f45d36bcdca4ed524d7c4d2.ctex"]
+source_file="res://assets/ani/redwarrioridle.png"
+dest_files=["res://.godot/imported/redwarrioridle.png-bf91754a122b72fa7f23344cf390fc50.ctex"]
 
 [params]
 

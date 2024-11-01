@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://dx4qrhix8x3ag"]
+
+[ext_resource type="Texture2D" uid="uid://dgcwmj0icolu4" path="res://assets/blackwarrior2.png" id="1_f2oqs"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_f2oqs")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://bynp8vvemqykp"]
+
+[ext_resource type="Texture2D" uid="uid://daskeudoi1pmm" path="res://assets/archer2.png" id="1_aeugp"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_aeugp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
