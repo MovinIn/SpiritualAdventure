@@ -15,8 +15,8 @@ public partial class Background : Node2D
 
     public void testNPC(Vector2 position)
     {
-        Npc npc=PathDeterminantNpc.instance(
-            new List<Vector2>{new (0,0),new (100,0),new (100,100),new (0,100),new (0,0)},
+        Npc npc=PathDeterminantNpc.Instance(
+            new List<Action>{new (100,0),new (100,100,1.5d),new (0,100),new (0,0)},
             position,2,true);
         AddChild(npc);
         npc.Who(Speaker.Red_Warrior,"Roman");

@@ -1,39 +1,54 @@
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
 
 public class ReplayPlayer {
     private List<TimedInfoFrame> frames;
     private int index;
     private double cumulativeDelta;
-    public bool hasNextFrame(){
+    private double cumulativeDelay;
+    
+    public bool HasNextFrame(){
         return index<frames.Count;
     }
 
-    public PlayerInfoFrame nextFrame(double delta){
-        if(!hasNextFrame()){
+    public PlayerInfoFrame NextFrame(double delta){
+        if(!HasNextFrame()){
             return null;
         }
-        return interpolation(delta);
+        return Interpolation(delta);
     }
 
-    private PlayerInfoFrame interpolation(double delta) {
-        while(cumulativeDelta>frames[index].delta){
-            cumulativeDelta-=frames[index++].delta;
-            if(index==frames.Count){
-                return frames[frames.Count-1];
-            }
+    private PlayerInfoFrame Interpolation(double delta)
+    {
+        var frame = frames[index];
+        
+        cumulativeDelay += delta;
+        if (cumulativeDelay<frame.delay)
+        {
+            return new PlayerInfoFrame(frames[index-1].position,frames[index-1].scale);
         }
+        
         cumulativeDelta += delta;
-        double proportion=cumulativeDelta/frames[index].delta;
-        Vector2 scale=frames[index-1].scale;
-        Vector2 position=frames[index-1].position+
-            (float)proportion*(frames[index].position-frames[index-1].position);
+        while(cumulativeDelta>frame.delta){
+            cumulativeDelta-=frame.delta;
+            cumulativeDelay = 0;
+            if(++index==frames.Count){
+                return frames[^1];
+            }
+            frame = frames[index];
+        }
+        
+        var previousFrame = frames[index - 1];
+        double proportion=cumulativeDelta/frame.delta;
+        Vector2 scale=previousFrame.scale;
+        Vector2 position=previousFrame.position+
+            (float)proportion*(frame.position-previousFrame.position);
+        
         return new PlayerInfoFrame(position,scale);
     }
 
-    public void playReplay(Replay r){
+    public void PlayReplay(Replay r){
         index=1;
-        frames = r.frames.ConvertAll(frame=>new TimedInfoFrame(frame.position, frame.scale,frame.delta));
+        frames = r.frames.ConvertAll(frame=>new TimedInfoFrame(frame.position, frame.scale,frame.delta,frame.delay));
     }
 }
