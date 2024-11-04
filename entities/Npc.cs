@@ -71,7 +71,7 @@ public partial class Npc : AnimatableBody2D
             return null;
         }
         if (!currLine.HasNext())
-            return null;
+            return currLine;
         
         currLine = currLine.next;
         return currLine;
