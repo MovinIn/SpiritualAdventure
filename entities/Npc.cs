@@ -109,7 +109,7 @@ public partial class Npc : AnimatableBody2D
 
     private bool OnAnyInteractAction()
     {
-        if (currLine!=null&&currSpeechDelay<currLine.delay) return false;
+        if (currLine!=null&&currSpeechDelay<currLine.GetDelay()) return false;
         
         sprite.updateRotation(Root.player.Position.X-Position.X);
         currSpeechDelay = 0;

@@ -9,7 +9,6 @@ public partial class PathDeterminantNpc : Npc
 {
     private static PackedScene scene;
 	
-	
     private bool moving,isRelativePath;
     private float MOVE_DELAY;
     private double currTime;

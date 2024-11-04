@@ -52,7 +52,7 @@ public partial class InteractDisplay : MarginContainer
         {
             option.SetText("");
         }
-        for (int i = 0; i < singleton.options.Length && i < speech.options.Count; i++)
+        for (int i = 0; i < singleton.options.Length && i < speech.options?.Count; i++)
         {
             singleton.options[i].SetText(speech.options.Keys.ElementAt(i));
         }

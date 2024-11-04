@@ -10,12 +10,12 @@ public static class SimpleLinearSpeechBuilder
         {
             return null;
         }
-        SpeechLine head=new SpeechLine(lines[0],(SpeechLine)null);
+        var head=new SpeechLine(lines[0]);
         SpeechLine s = head;
         SpeechLine prev=s;
         for (int i = 1; i < lines.Count; i++)
         { 
-            s = new SpeechLine(lines[i],(SpeechLine)null);
+            s = new SpeechLine(lines[i]);
             prev.next = s;
             prev = s;
         }
