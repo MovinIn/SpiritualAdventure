@@ -66,14 +66,18 @@ public partial class PathDeterminantNpc : Npc
 	}
 
 	public void setMoving(bool moving)
-	{
+    {
 		this.moving = moving;
 	}
 	
 	public override void _PhysicsProcess(double delta)
-	{
+    {
 		// If not moving, or interacting, or in delay, do not process.
-		if (!moving||interactTrigger.IsInteracting()) return;
+        if (!moving || interactTrigger.IsInteracting())
+        {
+            idleOrElse();
+            return;
+        }
 		if (currTime<MOVE_DELAY)
 		{
 			currTime += delta;
@@ -85,12 +89,16 @@ public partial class PathDeterminantNpc : Npc
 			currTime = 0;
 			replayPlayer.playReplay(replay);
 			originalPosition = Position;
+            idleOrElse();
 			return;
 		}
 		// Get the relative frame
 		PlayerInfoFrame f=replayPlayer.nextFrame(delta);
 		if(isRelativePath) f.position += originalPosition;
-		
+        if (Position != f.position)
+        {
+            idleOrElse("walk");
+        }
 		Position = f.position;
 		sprite.Scale = f.scale;
 	}

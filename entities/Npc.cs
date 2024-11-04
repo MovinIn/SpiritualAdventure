@@ -136,4 +136,8 @@ public partial class Npc : AnimatableBody2D
         currLine = currLine.options[option];
         return true;
     }
+    
+    protected void idleOrElse(string animation="idle"){
+        sprite.Play(animation);
+    }
 }

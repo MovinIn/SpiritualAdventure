@@ -12,5 +12,5 @@ script = ExtResource("1_2bs6p")
 
 [node name="GameUI" parent="." instance=ExtResource("2_2f72a")]
 
-[node name="Node" type="Node" parent="."]
+[node name="InteractProximityFilter" type="Node" parent="."]
 script = ExtResource("3_yrf1k")
