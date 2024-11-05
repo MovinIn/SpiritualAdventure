@@ -5,14 +5,13 @@ using SpiritualAdventure.entities;
 
 public partial class InteractTriggerDisplay : RichTextLabel,Interactable
 {
-    public delegate void Interacted();
     public delegate bool OptionPressed(string option);
     
     private char key;
     private string trigger;
     private string content;
     private bool isInteracting;
-    private Interacted _onInteract;
+    private System.Action _onInteract;
     private OptionPressed _onOption;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -23,7 +22,7 @@ public partial class InteractTriggerDisplay : RichTextLabel,Interactable
         isInteracting = false;
     }
 
-    public void SetInteractHandler(Interacted interactHandler)
+    public void SetInteractHandler(System.Action interactHandler)
     {
         _onInteract = interactHandler;
     }

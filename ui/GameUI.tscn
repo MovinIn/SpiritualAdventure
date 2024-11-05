@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://dfbolqsgmpdwr"]
+[gd_scene load_steps=8 format=3 uid="uid://dfbolqsgmpdwr"]
 
 [ext_resource type="Script" path="res://ui/InteractDisplay.cs" id="1_kly7l"]
 [ext_resource type="Script" path="res://ui/SpeakerDetails.cs" id="1_onhbl"]
 [ext_resource type="Texture2D" uid="uid://daskeudoi1pmm" path="res://assets/archer2.png" id="2_7ex64"]
 [ext_resource type="Script" path="res://ui/SpeechDisplay.cs" id="2_d0ef1"]
 [ext_resource type="PackedScene" uid="uid://btch1sijij8qm" path="res://ui/option.tscn" id="5_lfxmf"]
+[ext_resource type="Script" path="res://ui/TimerDisplay.cs" id="6_es4vq"]
+[ext_resource type="Script" path="res://ui/ObjectiveDisplay.cs" id="6_kyf5g"]
 
 [node name="GameUI" type="CanvasLayer"]
 
@@ -130,8 +132,45 @@ asdf
 fit_content = true
 script = ExtResource("2_d0ef1")
 
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 115.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ObjectiveDisplay" type="HBoxContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+script = ExtResource("6_kyf5g")
+
+[node name="Description" type="RichTextLabel" parent="Control/MarginContainer/ObjectiveDisplay"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/normal_font_size = 24
+text = "Objective: Touch the Checkpoint"
+fit_content = true
+
+[node name="TimerDisplay" type="RichTextLabel" parent="Control/MarginContainer/ObjectiveDisplay"]
+clip_contents = false
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 36
+text = "47.176"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+script = ExtResource("6_es4vq")
+
+[node name="Timer" type="Timer" parent="Control/MarginContainer/ObjectiveDisplay/TimerDisplay"]
+wait_time = 5.0
+one_shot = true
+
 [connection signal="OnOptionPressed" from="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set1/Option1" to="Control/InteractDisplay" method="OnOptionPressed"]
 [connection signal="OnOptionPressed" from="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set1/Option2" to="Control/InteractDisplay" method="OnOptionPressed"]
 [connection signal="OnOptionPressed" from="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set2/Option3" to="Control/InteractDisplay" method="OnOptionPressed"]
 [connection signal="OnOptionPressed" from="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set2/Option4" to="Control/InteractDisplay" method="OnOptionPressed"]
 [connection signal="SpeechDisplayFinishedUpdating" from="Control/InteractDisplay/VBoxContainer/MarginSpeech/Speech" to="Control/InteractDisplay" method="SpeechDisplayFinishedUpdating"]
+[connection signal="timeout" from="Control/MarginContainer/ObjectiveDisplay/TimerDisplay/Timer" to="Control/MarginContainer/ObjectiveDisplay" method="OnTimerTimeout"]

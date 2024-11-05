@@ -23,7 +23,7 @@ public partial class PathDeterminantNpc : Npc
         scene = ResourceLoader.Load<PackedScene>("res://entities/npc.tscn");
     }
 
-    public static PathDeterminantNpc Instance(List<Action> actions,Vector2 position,float moveDelay,bool isRelativePath)
+    public static PathDeterminantNpc Instantiate(List<Action> actions,Vector2 position,float moveDelay,bool isRelativePath)
     {
         Npc instance=scene.Instantiate<Npc>();
         PathDeterminantNpc npc=instance.SafelySetScript<PathDeterminantNpc>("res://entities/PathDeterminantNpc.cs");
@@ -76,7 +76,7 @@ public partial class PathDeterminantNpc : Npc
         // If not moving, or interacting, or in delay, do not process.
         if (!moving || interactTrigger.IsInteracting())
         {
-            idleOrElse();
+            IdleOrElse();
             return;
         }
         if (currTime<MOVE_DELAY)
@@ -90,13 +90,13 @@ public partial class PathDeterminantNpc : Npc
             currTime = 0;
             replayPlayer.PlayReplay(replay);
             originalPosition = Position;
-            idleOrElse();
+            IdleOrElse();
             return;
         }
         // Get the relative frame and set animation
         PlayerInfoFrame f=replayPlayer.NextFrame(delta);
         if(isRelativePath) f.position += originalPosition;
-        idleOrElse(Position == f.position?"idle":"walk");
+        IdleOrElse(Position == f.position?"idle":"walk");
         
         Position = f.position;
         sprite.Scale = f.scale;

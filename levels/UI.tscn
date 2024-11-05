@@ -8,9 +8,9 @@
 [node name="Root" type="Node"]
 script = ExtResource("1_2bs6p")
 
-[node name="Background" parent="." instance=ExtResource("1_68al7")]
-
 [node name="GameUI" parent="." instance=ExtResource("2_2f72a")]
 
 [node name="InteractProximityFilter" type="Node" parent="."]
 script = ExtResource("3_yrf1k")
+
+[node name="Background" parent="." instance=ExtResource("1_68al7")]
