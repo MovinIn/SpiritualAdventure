@@ -15,11 +15,26 @@ public partial class Background : Level
   {
     player=GetNode<Player>("Player");
     TestNpc(new Vector2(200,200));
-    TestChatObjective(new Vector2(150,150));
-    // TestTouchObjective(new Vector2(100,100));
+    TestMultipleObjectives();
   }
 
-  public void TestChatObjective(Vector2 position)
+  private void LoadWithObjectives(List<Objective>objectives)
+  {
+    LoadLevel(objectives,new List<Npc>(),new Narrator(Speaker.Archer));
+  }
+
+  public void TestMultipleObjectives()
+  {
+    List<Objective> objectives=new()
+    {
+      TestChatObjective(new Vector2(150, 150)),
+      TestTouchObjective(new Vector2(200, 0))
+    };
+    LoadWithObjectives(objectives);
+    NextObjective();
+  }
+  
+  public Objective TestChatObjective(Vector2 position)
   {
     var npc=Npc.Instantiate(position);
     AddChild(npc);
@@ -34,17 +49,15 @@ public partial class Background : Level
     npc.SetSpeech(speechLines);
     
     ChatObjective c=new(npc,"Talk to the NPC at (150,150)",new SpeechLine("This is a Post Completion Feedback Line!"));
-    LoadLevel(new List<Objective>{c.objective},new List<Npc>(),new Narrator(Speaker.Archer));
-    NextObjective();
+    return c.objective;
   }
   
-  public void TestTouchObjective(Vector2 position)
+  public Objective TestTouchObjective(Vector2 position)
   {
     TouchObjective o=TouchObjective.Instantiate("Touch The Checkpoint");
     o.Position = position;
-    LoadLevel(new List<Objective>{o.objective},new List<Npc>(),new Narrator(Speaker.Archer));
     AddChild(o);
-    NextObjective();
+    return o.objective;
   }
   
   public void TestNpc(Vector2 position)

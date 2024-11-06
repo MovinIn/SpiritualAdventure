@@ -59,7 +59,7 @@ public partial class TouchObjective : Sprite2D
 
   public virtual void OnBodyEntered(Node2D body)
   {
-	if (body is not Player||objective.hardFail) return;
+	if (body is not Player||objective.hardFail||!Visible) return;
 	
 	objective.CompletedObjective();
   }

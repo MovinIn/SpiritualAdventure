@@ -1,4 +1,5 @@
-﻿using SpiritualAdventure.ui;
+﻿using Godot;
+using SpiritualAdventure.ui;
 
 namespace SpiritualAdventure.entities;
 
@@ -8,7 +9,7 @@ public class Narrator : Interactable
   private Speaker narrator;
   private string name;
 #nullable enable
-  private System.Action? NotInteracting;
+  public System.Action? NotInteracting { get; set; }
 
   public Narrator(Speaker narrator,string name="narrator",System.Action? notInteracting=null)
   {
@@ -46,6 +47,7 @@ public class Narrator : Interactable
 
   public void SetNotInteracting()
   {
+    GD.Print("not interacting now");
     interacting = false;
     NotInteracting?.Invoke();
   }

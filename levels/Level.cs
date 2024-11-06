@@ -23,6 +23,7 @@ public partial class Level : Node
   public void LoadLevel(List<Objective> objectives,List<Npc> npcs,Narrator narrator)
   {
     this.narrator = narrator;
+    narrator.NotInteracting = NextObjective;
     objectives.ForEach(objective => this.objectives.Enqueue(objective));
     this.npcs=npcs;
     foreach (var npc in npcs)
@@ -43,11 +44,10 @@ public partial class Level : Node
     if (status == Objective.Status.Completed)
     {
       GD.Print("Objective Complete!");
-      SpeechLine lines = objectives.Peek().postCompletionFeedback;
+      var lines = objectives.Peek().postCompletionFeedback;
       objectives.Dequeue();
       if (lines == null)
       {
-        GD.Print(objectives.Count);
         NextObjective();
         return;
       }
