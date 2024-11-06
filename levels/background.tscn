@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cgxt02jhhvv1s" path="res://entities/Player.tscn" id="1_0c7nd"]
 [ext_resource type="Script" path="res://levels/Background.cs" id="1_rwlw2"]
-[ext_resource type="PackedScene" uid="uid://bv5bncli6h42c" path="res://entities/npc.tscn" id="4_2tdd0"]
+[ext_resource type="PackedScene" uid="uid://bv5bncli6h42c" path="res://entities/Npc.tscn" id="4_2tdd0"]
 [ext_resource type="Texture2D" uid="uid://duyion02aoo4e" path="res://assets/tiles.png" id="4_lu0xl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eguv8"]

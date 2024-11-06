@@ -7,17 +7,17 @@ namespace SpiritualAdventure.entities;
 
 public partial class InteractProximityFilter : Node
 {
-	private static List<Tuple<Interactable,Vector2>> nodes;
-	private static Interactable min;
+	private static List<Tuple<TriggerableInteractable,Vector2>> nodes;
+	private static TriggerableInteractable min;
 	private static string interactTrigger;
 	static InteractProximityFilter()
 	{
-		nodes = new List<Tuple<Interactable,Vector2>>();
+		nodes = new List<Tuple<TriggerableInteractable,Vector2>>();
 	}
 
-	public static void Add(Interactable interactable, Vector2 position)
+	public static void Add(TriggerableInteractable interactable, Vector2 position)
 	{
-		nodes.Add(new Tuple<Interactable,Vector2>(interactable,position));
+		nodes.Add(new Tuple<TriggerableInteractable,Vector2>(interactable,position));
 	}
 
 	public static bool Remove(Interactable interactable)
@@ -49,15 +49,15 @@ public partial class InteractProximityFilter : Node
 		}
 	}
 
-	private static Interactable Closest(Vector2 position)
+	private static TriggerableInteractable Closest(Vector2 position)
 	{
-		foreach(Tuple<Interactable,Vector2> i in nodes) {
+		foreach(Tuple<TriggerableInteractable,Vector2> i in nodes) {
 			i.Item1.HideInteractTrigger();
 		}
 		
 		if (nodes.Count == 0) return null;
 		double minDist=nodes[0].Item2.DistanceTo(position);
-		Interactable min=nodes[0].Item1;
+        TriggerableInteractable min=nodes[0].Item1;
 		for (int i = 1; i < nodes.Count; i++) {
 			double dist = nodes[i].Item2.DistanceTo(position);
 			if (minDist < dist) {

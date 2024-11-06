@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Godot;
+using SpiritualAdventure.entities;
 using SpiritualAdventure.objects;
 
 namespace SpiritualAdventure.levels;
@@ -8,6 +9,7 @@ public partial class Level : Node
 {
   private Queue<Objective> objectives;
   private List<Npc> npcs;
+  private Narrator narrator;
 
   private bool startObjectives;
   //TODO: add entities?
@@ -18,9 +20,10 @@ public partial class Level : Node
     npcs = new List<Npc>();
   }
 
-  public void LoadLevel(Queue<Objective> objectives,List<Npc> npcs)
+  public void LoadLevel(List<Objective> objectives,List<Npc> npcs,Narrator narrator)
   {
-    this.objectives=objectives;
+    this.narrator = narrator;
+    objectives.ForEach(objective => this.objectives.Enqueue(objective));
     this.npcs=npcs;
     foreach (var npc in npcs)
     {
@@ -40,8 +43,15 @@ public partial class Level : Node
     if (status == Objective.Status.Completed)
     {
       GD.Print("Objective Complete!");
+      SpeechLine lines = objectives.Peek().postCompletionFeedback;
       objectives.Dequeue();
-      NextObjective();
+      if (lines == null)
+      {
+        GD.Print(objectives.Count);
+        NextObjective();
+        return;
+      }
+      narrator.Narrate(lines);
     }
     else if (status==Objective.Status.Failed)
     {

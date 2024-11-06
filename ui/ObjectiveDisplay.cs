@@ -77,13 +77,13 @@ public partial class ObjectiveDisplay : HBoxContainer
     timerDisplay.On(on);
   }
 
-  public void TriggerFail()
+  public void SetObjectiveFailed()
   {
     Failed?.Invoke();
   }
   
   public void OnTimerTimeout()
   {
-    TriggerFail();
+    SetObjectiveFailed();
   }
 }

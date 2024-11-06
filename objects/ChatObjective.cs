@@ -1,20 +1,30 @@
-﻿namespace SpiritualAdventure.objects;
+﻿using SpiritualAdventure.entities;
+
+namespace SpiritualAdventure.objects;
 
 public class ChatObjective
 {
   private Npc npc;
-  private Objective objective;
-  
-  public ChatObjective(Npc npc,string description,int timeLimit=-1)
+  public Objective objective { get; }
+
+  public ChatObjective(Npc npc,string description,SpeechLine postCompletionFeedback=null,int timeLimit=-1)
   {
     this.npc = npc;
     objective = ObjectiveBuilder.TimedOrElse(description,timeLimit);
+    objective.postCompletionFeedback = postCompletionFeedback;
     npc.SetInteractHandler(OnInteract);
   }
 
   public void OnInteract()
   {
-    objective.CompletedObjective();
+    if (!objective.completed)
+    {
+      objective.CompletedObjective();
+      if (objective.postCompletionFeedback!=null)
+      {
+        return;
+      }
+    }
     npc.OnInteract();
   }
 }

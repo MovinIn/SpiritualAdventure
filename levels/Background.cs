@@ -1,33 +1,53 @@
 using System.Collections.Generic;
 using Godot;
 using SpiritualAdventure.entities;
-using SpiritualAdventure.levels;
 using SpiritualAdventure.objects;
 using SpiritualAdventure.ui;
+
+namespace SpiritualAdventure.levels;
 
 public partial class Background : Level
 {
   Player player;
+
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
     player=GetNode<Player>("Player");
-    testNPC(new Vector2(200,200));
-    testObjective(new Vector2(100,100));
+    TestNpc(new Vector2(200,200));
+    TestChatObjective(new Vector2(150,150));
+    // TestTouchObjective(new Vector2(100,100));
   }
 
-  public void testObjective(Vector2 position)
+  public void TestChatObjective(Vector2 position)
+  {
+    var npc=Npc.Instantiate(position);
+    AddChild(npc);
+    
+    var speechLines = new List<SpeechLine>
+    { 
+      new("This should have completed the Objective!")
+    };
+    
+    npc.Who(Speaker.Red_Warrior,"Roman");
+    npc.UseTrigger("interact","Talk");
+    npc.SetSpeech(speechLines);
+    
+    ChatObjective c=new(npc,"Talk to the NPC at (150,150)",new SpeechLine("This is a Post Completion Feedback Line!"));
+    LoadLevel(new List<Objective>{c.objective},new List<Npc>(),new Narrator(Speaker.Archer));
+    NextObjective();
+  }
+  
+  public void TestTouchObjective(Vector2 position)
   {
     TouchObjective o=TouchObjective.Instantiate("Touch The Checkpoint");
     o.Position = position;
-    Queue<Objective> a = new Queue<Objective>();
-    a.Enqueue(o.objective);
-    LoadLevel(a,new List<Npc>());
+    LoadLevel(new List<Objective>{o.objective},new List<Npc>(),new Narrator(Speaker.Archer));
     AddChild(o);
     NextObjective();
   }
   
-  public void testNPC(Vector2 position)
+  public void TestNpc(Vector2 position)
   {
     Npc npc=PathDeterminantNpc.Instantiate(
       new List<Action>{new (100,0),new (100,100,1.5d),new (0,100),new (0,0)},

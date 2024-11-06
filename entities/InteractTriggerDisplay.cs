@@ -3,16 +3,14 @@ using System;
 using Godot.Collections;
 using SpiritualAdventure.entities;
 
-public partial class InteractTriggerDisplay : RichTextLabel,Interactable
+public partial class InteractTriggerDisplay : RichTextLabel,TriggerableInteractable
 {
-    public delegate bool OptionPressed(string option);
-    
     private char key;
     private string trigger;
     private string content;
     private bool isInteracting;
     private System.Action _onInteract;
-    private OptionPressed _onOption;
+    private Func<string,bool> _onOption;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -27,7 +25,7 @@ public partial class InteractTriggerDisplay : RichTextLabel,Interactable
         _onInteract = interactHandler;
     }
 
-    public void SetOptionHandler(OptionPressed optionHandler)
+    public void SetOptionHandler(Func<string,bool> optionHandler)
     {
         _onOption = optionHandler;
     }

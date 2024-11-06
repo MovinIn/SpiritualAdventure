@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Win32;
+using SpiritualAdventure.entities;
 using SpiritualAdventure.ui;
 
 namespace SpiritualAdventure.objects;
@@ -17,10 +19,13 @@ public class Objective
   public bool hardFail { get; private set; }
   private List<ObjectiveStatusChangeHandler> handlers=new();
   
-  
-  public Objective(string description)
+#nullable enable
+  public SpeechLine? postCompletionFeedback { get; set; }
+
+  public Objective(string description,SpeechLine? postCompletionFeedback=null)
   {
     this.description = description;
+    this.postCompletionFeedback = postCompletionFeedback;
   }
   
   public virtual void CompletedObjective()
