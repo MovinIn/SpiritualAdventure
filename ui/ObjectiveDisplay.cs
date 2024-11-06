@@ -20,6 +20,7 @@ public partial class ObjectiveDisplay : HBoxContainer
     instance = this;
     description=GetNode<RichTextLabel>("Description");
     timerDisplay=GetNode<TimerDisplay>("TimerDisplay");
+    timerDisplay.Visible = false;
   }
 
   public override void _Process(double delta)
@@ -51,6 +52,8 @@ public partial class ObjectiveDisplay : HBoxContainer
     this.objective = objective;
     description.Modulate = Colors.White;
     description.Text = "Objective: "+objective.description;
+
+    GD.Print("is this objective time constrained? :"+objective.IsTimeConstrained());
     
     if (objective.IsTimeConstrained())
     {

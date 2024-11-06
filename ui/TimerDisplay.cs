@@ -11,8 +11,9 @@ public partial class TimerDisplay : RichTextLabel
   public override void _Ready()
   {
     timer = GetNode<Timer>("Timer");
+    timer.Start();
+    timer.Paused = true;
     Update(20);
-    On(true);
   }
 
   // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -27,11 +28,11 @@ public partial class TimerDisplay : RichTextLabel
   public void Update(float initialTime)
   {
     timer.WaitTime = initialTime;
+    timer.Start();
   }
 
   public void On(bool on)
   {
-    timer.Start();
     timer.Paused = !on;
   }
 }

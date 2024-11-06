@@ -1,4 +1,6 @@
-﻿namespace SpiritualAdventure.objects;
+﻿using Godot;
+
+namespace SpiritualAdventure.objects;
 
 public class SimpleTimedObjective : Objective
 {
@@ -20,8 +22,24 @@ public class SimpleTimedObjective : Objective
     return isTimeRunning;
   }
 
-  public override bool IsTimeConstrained()
+  public override void SetAsObjective()
   {
-    return true;
+    GD.Print("time running set to true.");
+    isTimeRunning = true;
+    base.SetAsObjective();
+  }
+  
+  public override void CompletedObjective()
+  {
+    GD.Print("time running set to false.");
+    isTimeRunning = false;
+    base.CompletedObjective();
+  }
+
+  public override void FailedObjective()
+  {
+    GD.Print("time running set to false.");
+    isTimeRunning = false;
+    base.FailedObjective();
   }
 }

@@ -28,13 +28,15 @@ public partial class Background : Level
     List<Objective> objectives=new()
     {
       TestChatObjective(new Vector2(150, 150)),
-      TestTouchObjective(new Vector2(200, 0))
+      TestTouchObjective(new Vector2(200, 0)),
+      TestChatObjective(new Vector2(300,0),10),
+      TestTouchObjective(new Vector2(500,0),20)
     };
     LoadWithObjectives(objectives);
     NextObjective();
   }
   
-  public Objective TestChatObjective(Vector2 position)
+  public Objective TestChatObjective(Vector2 position,int timeLimit=-1)
   {
     var npc=Npc.Instantiate(position);
     AddChild(npc);
@@ -48,13 +50,14 @@ public partial class Background : Level
     npc.UseTrigger("interact","Talk");
     npc.SetSpeech(speechLines);
     
-    ChatObjective c=new(npc,"Talk to the NPC at (150,150)",new SpeechLine("This is a Post Completion Feedback Line!"));
+    ChatObjective c=new(npc,"Talk to the NPC at (150,150)",
+      new SpeechLine("This is a Post Completion Feedback Line!"),timeLimit);
     return c.objective;
   }
   
-  public Objective TestTouchObjective(Vector2 position)
+  public Objective TestTouchObjective(Vector2 position,int timeLimit=-1)
   {
-    TouchObjective o=TouchObjective.Instantiate("Touch The Checkpoint");
+    TouchObjective o=TouchObjective.Instantiate("Touch The Checkpoint",timeLimit);
     o.Position = position;
     AddChild(o);
     return o.objective;
