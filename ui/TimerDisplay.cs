@@ -35,4 +35,9 @@ public partial class TimerDisplay : RichTextLabel
   {
     timer.Paused = !on;
   }
+
+  public void OnTimerTimeout()
+  {
+    Text = "0.00";
+  }
 }

@@ -174,3 +174,4 @@ one_shot = true
 [connection signal="OnOptionPressed" from="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set2/Option4" to="Control/InteractDisplay" method="OnOptionPressed"]
 [connection signal="SpeechDisplayFinishedUpdating" from="Control/InteractDisplay/VBoxContainer/MarginSpeech/Speech" to="Control/InteractDisplay" method="SpeechDisplayFinishedUpdating"]
 [connection signal="timeout" from="Control/MarginContainer/ObjectiveDisplay/TimerDisplay/Timer" to="Control/MarginContainer/ObjectiveDisplay" method="OnTimerTimeout"]
+[connection signal="timeout" from="Control/MarginContainer/ObjectiveDisplay/TimerDisplay/Timer" to="Control/MarginContainer/ObjectiveDisplay/TimerDisplay" method="OnTimerTimeout"]
