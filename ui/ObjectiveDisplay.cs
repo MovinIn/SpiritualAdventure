@@ -26,14 +26,8 @@ public partial class ObjectiveDisplay : HBoxContainer
   public override void _Process(double delta)
   {
     if (!IsObjectiveRunning()) return;
-    if (objective!.completed)
-    {
-      MarkCompleted();
-      return;
-    }
-
-    RunTimer(objective.IsTimeRunning());
     
+    RunTimer(objective!.IsTimeRunning());
   }
 
   public bool IsObjectiveRunning()
@@ -64,12 +58,21 @@ public partial class ObjectiveDisplay : HBoxContainer
     {
       timerDisplay.Visible = false;
     }
+    objective.AddChangeHandler(UpdateObjectiveStatus);
   }
 
-  public void MarkCompleted()
+  public void UpdateObjectiveStatus(Objective.Status status, Objective objective)
   {
-    description.Text = "Objective: COMPLETE!";
-    description.Modulate = Colors.Green;
+    if (this.objective != objective||status==Objective.Status.Start) return;
+    bool completed = status == Objective.Status.Completed;
+    
+    description.Text = completed ? "Objective Complete!" : "Objective Failed!";
+    description.Modulate = completed ? Colors.Green : Colors.Red;
+    Reset();
+  }
+
+  private void Reset()
+  {
     objective = null;
     Failed = null;
     RunTimer(false);

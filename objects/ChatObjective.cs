@@ -7,10 +7,10 @@ public class ChatObjective
   private Npc npc;
   public Objective objective { get; }
 
-  public ChatObjective(Npc npc,string description,SpeechLine postCompletionFeedback=null,int timeLimit=-1)
+  public ChatObjective(Npc npc,Objective objective,SpeechLine postCompletionFeedback=null)
   {
     this.npc = npc;
-    objective = ObjectiveBuilder.TimedOrElse(description,timeLimit);
+    this.objective = objective;
     objective.postCompletionFeedback = postCompletionFeedback;
     npc.SetInteractHandler(OnInteract);
   }

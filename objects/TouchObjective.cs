@@ -26,11 +26,11 @@ public partial class TouchObjective : Sprite2D
     Visible = false;
   }
 
-  public static TouchObjective Instantiate(string description,int timeLimit=-1)
+  public static TouchObjective Instantiate(Objective objective)
   {
 	var touchObjective = scene.Instantiate<TouchObjective>();
 
-    touchObjective.objective = ObjectiveBuilder.TimedOrElse(description,timeLimit);
+    touchObjective.objective = objective;
     touchObjective.objective.AddChangeHandler(touchObjective.ObjectiveStatusChangedHandler);
 	
 	return touchObjective;

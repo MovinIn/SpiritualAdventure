@@ -8,7 +8,7 @@ public class OptionObjective
 {
   private Npc npc;
   private string answer;
-  private Objective objective;
+  public Objective objective { get; }
   private string[] assassinOptions;
 
   public OptionObjective(Npc npc, string correctOption,Objective objective,string[]incorrectOptions=null)
@@ -17,7 +17,7 @@ public class OptionObjective
     this.objective = objective;
     answer = correctOption;
     npc.SetOptionHandler(OnOption);
-    assassinOptions = assassinOptions == null ? Array.Empty<string>() : incorrectOptions;
+    assassinOptions = incorrectOptions ?? Array.Empty<string>();
   }
 
   private bool OnOption(string option)

@@ -71,6 +71,11 @@ public class Objective
     handlers.Add(handler);
   }
 
+  public void RemoveChangeHandler(ObjectiveStatusChangeHandler handler)
+  {
+    handlers.Remove(handler);
+  }
+
   private void BroadcastAll(Status status)
   {
     foreach (var handler in handlers)
