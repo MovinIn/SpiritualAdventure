@@ -1,14 +1,19 @@
 ﻿using System.Collections.Generic;
 using Godot;
+using Newtonsoft.Json;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.objects;
 
 namespace SpiritualAdventure.levels;
 
+[JsonObject(MemberSerialization.OptIn)]
 public partial class Level : Node
 {
+  [JsonProperty]
   private Queue<Objective> objectives;
+  [JsonProperty]
   private List<Npc> npcs;
+  [JsonProperty]
   private Narrator narrator;
 
   private bool startObjectives;

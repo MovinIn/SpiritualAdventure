@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Godot;
+using Newtonsoft.Json;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.objects;
 using SpiritualAdventure.ui;
@@ -14,13 +15,14 @@ public partial class Background : Level
   public override void _Ready()
   {
     player=GetNode<Player>("Player");
-    TestNpc(new Vector2(200,200));
     TestMultipleObjectives();
+    GD.Print(JsonConvert.SerializeObject(this));
   }
 
   private void LoadWithObjectives(List<Objective>objectives)
   {
-    LoadLevel(objectives,new List<Npc>(),new Narrator(Speaker.Archer));
+    Npc n=TestNpc(new Vector2(200,200));
+    LoadLevel(objectives,new List<Npc>{n},new Narrator());
   }
 
   public void TestMultipleObjectives()
@@ -87,12 +89,11 @@ public partial class Background : Level
     return touchObjective.objective;
   }
   
-  public void TestNpc(Vector2 position)
+  public Npc TestNpc(Vector2 position)
   {
     Npc npc=PathDeterminantNpc.Instantiate(
       new List<Action>{new (100,0),new (100,100,1.5d),new (0,100),new (0,0)},
       position,2,true);
-    AddChild(npc);
     npc.Who(Speaker.Red_Warrior,"Roman");
     npc.UseTrigger("interact","Talk");
     var speechLines = new List<SpeechLine>
@@ -117,9 +118,11 @@ public partial class Background : Level
           }
         })
     };
-    string json = JsonSpeechDeserializer.Serialize(speechLines);
-    GD.Print(json);
-    speechLines=JsonSpeechDeserializer.Deserialize(json);
+    
+    string speechLinesJson = JsonSpeechDeserializer.Serialize(speechLines);
+    // GD.Print(speechLinesJson);
+    speechLines=JsonSpeechDeserializer.Deserialize(speechLinesJson);
     npc.SetSpeech(speechLines);
+    return npc;
   }
 }

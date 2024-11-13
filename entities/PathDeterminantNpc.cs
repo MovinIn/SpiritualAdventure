@@ -1,27 +1,52 @@
 using System;
 using System.Collections.Generic;
 using Godot;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SpiritualAdventure.utility;
 
 namespace SpiritualAdventure.entities;
 
+[JsonObject(MemberSerialization.OptIn)]
 public partial class PathDeterminantNpc : Npc
 {
-  private bool moving,isRelativePath;
-  private float MOVE_DELAY;
+  private bool moving;
   private double currTime;
 	
   private Replay replay;
   private ReplayPlayer replayPlayer;
   private Vector2 originalPosition;
+  
+  [JsonProperty]
+  private bool isRelativePath;
+  [JsonProperty]
+  private float moveDelay;
+  [JsonProperty]
   private List<Action> actions;
-
+  
+  public override void Parse(JObject json)
+  {
+    base.Parse(json);
+    if (json.TryGetValue("moveDelay", out var delayToken))
+    {
+      currTime = moveDelay;
+      moveDelay=delayToken.ToObject<float>();
+    }
+    if (json.TryGetValue("isRelativePath", out var isRelativePathToken))
+    {
+      isRelativePath = isRelativePathToken.ToObject<bool>();
+    }
+    
+    actions=json.Value<List<Action>>("actions") ?? new List<Action>();
+  }
+  
   public static PathDeterminantNpc Instantiate(List<Action> actions,Vector2 position,float moveDelay,bool isRelativePath)
   {
-    PathDeterminantNpc npc=Npc.Instantiate(position)
+    var npc=Npc.Instantiate(position)
       .SafelySetScript<PathDeterminantNpc>("res://entities/PathDeterminantNpc.cs");
+    GD.Print("finalized npc instantiation");
     npc.actions = actions;
-    npc.MOVE_DELAY = moveDelay;
+    npc.moveDelay = moveDelay;
     npc.currTime = moveDelay;
     npc.isRelativePath = isRelativePath;
     return npc;
@@ -71,7 +96,7 @@ public partial class PathDeterminantNpc : Npc
       IdleOrElse();
       return;
     }
-    if (currTime<MOVE_DELAY)
+    if (currTime<moveDelay)
     {
       currTime += delta;
       return;

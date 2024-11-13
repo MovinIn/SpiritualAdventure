@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Godot;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.ui;
 
@@ -15,14 +16,20 @@ public class Objective
   
   public delegate void ObjectiveStatusChangeHandler(Status status,Objective objective);
   
-  public string description { get; }
+  [JsonIgnore]
   public bool completed { get; private set; }
+  [JsonIgnore]
   public bool hardFail { get; private set; }
+  [JsonIgnore]
   private List<ObjectiveStatusChangeHandler> handlers=new();
   
+  [JsonProperty("postCompletionFeedback", NullValueHandling=NullValueHandling.Ignore)]
 #nullable enable
   public SpeechLine? postCompletionFeedback { get; set; }
 
+  public string description { get; }
+
+  [JsonConstructor]
   public Objective(string description,SpeechLine? postCompletionFeedback=null)
   {
     this.description = description;

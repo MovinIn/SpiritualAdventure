@@ -1,40 +1,83 @@
 using System;
 using System.Collections.Generic;
 using Godot;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SpiritualAdventure.ui;
+using SpiritualAdventure.utility;
 
 //TODO: create entity class for static objects to interact with
 namespace SpiritualAdventure.entities;
 
-public partial class Npc : AnimatableBody2D
+[JsonObject(MemberSerialization.OptIn)]
+public partial class Npc : AnimatableBody2D, IJsonParseable
 {
   protected const float SPEED = 120f;
   protected CharacterSprite sprite;
-  protected Speaker speaker;
-  protected Queue<SpeechLine> speech;
   protected InteractTriggerDisplay interactTrigger;
-  protected string name;
   protected SpeechLine currLine;
   protected double currSpeechDelay;
   
+  [JsonProperty]
+  protected Speaker speaker;
+  [JsonProperty]
+  protected Queue<SpeechLine> speech;
+  [JsonProperty]
+  protected string name;
+  
+  public static T Instantiate<T>(string path) where T:Npc
+  {
+    return Instantiate().SafelySetScript<T>(path);
+  }
+
+  public static Npc Instantiate()
+  {
+    return ResourceLoader.Load<PackedScene>("res://entities/Npc.tscn").Instantiate<Npc>();
+  }
+  
   public static Npc Instantiate(Vector2 position)
   {
-    var instance=ResourceLoader.Load<PackedScene>("res://entities/Npc.tscn").Instantiate<Npc>();
+    var instance = Instantiate();
     instance.Position = position;
     return instance;
+  }
+  
+  public virtual void Parse(JObject json)
+  {
+    if (json.TryGetValue("position", out var positionToken))
+    {
+      Position = positionToken.ToObject<Vector2>();
+    }
+    if (json.TryGetValue("name", out var nameToken) && json.TryGetValue("speaker", out var speakerToken))
+    {
+      Who(speakerToken.ToObject<Speaker>(),nameToken.ToObject<string>());
+    }
+
+    if (json.TryGetValue("trigger", out var triggerToken) && json.TryGetValue("content", out var contentToken))
+    {
+      UseTrigger(triggerToken.ToObject<string>(),contentToken.ToObject<string>());
+    }
+
+    if (json.TryGetValue("speech", out var speechToken))
+    {
+      SetSpeech(speechToken.ToObject<List<SpeechLine>>());
+    }
+    
   }
   
   protected Npc()
   {
     speech=new Queue<SpeechLine>();
+    InitNodes();
   }
-	
-  public override void _Ready()
+
+  private void InitNodes()
   {
+    if (!HasNode("Sprite")) return;
     sprite=GetNode<CharacterSprite>("Sprite");
     interactTrigger = GetNode<InteractTriggerDisplay>("InteractTriggerDisplay");
   }
-
+  
   public override void _Process(double delta)
   {
     currSpeechDelay += delta;
@@ -44,33 +87,28 @@ public partial class Npc : AnimatableBody2D
   {
     this.speaker = speaker;
     this.name = name;
+    if (sprite == null)
+    {
+      GD.Print("im null");
+    }
     sprite.SetSpriteFrames(speaker.asFrames());
   }
 
   public void SetInteractHandler(System.Action interactHandler=null)
   {
-    if (interactHandler is null)
-    {
-      interactHandler = OnInteract;
-    }
+    interactHandler ??= OnInteract;
     interactTrigger.SetInteractHandler(interactHandler);
   }
 
   public void SetOptionHandler(Func<string,bool> optionHandler=null)
   {
-    if (optionHandler is null)
-    {
-      optionHandler = OnOption;
-    }
+    optionHandler ??= OnOption;
     interactTrigger.SetOptionHandler(optionHandler);
   }
   
   public void UseTrigger(string trigger,string content,System.Action interactHandler=null)
   {
-    if (interactHandler is null)
-    {
-      interactHandler = OnInteract;
-    }
+    interactHandler ??= OnInteract;
     interactTrigger.SetContent(trigger,content);
     SetInteractHandler(interactHandler);
     interactTrigger.SetOptionHandler(OnOption);
@@ -171,4 +209,13 @@ public partial class Npc : AnimatableBody2D
     sprite.Play(animation);
   }
 
+  public override void _Notification(int what)
+  {
+    if (what == NotificationSceneInstantiated)
+    {
+      
+      GD.Print("initializing nodes");
+      InitNodes();
+    }
+  }
 }

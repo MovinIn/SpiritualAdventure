@@ -1,17 +1,21 @@
 ﻿using Godot;
+using Newtonsoft.Json;
 using SpiritualAdventure.ui;
 
 namespace SpiritualAdventure.entities;
 
 public class Narrator : Interactable
 {
+  [JsonIgnore]
   private bool interacting;
-  private Speaker narrator;
-  private string name;
+  [JsonIgnore]
 #nullable enable
   public System.Action? NotInteracting { get; set; }
+  
+  private Speaker narrator;
+  private string name;
 
-  public Narrator(Speaker narrator,string name="narrator",System.Action? notInteracting=null)
+  public Narrator(Speaker narrator=Speaker.Archer,string name="narrator",System.Action? notInteracting=null)
   {
     this.narrator = narrator;
     this.name = name;
