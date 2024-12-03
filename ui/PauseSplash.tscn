@@ -1,0 +1,79 @@
+[gd_scene load_steps=3 format=3 uid="uid://diyqik5ht8wgx"]
+
+[ext_resource type="Script" path="res://ui/PauseSplash.cs" id="1_8ntcn"]
+[ext_resource type="Texture2D" uid="uid://m2jsibmrc3wy" path="res://assets/menu.png" id="2_17v3k"]
+
+[node name="PauseSplash" type="MarginContainer"]
+z_index = 100
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+script = ExtResource("1_8ntcn")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_17v3k")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="TitleMargin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_top = 25
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TitleMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_colors/default_color = Color(0, 0.407843, 0, 1)
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[center]LEVEL COMPLETE![/center]"
+fit_content = true
+
+[node name="ButtonMargin" type="MarginContainer" parent="."]
+texture_filter = 1
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 250
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ButtonMargin"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Restart" type="Button" parent="ButtonMargin/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.809523, 0.809524, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "RESTART"
+
+[node name="MainMenu" type="Button" parent="ButtonMargin/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.411765, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "MAIN MENU"
+
+[node name="NextLevel" type="Button" parent="ButtonMargin/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0.877659, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "NEXT LEVEL"
+
+[connection signal="pressed" from="ButtonMargin/HBoxContainer/Restart" to="." method="RestartPressed"]
+[connection signal="pressed" from="ButtonMargin/HBoxContainer/MainMenu" to="." method="MainMenuPressed"]
+[connection signal="pressed" from="ButtonMargin/HBoxContainer/NextLevel" to="." method="NextLevelPressed"]

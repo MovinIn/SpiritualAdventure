@@ -2,7 +2,7 @@
 
 namespace SpiritualAdventure.objects;
 
-public class ChatObjective
+public class ChatObjective: IHasObjective
 {
   private Npc npc;
   public Objective objective { get; }

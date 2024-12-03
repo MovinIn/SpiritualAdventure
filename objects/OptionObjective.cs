@@ -4,13 +4,14 @@ using SpiritualAdventure.entities;
 
 namespace SpiritualAdventure.objects;
 
-public class OptionObjective
+public class OptionObjective : IHasObjective
 {
   private Npc npc;
   private string answer;
-  public Objective objective { get; }
   private string[] assassinOptions;
 
+  public Objective objective { get; }
+  
   public OptionObjective(Npc npc, string correctOption,Objective objective,string[]incorrectOptions=null)
   {
     this.npc = npc;

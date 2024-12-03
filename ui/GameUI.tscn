@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dfbolqsgmpdwr"]
+[gd_scene load_steps=9 format=3 uid="uid://dfbolqsgmpdwr"]
 
 [ext_resource type="Script" path="res://ui/InteractDisplay.cs" id="1_kly7l"]
 [ext_resource type="Script" path="res://ui/SpeakerDetails.cs" id="1_onhbl"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://btch1sijij8qm" path="res://ui/option.tscn" id="5_lfxmf"]
 [ext_resource type="Script" path="res://ui/TimerDisplay.cs" id="6_es4vq"]
 [ext_resource type="Script" path="res://ui/ObjectiveDisplay.cs" id="6_kyf5g"]
+[ext_resource type="PackedScene" uid="uid://diyqik5ht8wgx" path="res://ui/PauseSplash.tscn" id="8_eoecq"]
 
 [node name="GameUI" type="CanvasLayer"]
 
@@ -167,6 +168,11 @@ script = ExtResource("6_es4vq")
 [node name="Timer" type="Timer" parent="Control/MarginContainer/ObjectiveDisplay/TimerDisplay"]
 wait_time = 5.0
 one_shot = true
+
+[node name="PauseSplash" parent="Control" instance=ExtResource("8_eoecq")]
+layout_mode = 1
+grow_horizontal = 1
+grow_vertical = 1
 
 [connection signal="OnOptionPressed" from="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set1/Option1" to="Control/InteractDisplay" method="OnOptionPressed"]
 [connection signal="OnOptionPressed" from="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set1/Option2" to="Control/InteractDisplay" method="OnOptionPressed"]

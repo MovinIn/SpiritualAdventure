@@ -1,0 +1,58 @@
+[gd_scene load_steps=2 format=3 uid="uid://dop7dkgpx804j"]
+
+[ext_resource type="Script" path="res://ui/MainMenu.cs" id="1_p5u0b"]
+
+[node name="MainMenu" type="CanvasLayer"]
+script = ExtResource("1_p5u0b")
+
+[node name="ignore" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.00784314)
+offset_right = 46.0
+offset_bottom = 23.0
+text = "."
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleMargin" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 25
+
+[node name="Title" type="RichTextLabel" parent="Control/TitleMargin"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[center]Spiritual Adventure[/center]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="PlayButtonMargin" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -33.0
+offset_right = 4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 75
+
+[node name="PlayButton" type="Button" parent="Control/PlayButtonMargin"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "PLAY!"
+
+[connection signal="pressed" from="Control/PlayButtonMargin/PlayButton" to="." method="PlayPressed"]

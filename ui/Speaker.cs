@@ -29,7 +29,7 @@ public enum Speaker
     Black_Merchant2,
 }
 
-static class SpeakerExtensions
+internal static class SpeakerExtensions
 {
     public static Texture2D asTexture(this Speaker speaker)
     {

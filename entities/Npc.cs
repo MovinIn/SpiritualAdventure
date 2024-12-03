@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Godot;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SpiritualAdventure.levels;
 using SpiritualAdventure.ui;
 using SpiritualAdventure.utility;
 
@@ -18,15 +19,14 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
   protected SpeechLine currLine;
   protected double currSpeechDelay;
   
-  [JsonProperty]
   protected Speaker speaker;
-  [JsonProperty]
   protected Queue<SpeechLine> speech;
-  [JsonProperty]
   protected string name;
+  
   
   public static T Instantiate<T>(string path) where T:Npc
   {
+    
     return Instantiate().SafelySetScript<T>(path);
   }
 
@@ -48,6 +48,7 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
     {
       Position = positionToken.ToObject<Vector2>();
     }
+    
     if (json.TryGetValue("name", out var nameToken) && json.TryGetValue("speaker", out var speakerToken))
     {
       Who(speakerToken.ToObject<Speaker>(),nameToken.ToObject<string>());
@@ -62,15 +63,17 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
     {
       SetSpeech(speechToken.ToObject<List<SpeechLine>>());
     }
-    
   }
-  
-  protected Npc()
+
+  public Npc()
   {
     speech=new Queue<SpeechLine>();
     InitNodes();
   }
 
+  /**
+   * Initializes the children node references if possible. 
+   */
   private void InitNodes()
   {
     if (!HasNode("Sprite")) return;
@@ -87,10 +90,6 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
   {
     this.speaker = speaker;
     this.name = name;
-    if (sprite == null)
-    {
-      GD.Print("im null");
-    }
     sprite.SetSpriteFrames(speaker.asFrames());
   }
 
@@ -179,7 +178,7 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
   {
     if (currLine!=null&&currSpeechDelay<currLine.GetDelay()) return false;
 		
-    sprite.updateRotation(Root.player.Position.X-Position.X);
+    sprite.updateRotation(Level.player.Position.X-Position.X);
     currSpeechDelay = 0;
     return true;
   }
@@ -187,7 +186,7 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
   public void OnInteract()
   {
     if (!OnAnyInteractAction()) return;
-		
+
     SpeechLine line = NextLine();
     if (line == null)
     {
@@ -201,7 +200,7 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
   public bool OnOption(string option)
   {
     if (!OnAnyInteractAction()) return false;
-    currLine = currLine.options[option];
+    currLine = currLine.options![option];
     return true;
   }
 	

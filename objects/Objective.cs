@@ -28,7 +28,8 @@ public class Objective
   public SpeechLine? postCompletionFeedback { get; set; }
 
   public string description { get; }
-
+  
+  
   [JsonConstructor]
   public Objective(string description,SpeechLine? postCompletionFeedback=null)
   {
@@ -90,4 +91,5 @@ public class Objective
       handler(status,this);
     }
   }
+
 }

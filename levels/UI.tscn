@@ -1,16 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://b6xu8o7ytr62t"]
+[gd_scene load_steps=6 format=3 uid="uid://b6xu8o7ytr62t"]
 
 [ext_resource type="Script" path="res://ui/Root.cs" id="1_2bs6p"]
-[ext_resource type="PackedScene" uid="uid://de28fxa58s2qw" path="res://levels/background.tscn" id="1_68al7"]
 [ext_resource type="PackedScene" uid="uid://dfbolqsgmpdwr" path="res://ui/GameUI.tscn" id="2_2f72a"]
 [ext_resource type="Script" path="res://entities/InteractProximityFilter.cs" id="3_yrf1k"]
+[ext_resource type="PackedScene" uid="uid://6hiv3f16iiwt" path="res://ui/LevelSelect.tscn" id="4_pirxl"]
+[ext_resource type="PackedScene" uid="uid://dop7dkgpx804j" path="res://ui/MainMenu.tscn" id="5_2c845"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_2bs6p")
 
-[node name="GameUI" parent="." instance=ExtResource("2_2f72a")]
-
 [node name="InteractProximityFilter" type="Node" parent="."]
 script = ExtResource("3_yrf1k")
 
-[node name="Background" parent="." instance=ExtResource("1_68al7")]
+[node name="GameUI" parent="." instance=ExtResource("2_2f72a")]
+
+[node name="LevelSelect" parent="." instance=ExtResource("4_pirxl")]
+
+[node name="MainMenu" parent="." instance=ExtResource("5_2c845")]

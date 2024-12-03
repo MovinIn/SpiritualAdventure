@@ -6,6 +6,13 @@ public partial class Player : CharacterBody2D
 	private const float Speed = 300.0f;
 	private CharacterSprite sprite;
 
+    private static PackedScene scene=ResourceLoader.Load<PackedScene>("res://entities/Player.tscn");
+
+    public static Player Instantiate()
+    {
+      return scene.Instantiate<Player>();
+    }
+    
 	public override void _Ready()
 	{
 		sprite=GetNode<CharacterSprite>("Sprite");

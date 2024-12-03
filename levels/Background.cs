@@ -19,15 +19,15 @@ public partial class Background : Level
     GD.Print(JsonConvert.SerializeObject(this));
   }
 
-  private void LoadWithObjectives(List<Objective>objectives)
+  private void LoadWithObjectives(List<IHasObjective>objectives)
   {
     Npc n=TestNpc(new Vector2(200,200));
-    LoadLevel(objectives,new List<Npc>{n},new Narrator());
+    LoadLevel(new Vector2(0,0),objectives,new List<Npc>{n},new Narrator());
   }
 
   public void TestMultipleObjectives()
   {
-    List<Objective> objectives=new()
+    List<IHasObjective> objectives=new()
     {
       TestChatObjective(new Vector2(150, 150)),
       TestTouchObjective(new Vector2(200, 0)),
@@ -39,7 +39,7 @@ public partial class Background : Level
     NextObjective();
   }
   
-  public Objective TestChatObjective(Vector2 position,int timeLimit=-1)
+  public IHasObjective TestChatObjective(Vector2 position,int timeLimit=-1)
   {
     var npc=Npc.Instantiate(position);
     AddChild(npc);
@@ -55,10 +55,10 @@ public partial class Background : Level
     
     ChatObjective c=new(npc,ObjectiveBuilder.TimedOrElse("Talk to the NPC at (150,150)",timeLimit),
       new SpeechLine("This is a Post Completion Feedback Line!"));
-    return c.objective;
+    return c;
   }
 
-  public Objective TestOptionObjective(Vector2 position,int timeLimit=-1)
+  public IHasObjective TestOptionObjective(Vector2 position,int timeLimit=-1)
   {
     var npc=Npc.Instantiate(position);
     AddChild(npc);
@@ -77,16 +77,16 @@ public partial class Background : Level
     npc.SetSpeech(speechLines);
     var optionObjective = new OptionObjective(npc, "Option 2",ObjectiveBuilder.TimedOrElse(
       "Choose the correct objective", timeLimit),new[]{"Option 3"});
-    return optionObjective.objective;
+    return optionObjective;
   }
   
-  public Objective TestTouchObjective(Vector2 position,int timeLimit=-1)
+  public IHasObjective TestTouchObjective(Vector2 position,int timeLimit=-1)
   {
     var touchObjective=TouchObjective.Instantiate(ObjectiveBuilder.TimedOrElse(
       "Touch the Checkpoint",timeLimit));
     touchObjective.Position = position;
     AddChild(touchObjective);
-    return touchObjective.objective;
+    return touchObjective;
   }
   
   public Npc TestNpc(Vector2 position)
@@ -120,7 +120,6 @@ public partial class Background : Level
     };
     
     string speechLinesJson = JsonSpeechDeserializer.Serialize(speechLines);
-    // GD.Print(speechLinesJson);
     speechLines=JsonSpeechDeserializer.Deserialize(speechLinesJson);
     npc.SetSpeech(speechLines);
     return npc;

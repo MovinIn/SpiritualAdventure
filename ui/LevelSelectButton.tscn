@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dc2y8gkkve5dh"]
+
+[ext_resource type="Script" path="res://ui/LevelSelectButton.cs" id="1_03whc"]
+
+[node name="LevelSelectButton" type="Button"]
+custom_minimum_size = Vector2(150, 150)
+theme_override_font_sizes/font_size = 48
+text = "1"
+script = ExtResource("1_03whc")
+
+[connection signal="pressed" from="." to="." method="OnPressed"]
