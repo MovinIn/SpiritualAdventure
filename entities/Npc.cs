@@ -83,6 +83,8 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
   
   public override void _Process(double delta)
   {
+    if (Level.Paused()) return;
+    
     currSpeechDelay += delta;
   }
 

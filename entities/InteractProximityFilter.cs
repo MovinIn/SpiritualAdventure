@@ -35,7 +35,7 @@ public partial class InteractProximityFilter : Node
 
   public override void _Process(double delta)
   {
-    if (Root.currentDisplay != Root.Displaying.Game) return;
+    if (Level.Paused()) return;
     if (min != null && min.IsInteracting()) return;
     min = Closest(Level.player.Position);
     interactTrigger = min?.GetInteractTrigger();

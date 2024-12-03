@@ -4,6 +4,7 @@ using Godot;
 using Newtonsoft.Json;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.objects;
+using SpiritualAdventure.ui;
 
 namespace SpiritualAdventure.levels;
 
@@ -92,5 +93,10 @@ public partial class Level : Node2D
         //TODO: do something
         break;
     }
+  }
+
+  public static bool Paused() //TODO: should this method be in here?
+  {
+    return Root.currentDisplay != Root.Displaying.Game || PauseSplash.Paused();
   }
 }

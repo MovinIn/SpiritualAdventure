@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Godot;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SpiritualAdventure.levels;
 using SpiritualAdventure.utility;
 
 namespace SpiritualAdventure.entities;
@@ -90,6 +91,8 @@ public partial class PathDeterminantNpc : Npc
 	
   public override void _PhysicsProcess(double delta)
   {
+    if (Level.Paused()) return;
+    
     // If not moving, or interacting, or in delay, do not process.
     if (!moving || interactTrigger.IsInteracting())
     {

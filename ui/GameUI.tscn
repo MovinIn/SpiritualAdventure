@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dfbolqsgmpdwr"]
+[gd_scene load_steps=10 format=3 uid="uid://dfbolqsgmpdwr"]
 
 [ext_resource type="Script" path="res://ui/InteractDisplay.cs" id="1_kly7l"]
 [ext_resource type="Script" path="res://ui/SpeakerDetails.cs" id="1_onhbl"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://btch1sijij8qm" path="res://ui/option.tscn" id="5_lfxmf"]
 [ext_resource type="Script" path="res://ui/TimerDisplay.cs" id="6_es4vq"]
 [ext_resource type="Script" path="res://ui/ObjectiveDisplay.cs" id="6_kyf5g"]
+[ext_resource type="Script" path="res://ui/PauseButton.cs" id="8_4i7ye"]
 [ext_resource type="PackedScene" uid="uid://diyqik5ht8wgx" path="res://ui/PauseSplash.tscn" id="8_eoecq"]
 
 [node name="GameUI" type="CanvasLayer"]
@@ -155,7 +156,12 @@ theme_override_font_sizes/normal_font_size = 24
 text = "Objective: Touch the Checkpoint"
 fit_content = true
 
-[node name="TimerDisplay" type="RichTextLabel" parent="Control/MarginContainer/ObjectiveDisplay"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/ObjectiveDisplay"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TimerDisplay" type="RichTextLabel" parent="Control/MarginContainer/ObjectiveDisplay/HBoxContainer"]
+unique_name_in_owner = true
 clip_contents = false
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 36
@@ -165,9 +171,19 @@ scroll_active = false
 autowrap_mode = 0
 script = ExtResource("6_es4vq")
 
-[node name="Timer" type="Timer" parent="Control/MarginContainer/ObjectiveDisplay/TimerDisplay"]
+[node name="Timer" type="Timer" parent="Control/MarginContainer/ObjectiveDisplay/HBoxContainer/TimerDisplay"]
 wait_time = 5.0
 one_shot = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/ObjectiveDisplay/HBoxContainer"]
+layout_mode = 2
+
+[node name="PauseButton" type="Button" parent="Control/MarginContainer/ObjectiveDisplay/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 24
+text = "||"
+script = ExtResource("8_4i7ye")
 
 [node name="PauseSplash" parent="Control" instance=ExtResource("8_eoecq")]
 layout_mode = 1
@@ -179,5 +195,6 @@ grow_vertical = 1
 [connection signal="OnOptionPressed" from="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set2/Option3" to="Control/InteractDisplay" method="OnOptionPressed"]
 [connection signal="OnOptionPressed" from="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set2/Option4" to="Control/InteractDisplay" method="OnOptionPressed"]
 [connection signal="SpeechDisplayFinishedUpdating" from="Control/InteractDisplay/VBoxContainer/MarginSpeech/Speech" to="Control/InteractDisplay" method="SpeechDisplayFinishedUpdating"]
-[connection signal="timeout" from="Control/MarginContainer/ObjectiveDisplay/TimerDisplay/Timer" to="Control/MarginContainer/ObjectiveDisplay" method="OnTimerTimeout"]
-[connection signal="timeout" from="Control/MarginContainer/ObjectiveDisplay/TimerDisplay/Timer" to="Control/MarginContainer/ObjectiveDisplay/TimerDisplay" method="OnTimerTimeout"]
+[connection signal="timeout" from="Control/MarginContainer/ObjectiveDisplay/HBoxContainer/TimerDisplay/Timer" to="Control/MarginContainer/ObjectiveDisplay" method="OnTimerTimeout"]
+[connection signal="timeout" from="Control/MarginContainer/ObjectiveDisplay/HBoxContainer/TimerDisplay/Timer" to="Control/MarginContainer/ObjectiveDisplay/HBoxContainer/TimerDisplay" method="OnTimerTimeout"]
+[connection signal="pressed" from="Control/MarginContainer/ObjectiveDisplay/HBoxContainer/VBoxContainer/PauseButton" to="Control/MarginContainer/ObjectiveDisplay/HBoxContainer/VBoxContainer/PauseButton" method="OnPressed"]

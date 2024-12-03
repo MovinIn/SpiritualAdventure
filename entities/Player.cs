@@ -1,5 +1,6 @@
 using Godot;
 using SpiritualAdventure.entities;
+using SpiritualAdventure.levels;
 
 public partial class Player : CharacterBody2D
 {
@@ -23,7 +24,9 @@ public partial class Player : CharacterBody2D
 		gameTick(delta);
 	}
 
-	private void gameTick(double delta){
+	private void gameTick(double delta)
+    {
+      if (Level.Paused()) return;
 		Vector2 inputDirection = Input.GetVector("left", "right", "up", "down");
 		Velocity = inputDirection * Speed;
 
