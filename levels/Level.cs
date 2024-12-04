@@ -96,7 +96,7 @@ public partial class Level : Node2D
         GD.Print("Objective Failed!");
         PauseSplash.Display(PauseSplash.State.Failed);
         break;
-      case Objective.Status.Start:
+      case Objective.Status.Initiated:
         GD.Print("Starting New Objective!");
         //TODO: do something
         break;

@@ -64,7 +64,7 @@ public partial class ObjectiveDisplay : HBoxContainer
 
   public void UpdateObjectiveStatus(Objective.Status status, Objective objective)
   {
-	if (this.objective != objective||status==Objective.Status.Start) return;
+	if (this.objective != objective||status==Objective.Status.Initiated) return;
 	bool completed = status == Objective.Status.Completed;
 	
 	description.Text = completed ? "Objective Complete!" : "Objective Failed!";

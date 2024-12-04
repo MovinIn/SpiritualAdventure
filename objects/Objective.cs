@@ -11,7 +11,7 @@ public class Objective
 {
   public enum Status
   {
-    Uninitiated,Start,Completed,Failed
+    Uninitiated,Initiated,Completed,Failed
   }
   
   public delegate void ObjectiveStatusChangeHandler(Status status,Objective objective);
@@ -83,7 +83,7 @@ public class Objective
   public virtual void SetAsObjective()
   {
     ObjectiveDisplay.instance.UpdateObjective(this,FailedObjective);
-    BroadcastAll(Status.Start);
+    BroadcastAll(Status.Initiated);
   }
   
   public void AddChangeHandler(ObjectiveStatusChangeHandler handler)

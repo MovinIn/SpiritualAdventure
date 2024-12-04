@@ -67,7 +67,7 @@ public partial class TouchObjective : Sprite2D, IHasObjective
 
   private void ObjectiveStatusChangedHandler(Objective.Status status,Objective objective)
   {
-    if (status == Objective.Status.Start && this.objective == objective)
+    if (status == Objective.Status.Initiated && this.objective == objective)
     {
       Visible = true;
     }

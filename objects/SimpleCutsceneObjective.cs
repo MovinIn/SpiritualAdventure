@@ -23,7 +23,7 @@ public class SimpleCutsceneObjective: IHasObjective
 
   private void OnObjectiveStatusChangedHandler(Objective.Status status,Objective objective)
   {
-    if (this.objective != objective || status != Objective.Status.Start) return;
+    if (this.objective != objective || status != Objective.Status.Initiated) return;
     
     Level.SetCutscene(true,new Vector2(1000,1000));
     
