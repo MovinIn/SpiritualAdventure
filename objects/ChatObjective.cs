@@ -16,7 +16,7 @@ public class ChatObjective: IHasObjective
 
   public void OnInteract()
   {
-    if (!objective.completed)
+    if (!objective.completed&&objective.Initiated())
     {
       if (objective.postCompletionFeedback!=null)
       {

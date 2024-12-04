@@ -11,7 +11,7 @@ public class Objective
 {
   public enum Status
   {
-    Start,Completed,Failed,
+    Uninitiated,Start,Completed,Failed
   }
   
   public delegate void ObjectiveStatusChangeHandler(Status status,Objective objective);
@@ -28,17 +28,22 @@ public class Objective
   public SpeechLine? postCompletionFeedback { get; set; }
 
   public string description { get; }
-  
-  
+
+  public Status status { get; private set; }
+
+
   [JsonConstructor]
   public Objective(string description,SpeechLine? postCompletionFeedback=null)
   {
     this.description = description;
     this.postCompletionFeedback = postCompletionFeedback;
+    status = Status.Uninitiated;
   }
   
   public virtual void CompletedObjective()
   {
+    if (!Initiated()) return;
+    
     if (completed)
     {
       return;
@@ -50,11 +55,13 @@ public class Objective
 
   public virtual void FailedObjective()
   {
+    if (!Initiated()) return;
+    
     hardFail = true;
     completed = false;
     BroadcastAll(Status.Failed);
   }
-
+  
   /**
    * returns -1 if the objective is not time constrained.
    */
@@ -91,10 +98,16 @@ public class Objective
 
   private void BroadcastAll(Status status)
   {
+    this.status = status;
     foreach (var handler in handlers)
     {
       handler(status,this);
     }
+  }
+
+  public bool Initiated()
+  {
+    return status != Status.Uninitiated;
   }
 
 }
