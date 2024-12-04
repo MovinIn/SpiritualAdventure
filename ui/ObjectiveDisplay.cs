@@ -48,8 +48,6 @@ public partial class ObjectiveDisplay : HBoxContainer
 	description.Modulate = Colors.White;
 	description.Text = "Objective: "+objective.description;
 
-	GD.Print("is this objective time constrained? :"+objective.IsTimeConstrained());
-	
 	if (objective.IsTimeConstrained())
 	{
 	  timerDisplay.Visible = true;

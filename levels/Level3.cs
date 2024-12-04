@@ -14,7 +14,6 @@ public partial class Level3 : Level
   public override void _Ready()
   {
     TestMultipleObjectives();
-    GD.Print(JsonConvert.SerializeObject(this));
   }
 
   private void LoadWithObjectives(List<IHasObjective>objectives)

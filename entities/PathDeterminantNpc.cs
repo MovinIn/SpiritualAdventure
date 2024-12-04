@@ -46,7 +46,6 @@ public partial class PathDeterminantNpc : Npc
   {
     var npc=Npc.Instantiate(position)
       .SafelySetScript<PathDeterminantNpc>("res://entities/PathDeterminantNpc.cs");
-    GD.Print("finalized npc instantiation");
     npc.UpdateMovement(actions,moveDelay,isRelativePath,repeatMotion);
     return npc;
   }

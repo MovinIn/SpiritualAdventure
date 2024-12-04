@@ -33,11 +33,8 @@ public partial class LevelSelectPopulator : FlowContainer
     int beginLevelIndex = Math.Max(1, singleton.endLevelIndex - levelBatchAmount);
     
     Clear();
-    GD.Print(beginLevelIndex);
-    GD.Print(singleton.endLevelIndex);
     for (int i = beginLevelIndex; i <= singleton.endLevelIndex; i++)
     {
-      GD.Print("adding a button!");
       var button = LevelSelectButton.Instantiate(i);
       singleton.AddChild(button);
     }

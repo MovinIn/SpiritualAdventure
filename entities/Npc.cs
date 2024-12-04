@@ -212,8 +212,6 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
   {
     if (what == NotificationSceneInstantiated)
     {
-      
-      GD.Print("initializing nodes");
       InitNodes();
     }
   }

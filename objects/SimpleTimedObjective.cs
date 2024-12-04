@@ -24,21 +24,18 @@ public class SimpleTimedObjective : Objective
 
   public override void SetAsObjective()
   {
-    GD.Print("time running set to true.");
     isTimeRunning = true;
     base.SetAsObjective();
   }
   
   public override void CompletedObjective()
   {
-    GD.Print("time running set to false.");
     isTimeRunning = false;
     base.CompletedObjective();
   }
 
   public override void FailedObjective()
   {
-    GD.Print("time running set to false.");
     isTimeRunning = false;
     base.FailedObjective();
   }

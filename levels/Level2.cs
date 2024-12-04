@@ -10,8 +10,6 @@ public partial class Level2 : Level
 {
   public override void _Ready()
   {
-    GD.Print("loading objective");
-    
     var npc = PathDeterminantNpc.Instantiate(new List<MovementAction>(),new Vector2(1050,1050),
       0,true,false);
     
