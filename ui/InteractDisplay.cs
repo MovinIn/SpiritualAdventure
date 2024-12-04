@@ -1,6 +1,7 @@
 using System.Linq;
 using Godot;
 using SpiritualAdventure.entities;
+using SpiritualAdventure.levels;
 
 namespace SpiritualAdventure.ui;
 
@@ -12,6 +13,7 @@ public partial class InteractDisplay : MarginContainer
   private Option[] options;
   private SpeechLine currentSpeechLine;
   private Interactable currentInteractable;
+  private double currSpeechDelay;
 	
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
@@ -28,16 +30,54 @@ public partial class InteractDisplay : MarginContainer
     singleton = this;
   }
 
-  public static void UpdateInteractDisplay(Texture2D texture,string name,SpeechLine speech,Interactable interactable)
+  public static void UpdateInteractDisplay(Texture2D texture, string name, SpeechLine speech, Interactable interactable)
   {
     if (singleton.currentInteractable != interactable)
     {
       singleton.currentInteractable?.SetNotInteracting();
     }
+
     singleton.currentInteractable = interactable;
-    singleton.speakerDetails.setSpeaker(texture,name);
+    singleton.speakerDetails.setSpeaker(texture, name);
     UpdateSpeechLine(speech);
   }
+
+  public override void _Process(double delta)
+  {
+    if (!IsActive()) return;
+    currSpeechDelay += delta;
+  }
+
+  public override void _Input(InputEvent @event)
+  {
+    if (Level.Paused())
+    {
+      return;
+    }
+    
+    if (!IsActive())
+    {
+      InteractProximityFilter.OnInput(@event);
+      return;
+    }
+
+    if (@event.IsActionPressed("interact"))
+    {
+      if (singleton.currentSpeechLine!=null&&currSpeechDelay<singleton.currentSpeechLine.GetDelay()) return;
+
+      currSpeechDelay = 0;
+      
+      if (!singleton.currentInteractable.IsInteracting())
+      {
+        Exit();
+        return;
+      }
+      
+      singleton.currentInteractable.Interact();
+    }
+  }
+  
+  
 
   private static void UpdateSpeechLine(SpeechLine speech)
   {
@@ -92,9 +132,14 @@ public partial class InteractDisplay : MarginContainer
     }
   }
 
-  public static bool SpeechFinished()
+  public static bool SpeechContentFinished()
   {
     return singleton.speech.finished;
+  }
+
+  public static bool IsActive()
+  {
+    return singleton.currentInteractable != null;
   }
 
   public static void Exit()
@@ -102,5 +147,6 @@ public partial class InteractDisplay : MarginContainer
     singleton.Visible = false;
     singleton.speech.SetSpeech("");
     singleton.currentInteractable?.SetNotInteracting();
+    singleton.currentInteractable = null;
   }
 }

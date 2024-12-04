@@ -5,9 +5,12 @@ using SpiritualAdventure.ui;
 
 public partial class PauseSplash : MarginContainer
 {
-  private Button restart, menu, next;
+  private static Button restart, menu, next;
+  private static RichTextLabel description;
+  private static bool buttonsEnabled;
+  
   private static PauseSplash singleton;
-  private bool buttonsEnabled;
+  
   public enum State
   {
 	Paused,Complete,Failed
@@ -20,19 +23,35 @@ public partial class PauseSplash : MarginContainer
 	restart = GetNode<Button>("%Restart");
 	menu = GetNode<Button>("%MainMenu");
 	next = GetNode<Button>("%NextLevel");
+    description = GetNode<RichTextLabel>("%PauseDescription");
 	buttonsEnabled = false;
   }
 
   public static void Display(State state)
   {
-	singleton.next.Visible = true;
-	singleton.menu.Visible = true;
-	singleton.restart.Visible = true;
-	singleton.buttonsEnabled = true;
+    
+    switch (state)
+    {
+      case State.Complete:
+        description.Text = "[center][color=006800]LEVEL COMPLETE![/color][/center]";
+        break;
+      case State.Failed:
+        description.Text = "[center][color=ff0037]LEVEL FAILED![/color][/center]";
+        break;
+      case State.Paused:
+        description.Text = "[center][color=000000]PAUSED[/color][/center]";
+        break;
+    }
+    
+    
+	next.Visible = true;
+	menu.Visible = true;
+	restart.Visible = true;
+	buttonsEnabled = true;
 
 	if (state is State.Paused or State.Failed)
 	{
-	  singleton.next.Visible = false;
+	  next.Visible = false;
 	}
 
 	singleton.Visible = true;

@@ -17,7 +17,7 @@ public partial class Root : Node
   private static LevelSelect levelSelect;
   private static int levelCounter;
   private static Root singleton;
-  public const int MAX_LEVEL_INDEX = 2;
+  public const int MAX_LEVEL_INDEX = 3;
 
   public static Displaying currentDisplay = Displaying.MainMenu;
   

@@ -7,11 +7,10 @@ public class ChatObjective: IHasObjective
   private Npc npc;
   public Objective objective { get; }
 
-  public ChatObjective(Npc npc,Objective objective,SpeechLine postCompletionFeedback=null)
+  public ChatObjective(Npc npc,Objective objective)
   {
     this.npc = npc;
     this.objective = objective;
-    objective.postCompletionFeedback = postCompletionFeedback;
     npc.SetInteractHandler(OnInteract);
   }
 
@@ -19,7 +18,13 @@ public class ChatObjective: IHasObjective
   {
     if (!objective.completed)
     {
+      if (objective.postCompletionFeedback!=null)
+      {
+        npc.StopInteract();
+      }
+      
       objective.CompletedObjective();
+      
       if (objective.postCompletionFeedback!=null)
       {
         return;

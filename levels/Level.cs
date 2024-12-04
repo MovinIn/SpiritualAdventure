@@ -21,9 +21,15 @@ public partial class Level : Node2D
   private bool startObjectives;
 
   public static Player player;
+
+  public static bool isCutscene { get; private set; }
+  public static Camera2D cutsceneCamera;
   
   private void Init(Vector2 playerPosition,List<IHasObjective> iObjectivesList,List<Npc> npcList,Narrator narrator)
   {
+    cutsceneCamera = new Camera2D();
+    AddChild(cutsceneCamera);
+    
     player = Player.Instantiate();
     player.Position = playerPosition;
     AddChild(player);
@@ -47,6 +53,8 @@ public partial class Level : Node2D
       npcs[npc.GetType()].Add(npc);
     }
   }
+  
+  
   
   public void LoadLevel(Vector2 playerPosition,List<IHasObjective> iObjectivesList,List<Npc> npcList,Narrator narrator)
   {
@@ -97,6 +105,29 @@ public partial class Level : Node2D
 
   public static bool Paused() //TODO: should this method be in here?
   {
-    return Root.currentDisplay != Root.Displaying.Game || PauseSplash.Paused();
+    return !InGame() || PauseSplash.Paused();
+  }
+  
+  public static bool InGame()
+  {
+    return Root.currentDisplay == Root.Displaying.Game;
+  }
+
+  public static void SetCutscene(bool isCutscene,Vector2 position=default)
+  {
+    if (!InGame()) return; 
+    
+    Level.isCutscene = isCutscene;
+    
+    if (isCutscene)
+    {
+      cutsceneCamera.Position = position;
+      cutsceneCamera.MakeCurrent();
+    }
+    else
+    {
+      player.MakeCameraCurrent();
+    }
+    
   }
 }

@@ -1,13 +1,13 @@
-using System.Collections.Generic;
 using Godot;
+using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using SpiritualAdventure.entities;
+using SpiritualAdventure.levels;
 using SpiritualAdventure.objects;
 using SpiritualAdventure.ui;
 
-namespace SpiritualAdventure.levels;
-
-public partial class Background : Level
+public partial class Level3 : Level
 {
 
   // Called when the node enters the scene tree for the first time.
@@ -51,7 +51,8 @@ public partial class Background : Level
     npc.UseTrigger("interact","Talk");
     npc.SetSpeech(speechLines);
     var objective = ObjectiveBuilder.TimedOrElse("Talk to the NPC at (150,150)", timeLimit);
-    objective.postCompletionFeedback = new SpeechLine("This is a Post Completion Feedback Line!");
+    objective.postCompletionFeedback = new SpeechLine("This is a MULTI-LINE Post Completion Feedback Line!",
+      new SpeechLine("A special treatment for NPCs!"));
     ChatObjective c=new(npc,objective);
     return c;
   }
@@ -83,6 +84,7 @@ public partial class Background : Level
     var touchObjective=TouchObjective.Instantiate(ObjectiveBuilder.TimedOrElse(
       "Touch the Checkpoint",timeLimit));
     touchObjective.Position = position;
+    touchObjective.objective.postCompletionFeedback = new SpeechLine("This is a Post Completion Feedback Line FOR TOUCH!");
     AddChild(touchObjective);
     return touchObjective;
   }

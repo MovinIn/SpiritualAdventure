@@ -15,6 +15,8 @@ public class Narrator : Interactable
   private Speaker narrator;
   private string name;
 
+  private SpeechLine currLine;
+
   public Narrator(Speaker narrator=Speaker.Archer,string name="narrator",System.Action? notInteracting=null)
   {
     this.narrator = narrator;
@@ -31,16 +33,38 @@ public class Narrator : Interactable
   
   public void Narrate(SpeechLine lines)
   {
+    interacting = true;
+    currLine = lines;
     InteractDisplay.UpdateInteractDisplay(narrator.asTexture(),name,lines,this);
   }
 
+  public SpeechLine NextLine()
+  {
+    if (currLine.Finished())
+    {
+      return null;
+    }
+    
+    currLine = currLine.next;
+    return currLine;
+  }
+  
+  
   public void Interact()
   {
-    interacting = true;
+    SpeechLine line = NextLine();
+    if (line == null)
+    {
+      InteractDisplay.Exit();
+      return;
+    }
+    
+    InteractDisplay.UpdateInteractDisplay(narrator.asTexture(),name,line,this);
   }
 
   public bool OptionInteract(string option)
   {
+    currLine = currLine.options![option];
     return true;
   }
 
@@ -51,7 +75,6 @@ public class Narrator : Interactable
 
   public void SetNotInteracting()
   {
-    GD.Print("not interacting now");
     interacting = false;
     NotInteracting?.Invoke();
   }

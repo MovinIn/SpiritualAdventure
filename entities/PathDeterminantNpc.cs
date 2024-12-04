@@ -11,7 +11,8 @@ namespace SpiritualAdventure.entities;
 [JsonObject(MemberSerialization.OptIn)]
 public partial class PathDeterminantNpc : Npc
 {
-  private bool moving;
+  private bool moving=true;
+  private bool repeatMotion=false;
   private double currTime;
 	
   private Replay replay;
@@ -23,7 +24,7 @@ public partial class PathDeterminantNpc : Npc
   [JsonProperty]
   private float moveDelay;
   [JsonProperty]
-  private List<Action> actions;
+  private List<MovementAction> actions;
   
   public override void Parse(JObject json)
   {
@@ -38,23 +39,22 @@ public partial class PathDeterminantNpc : Npc
       isRelativePath = isRelativePathToken.ToObject<bool>();
     }
     
-    actions=json.Value<List<Action>>("actions") ?? new List<Action>();
+    actions=json.Value<List<MovementAction>>("actions") ?? new List<MovementAction>();
   }
   
-  public static PathDeterminantNpc Instantiate(List<Action> actions,Vector2 position,float moveDelay,bool isRelativePath)
+  public static PathDeterminantNpc Instantiate(List<MovementAction> actions,Vector2 position,float moveDelay,bool isRelativePath,bool repeatMotion)
   {
     var npc=Npc.Instantiate(position)
       .SafelySetScript<PathDeterminantNpc>("res://entities/PathDeterminantNpc.cs");
     GD.Print("finalized npc instantiation");
-    npc.actions = actions;
-    npc.moveDelay = moveDelay;
-    npc.currTime = moveDelay;
-    npc.isRelativePath = isRelativePath;
+    npc.UpdateMovement(actions,moveDelay,isRelativePath,repeatMotion);
     return npc;
   }
 	
   private void UpdateReplay()
   {
+    originalPosition = Position;
+    
     replay = new Replay();
     if (actions.Count==0) return;
 
@@ -73,13 +73,27 @@ public partial class PathDeterminantNpc : Npc
 
     sprite.updateRotation(1);
   }
+
+  public void UpdateMovement(List<MovementAction> actions,float moveDelay,bool isRelativePath,bool repeatMotion)
+  {
+    this.actions = actions;
+    this.moveDelay = moveDelay;
+    this.isRelativePath = isRelativePath;
+    this.repeatMotion = repeatMotion;
+    this.currTime = moveDelay;
+    
+    if (IsInsideTree())
+    {
+      UpdateReplay();
+      replayPlayer.PlayReplay(replay);
+    }
+  }
 	
   public override void _Ready()
   {
     base._Ready();
-    originalPosition = Position;
-    moving = true;
     replayPlayer = new ReplayPlayer();
+    
     UpdateReplay();
     replayPlayer.PlayReplay(replay);
   }
@@ -107,10 +121,14 @@ public partial class PathDeterminantNpc : Npc
 		
     if (!replayPlayer.HasNextFrame())
     {
-      currTime = 0;
-      replayPlayer.PlayReplay(replay);
-      originalPosition = Position;
-      IdleOrElse();
+      if (repeatMotion)
+      {
+        ResetReplay();
+      }
+      else
+      {
+        IdleOrElse();
+      }
       return;
     }
     // Get the relative frame and set animation
@@ -120,5 +138,13 @@ public partial class PathDeterminantNpc : Npc
         
     Position = f.position;
     sprite.Scale = f.scale;
+  }
+
+  private void ResetReplay()
+  {
+    currTime = 0;
+    replayPlayer.PlayReplay(replay);
+    originalPosition = Position;
+    IdleOrElse();
   }
 }

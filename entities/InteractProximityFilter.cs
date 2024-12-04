@@ -35,16 +35,16 @@ public partial class InteractProximityFilter : Node
 
   public override void _Process(double delta)
   {
-    if (Level.Paused()) return;
+    if (Level.Paused()||Level.isCutscene) return;
     if (min != null && min.IsInteracting()) return;
     min = Closest(Level.player.Position);
     interactTrigger = min?.GetInteractTrigger();
   }
 
-  public override void _Input(InputEvent @event)
+  public static void OnInput(InputEvent @event)
   {
-    if (interactTrigger == null) return;
-		
+    if (interactTrigger == null||InteractDisplay.IsActive()) return;
+
     if (@event.IsActionPressed(interactTrigger))
     {
       min.Interact();

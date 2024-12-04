@@ -1,6 +1,7 @@
 using System;
 using Godot;
 using SpiritualAdventure.objects;
+using Action = System.Action;
 
 namespace SpiritualAdventure.ui;
 

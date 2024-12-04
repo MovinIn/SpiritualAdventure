@@ -39,6 +39,11 @@ public class Objective
   
   public virtual void CompletedObjective()
   {
+    if (completed)
+    {
+      return;
+    }
+    
     completed = !hardFail;
     BroadcastAll(Status.Completed);
   }

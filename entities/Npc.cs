@@ -17,7 +17,6 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
   protected CharacterSprite sprite;
   protected InteractTriggerDisplay interactTrigger;
   protected SpeechLine currLine;
-  protected double currSpeechDelay;
   
   protected Speaker speaker;
   protected Queue<SpeechLine> speech;
@@ -84,8 +83,6 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
   public override void _Process(double delta)
   {
     if (Level.Paused()) return;
-    
-    currSpeechDelay += delta;
   }
 
   public void Who(Speaker speaker,string name)
@@ -128,6 +125,7 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
   public SpeechLine NextLine()
   {
     if (speech.Count == 0) return null;
+    
     if (currLine==null)
     {
       currLine = speech.Peek();
@@ -154,9 +152,10 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
     }
   }
 
-  protected void StopInteract()
+  public void StopInteract()
   {
     if (interactTrigger.IsInteracting()) {
+      interactTrigger.SetNotInteracting();
       InteractDisplay.Exit();
     }
     currLine = null;
@@ -176,19 +175,18 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
     }
   }
 
-  private bool OnAnyInteractAction()
+  private void UpdateRotation()
   {
-    if (currLine!=null&&currSpeechDelay<currLine.GetDelay()) return false;
-		
-    sprite.updateRotation(Level.player.Position.X-Position.X);
-    currSpeechDelay = 0;
-    return true;
+    if (!Level.isCutscene)
+    {
+      sprite.updateRotation(Level.player.Position.X-Position.X);
+    }
   }
 	
   public void OnInteract()
   {
-    if (!OnAnyInteractAction()) return;
-
+    UpdateRotation();
+    
     SpeechLine line = NextLine();
     if (line == null)
     {
@@ -201,7 +199,7 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
 
   public bool OnOption(string option)
   {
-    if (!OnAnyInteractAction()) return false;
+    UpdateRotation();
     currLine = currLine.options![option];
     return true;
   }
