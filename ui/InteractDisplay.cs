@@ -8,12 +8,13 @@ namespace SpiritualAdventure.ui;
 public partial class InteractDisplay : MarginContainer
 {
   private static InteractDisplay singleton;
-  private SpeechDisplay speech;
-  private SpeakerDetails speakerDetails;
-  private Option[] options;
-  private SpeechLine currentSpeechLine;
-  private Interactable currentInteractable;
-  private double currSpeechDelay;
+  
+  private static SpeechDisplay speechDisplay;
+  private static SpeakerDetails speakerDetails;
+  private static Option[] options;
+  private static SpeechLine currentSpeechLine;
+  private static Interactable currentInteractable;
+  private static double currSpeechDelay;
 	
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
@@ -23,7 +24,7 @@ public partial class InteractDisplay : MarginContainer
       options[i-1]=GetNode<Option>("%Option"+i);
     }
 
-    speech = GetNode<SpeechDisplay>("%Speech");
+    speechDisplay = GetNode<SpeechDisplay>("%Speech");
     speakerDetails=GetNode<SpeakerDetails>("%SpeakerDetails");
 		
     Visible = false;
@@ -32,13 +33,13 @@ public partial class InteractDisplay : MarginContainer
 
   public static void UpdateInteractDisplay(Texture2D texture, string name, SpeechLine speech, Interactable interactable)
   {
-    if (singleton.currentInteractable != interactable)
+    if (currentInteractable != interactable)
     {
-      singleton.currentInteractable?.SetNotInteracting();
+      currentInteractable?.SetNotInteracting();
     }
 
-    singleton.currentInteractable = interactable;
-    singleton.speakerDetails.setSpeaker(texture, name);
+    currentInteractable = interactable;
+    speakerDetails.setSpeaker(texture, name);
     UpdateSpeechLine(speech);
   }
 
@@ -63,17 +64,17 @@ public partial class InteractDisplay : MarginContainer
 
     if (@event.IsActionPressed("interact"))
     {
-      if (singleton.currentSpeechLine!=null&&currSpeechDelay<singleton.currentSpeechLine.GetDelay()) return;
+      if (currentSpeechLine!=null&&currSpeechDelay<currentSpeechLine.GetDelay()) return;
 
       currSpeechDelay = 0;
       
-      if (!singleton.currentInteractable.IsInteracting())
+      if (!currentInteractable.IsInteracting())
       {
         Exit();
         return;
       }
       
-      singleton.currentInteractable.Interact();
+      currentInteractable.Interact();
     }
   }
   
@@ -83,22 +84,22 @@ public partial class InteractDisplay : MarginContainer
   {
     if (speech == null)
     {
-      singleton.currentInteractable?.SetNotInteracting();
-      singleton.currentInteractable = null;
+      currentInteractable?.SetNotInteracting();
+      currentInteractable = null;
       return;
     }
-    singleton.currentSpeechLine = speech;
-    singleton.speech.SetSpeech(speech.line);
+    currentSpeechLine = speech;
+    InteractDisplay.speechDisplay.SetSpeech(speech.line);
     singleton.Visible = true;
     HideOptions();
         
-    foreach (var option in singleton.options)
+    foreach (var option in options)
     {
       option.SetText("");
     }
-    for (int i = 0; i < singleton.options.Length && i < speech.options?.Count; i++)
+    for (int i = 0; i < options.Length && i < speech.options?.Count; i++)
     {
-      singleton.options[i].SetText(speech.options.Keys.ElementAt(i));
+      options[i].SetText(speech.options.Keys.ElementAt(i));
     }
   }
 
@@ -109,16 +110,15 @@ public partial class InteractDisplay : MarginContainer
 
   public void OnOptionPressed(string option)
   {
-    GD.Print("inside interact display option pressed");
     if (currentInteractable.OptionInteract(option))
     {
-      UpdateSpeechLine(currentSpeechLine?.options[option]);
+      UpdateSpeechLine(currentSpeechLine?.options![option]);
     }
   }
 
   private static void HideOptions()
   {
-    foreach (var option in singleton.options)
+    foreach (var option in options)
     {
       option.SetVisible(false);
     }
@@ -126,7 +126,7 @@ public partial class InteractDisplay : MarginContainer
     
   private static void ShowOptions()
   {
-    foreach (var option in singleton.options)
+    foreach (var option in options)
     {
       option.SetVisible(option.HasText());
     }
@@ -134,19 +134,20 @@ public partial class InteractDisplay : MarginContainer
 
   public static bool SpeechContentFinished()
   {
-    return singleton.speech.finished;
+    return speechDisplay.finished;
   }
 
   public static bool IsActive()
   {
-    return singleton.currentInteractable != null;
+    return currentInteractable != null;
   }
 
   public static void Exit()
   {
     singleton.Visible = false;
-    singleton.speech.SetSpeech("");
-    singleton.currentInteractable?.SetNotInteracting();
-    singleton.currentInteractable = null;
+    speechDisplay.SetSpeech("");
+    currentInteractable?.SetNotInteracting();
+    currentInteractable = null;
+    currSpeechDelay = 0;
   }
 }
