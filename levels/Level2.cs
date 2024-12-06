@@ -48,7 +48,7 @@ public partial class Level2 : Level
           new List<CutsceneAction>()),
         new(new SpeechAction(redWarrior,null,1),
           new List<CutsceneAction>())
-      });
+      }, new Vector2(1000,1000));
     return cutsceneObjective;
   }
 }

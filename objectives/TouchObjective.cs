@@ -1,6 +1,5 @@
 using System;
 using Godot;
-using SpiritualAdventure.ui;
 
 namespace SpiritualAdventure.objects;
 
@@ -19,7 +18,7 @@ public partial class TouchObjective : Sprite2D, IHasObjective
   
   static TouchObjective()
   {
-    scene = ResourceLoader.Load<PackedScene>("res://objects/objective.tscn");
+    scene = ResourceLoader.Load<PackedScene>("res://objectives/objective.tscn");
   }
 
   private TouchObjective()

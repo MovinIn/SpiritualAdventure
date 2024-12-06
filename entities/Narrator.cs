@@ -62,10 +62,9 @@ public class Narrator : Interactable
     InteractDisplay.UpdateInteractDisplay(narrator.asTexture(),name,line,this);
   }
 
-  public bool OptionInteract(string option)
+  public void OptionInteract(string option)
   {
     currLine = currLine.options![option];
-    return true;
   }
 
   public bool IsInteracting()

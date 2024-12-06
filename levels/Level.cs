@@ -12,9 +12,7 @@ namespace SpiritualAdventure.levels;
 public partial class Level : Node2D
 {
   
-  private Queue<Objective> objectives=new();
-  
-  private List<IHasObjective> iObjectives=new();
+  private Queue<IHasObjective> iObjectives=new();
   private Dictionary<Type, List<Npc>> npcs=new();
   private Narrator narrator;
 
@@ -27,6 +25,8 @@ public partial class Level : Node2D
   
   private void Init(Vector2 playerPosition,List<IHasObjective> iObjectivesList,List<Npc> npcList,Narrator narrator)
   {
+    GetNodeOrNull<TileMapLayer>("InvisibleTileMap")?.SetVisible(false);
+    
     cutsceneCamera = new Camera2D();
     AddChild(cutsceneCamera);
     
@@ -39,8 +39,7 @@ public partial class Level : Node2D
     
     foreach (var iObjective in iObjectivesList)
     {
-      iObjectives.Add(iObjective);
-      objectives.Enqueue(iObjective.objective);
+      iObjectives.Enqueue(iObjective);
     }
     
     foreach (var npc in npcList)
@@ -67,12 +66,15 @@ public partial class Level : Node2D
 
   public void NextObjective()
   {
-    if (objectives.Count == 0) {
+    if (iObjectives.Count == 0) {
       PauseSplash.Display(PauseSplash.State.Complete);
       return; 
     }
-    objectives.Peek().AddChangeHandler(OnObjectiveStatusChanged);
-    objectives.Peek().SetAsObjective();
+
+    var iObjective = iObjectives.Peek();
+    iObjective.objective.AddChangeHandler(OnObjectiveStatusChanged);
+    iObjective.objective.SetAsObjective();
+    iObjective.Start();
   }
 
   public void OnObjectiveStatusChanged(Objective.Status status,Objective objective)
@@ -82,8 +84,8 @@ public partial class Level : Node2D
       case Objective.Status.Completed:
       {
         GD.Print("Objective Complete!");
-        var lines = objectives.Peek().postCompletionFeedback;
-        objectives.Dequeue();
+        var lines = iObjectives.Peek().objective.postCompletionFeedback;
+        iObjectives.Dequeue();
         if (lines == null)
         {
           NextObjective();

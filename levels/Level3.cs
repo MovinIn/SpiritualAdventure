@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
+using SpiritualAdventure.objectives;
 using SpiritualAdventure.objects;
 using SpiritualAdventure.ui;
 
@@ -52,7 +53,7 @@ public partial class Level3 : Level
     var objective = ObjectiveBuilder.TimedOrElse("Talk to the NPC at (150,150)", timeLimit);
     objective.postCompletionFeedback = new SpeechLine("This is a MULTI-LINE Post Completion Feedback Line!",
       new SpeechLine("A special treatment for NPCs!"));
-    ChatObjective c=new(npc,objective);
+    StartChatObjective c=new(npc,objective);
     return c;
   }
 

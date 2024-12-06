@@ -1,0 +1,56 @@
+[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://c0x0o66oy1cgq"]
+
+[ext_resource type="Texture2D" uid="uid://dpt27itycsad1" path="res://assets/tiles/wall.png" id="1_ucdvm"]
+[ext_resource type="Texture2D" uid="uid://n2y7hlm50f8c" path="res://assets/tiles/ground.png" id="2_hpot0"]
+[ext_resource type="Texture2D" uid="uid://duyion02aoo4e" path="res://assets/tiles/tiles.png" id="3_wrvnh"]
+[ext_resource type="Texture2D" uid="uid://c0xlcj05ba8xc" path="res://assets/tiles/stars.png" id="4_84uc2"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3m1ap"]
+texture = ExtResource("1_ucdvm")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3anym"]
+texture = ExtResource("2_hpot0")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jxexo"]
+texture = ExtResource("3_wrvnh")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tlnis"]
+texture = ExtResource("4_84uc2")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+
+[resource]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_3m1ap")
+sources/1 = SubResource("TileSetAtlasSource_3anym")
+sources/2 = SubResource("TileSetAtlasSource_jxexo")
+sources/3 = SubResource("TileSetAtlasSource_tlnis")

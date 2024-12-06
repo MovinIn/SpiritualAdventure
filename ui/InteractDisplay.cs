@@ -48,9 +48,10 @@ public partial class InteractDisplay : MarginContainer
     if (!IsActive()) return;
     currSpeechDelay += delta;
   }
-
-  public override void _Input(InputEvent @event)
+  
+  public override void _Input(InputEvent @event)  
   {
+
     if (Level.Paused())
     {
       return;
@@ -110,10 +111,8 @@ public partial class InteractDisplay : MarginContainer
 
   public void OnOptionPressed(string option)
   {
-    if (currentInteractable.OptionInteract(option))
-    {
-      UpdateSpeechLine(currentSpeechLine?.options![option]);
-    }
+    currentInteractable.OptionInteract(option);
+    UpdateSpeechLine(currentSpeechLine?.options![option]);
   }
 
   private static void HideOptions()

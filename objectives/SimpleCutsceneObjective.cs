@@ -11,12 +11,14 @@ public class SimpleCutsceneObjective: IHasObjective
   public Objective objective { get; }
   private List<Tuple<SpeechAction, List<CutsceneAction>>> actions;
   private int actionIndex;
+  private Vector2 cutscenePosition;
 
-  public SimpleCutsceneObjective(List<Tuple<SpeechAction, List<CutsceneAction>>> actions)
+  public SimpleCutsceneObjective(List<Tuple<SpeechAction, List<CutsceneAction>>> actions,Vector2 cutscenePosition)
   {
     // Every cutsceneAction (movement, effects, etc.) should be initiated by a speechaction.
     // Therefore, List<SpeechAction,CutsceneAction>
     this.actions = actions;
+    this.cutscenePosition = cutscenePosition;
     objective = new Objective("Watch the Cutscene!");
     objective.AddChangeHandler(OnObjectiveStatusChangedHandler);
   }
@@ -25,7 +27,7 @@ public class SimpleCutsceneObjective: IHasObjective
   {
     if (this.objective != objective || status != Objective.Status.Initiated) return;
     
-    Level.SetCutscene(true,new Vector2(1000,1000));
+    Level.SetCutscene(true,cutscenePosition);
     
     if (actions.Count == 0)
     {

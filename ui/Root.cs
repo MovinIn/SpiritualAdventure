@@ -17,7 +17,7 @@ public partial class Root : Node
   private static LevelSelect levelSelect;
   private static int levelCounter;
   private static Root singleton;
-  public const int MAX_LEVEL_INDEX = 3;
+  public const int MAX_LEVEL_INDEX = 5;
 
   public static Displaying currentDisplay = Displaying.MainMenu;
   
@@ -98,5 +98,13 @@ public partial class Root : Node
     currentLevel = levelScene.Instantiate<Level>();
     singleton.AddChild(currentLevel);
     
+  }
+
+  public override void _Input(InputEvent @event)
+  {
+    if (Level.InGame()&&@event.IsActionPressed("printPlayerPosition"))
+    {
+      GD.Print(Level.player.Position);
+    }
   }
 }

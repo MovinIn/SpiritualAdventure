@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bxhaqkl2eau68"]
 
 [ext_resource type="Texture2D" uid="uid://b3p6l68fewsbc" path="res://assets/objective.png" id="1_vstn3"]
-[ext_resource type="Script" path="res://objects/TouchObjective.cs" id="2_4b2d7"]
+[ext_resource type="Script" path="res://objectives/TouchObjective.cs" id="2_4b2d7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ix1w"]
 

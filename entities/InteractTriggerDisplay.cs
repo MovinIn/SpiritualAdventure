@@ -10,7 +10,7 @@ public partial class InteractTriggerDisplay : RichTextLabel,TriggerableInteracta
     private string content;
     private bool isInteracting;
     private System.Action _onInteract;
-    private Func<string,bool> _onOption;
+    private Action<string> _onOption;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -25,7 +25,7 @@ public partial class InteractTriggerDisplay : RichTextLabel,TriggerableInteracta
         _onInteract = interactHandler;
     }
 
-    public void SetOptionHandler(Func<string,bool> optionHandler)
+    public void SetOptionHandler(Action<string> optionHandler)
     {
         _onOption = optionHandler;
     }
@@ -67,9 +67,9 @@ public partial class InteractTriggerDisplay : RichTextLabel,TriggerableInteracta
         _onInteract();
     }
 
-    public bool OptionInteract(string option)
+    public void OptionInteract(string option)
     {
-        return _onOption(option);
+        _onOption(option);
     }
 
     public bool IsInteracting()

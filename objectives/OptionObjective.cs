@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
 using SpiritualAdventure.entities;
+using SpiritualAdventure.objects;
 
-namespace SpiritualAdventure.objects;
+namespace SpiritualAdventure.objectives;
 
 public class OptionObjective : IHasObjective
 {
@@ -17,17 +18,16 @@ public class OptionObjective : IHasObjective
     this.npc = npc;
     this.objective = objective;
     answer = correctOption;
-    npc.SetOptionHandler(OnOption);
     assassinOptions = incorrectOptions ?? Array.Empty<string>();
   }
 
-  private bool OnOption(string option)
+  public void Start()
   {
-    if (!npc.OnOption(option))
-    {
-      return false;
-    }
+    npc.SetOptionHandler(OnOption);
+  }
 
+  private void OnOption(string option)
+  {
     if (answer.Equals(option))
     {
       objective.CompletedObjective();
@@ -38,6 +38,6 @@ public class OptionObjective : IHasObjective
       objective.FailedObjective();
     }
 
-    return true;
+    npc.OnOption(option);
   }
 }

@@ -21,6 +21,11 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
   protected Speaker speaker;
   protected Queue<SpeechLine> speech;
   protected string name;
+
+#nullable enable
+  public Action? FinishedSpeech { private get; set; }
+  public Action<string>? NewSpeechLine { private get; set; }
+#nullable disable
   
   
   public static T Instantiate<T>(string path) where T:Npc
@@ -98,7 +103,7 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
     interactTrigger.SetInteractHandler(interactHandler);
   }
 
-  public void SetOptionHandler(Func<string,bool> optionHandler=null)
+  public void SetOptionHandler(Action<string> optionHandler=null)
   {
     optionHandler ??= OnOption;
     interactTrigger.SetOptionHandler(optionHandler);
@@ -191,17 +196,26 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
     if (line == null)
     {
       interactTrigger.SetNotInteracting();
+      
+      FinishedSpeech?.Invoke();
+      
       return;
     }
-
+    
+    NewSpeechLine?.Invoke(line.line);
+    
     InteractDisplay.UpdateInteractDisplay(speaker.asTexture(),name,line,interactTrigger);
   }
 
-  public bool OnOption(string option)
+  public void OnOption(string option)
   {
     UpdateRotation();
     currLine = currLine.options![option];
-    return true;
+    
+    if (currLine != null)
+    {
+      NewSpeechLine?.Invoke(currLine.line);
+    }
   }
 	
   protected void IdleOrElse(string animation="idle"){

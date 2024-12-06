@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=4 uid="uid://v5dkxhmpmloa"]
 
 [ext_resource type="Script" path="res://levels/Level3.cs" id="1_of35f"]
-[ext_resource type="Texture2D" uid="uid://duyion02aoo4e" path="res://assets/tiles.png" id="2_6b6ng"]
+[ext_resource type="Texture2D" uid="uid://duyion02aoo4e" path="res://assets/tiles/tiles.png" id="2_6b6ng"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qao0r"]
 texture = ExtResource("2_6b6ng")

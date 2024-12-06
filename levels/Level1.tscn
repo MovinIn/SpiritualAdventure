@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=4 uid="uid://csa75qrkvj51"]
 
-[ext_resource type="Texture2D" uid="uid://duyion02aoo4e" path="res://assets/tiles.png" id="1_sbxq5"]
+[ext_resource type="Texture2D" uid="uid://duyion02aoo4e" path="res://assets/tiles/tiles.png" id="1_sbxq5"]
 [ext_resource type="Script" path="res://levels/Level1.cs" id="1_xdpfm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4reys"]
