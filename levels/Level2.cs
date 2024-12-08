@@ -3,6 +3,7 @@ using Godot;
 using System.Collections.Generic;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
+using SpiritualAdventure.objectives;
 using SpiritualAdventure.objects;
 using SpiritualAdventure.ui;
 
@@ -34,21 +35,30 @@ public partial class Level2 : Level
     var redWarrior = new Narrator(Speaker.Red_Warrior,"Solomon");
     SimpleCutsceneObjective cutsceneObjective=new(
       new List<Tuple<SpeechAction, List<CutsceneAction>>> {
+        
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0,new List<CutsceneAction>
+        {
+          new PanCutsceneAction(new Vector2(1000, 1000))
+        }),
+        
         new(new SpeechAction(redWarrior,new SpeechLine("I can't believe I'm going to walk right..."),1),
           new List<CutsceneAction>
           {
             new CutsceneMovementAction(npc,new List<MovementAction>{new (100,0)},0,true,false,1.5)
           }),
+        
         new(new SpeechAction(redWarrior,new SpeechLine("Just to walk left again."),3),
           new List<CutsceneAction>
           {
             new CutsceneMovementAction(npc,new List<MovementAction>{new (-100,0)},0,true,false,1.5)
           }),
+        
         new(new SpeechAction(redWarrior,new SpeechLine("How life is meaningless without God."),3),
           new List<CutsceneAction>()),
-        new(new SpeechAction(redWarrior,null,1),
-          new List<CutsceneAction>())
-      }, new Vector2(1000,1000));
+        
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1)
+        
+      });
     return cutsceneObjective;
   }
 }

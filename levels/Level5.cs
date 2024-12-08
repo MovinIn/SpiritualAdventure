@@ -53,6 +53,27 @@ public partial class Level5 : Level
     var narrator = new Narrator(Speaker.Archer,"Narrator");
     SimpleCutsceneObjective cutsceneObjective=new(
       new List<Tuple<SpeechAction, List<CutsceneAction>>> {
+        
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0,new List<CutsceneAction>
+        {
+          new InlineCutsceneAction(() =>
+          {
+            Flash.ToColor(new Color(255,255,255,0),0);
+            Flash.ToSolid(0.5f);
+            Flash.Initiate();
+          })
+        }),
+        
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1.5f,new List<CutsceneAction>
+        {
+          new PanCutsceneAction(new Vector2(2303.1116f, 530.73663f)),
+          new InlineCutsceneAction(() =>
+          {
+            Flash.Dissolve(2);
+            Flash.Initiate();
+          })
+        }),
+        
         new(new SpeechAction(narrator,new SpeechLine("And so, Joseph and Mary traveled safely to Bethlehem in God's " +
                                                      "protection, stopping to rest at an old stable..." ),1),
           new List<CutsceneAction>
@@ -60,13 +81,15 @@ public partial class Level5 : Level
             new CutsceneMovementAction(mary,new List<MovementAction>{new (657.4657f,0)},
               0,true,false,0),
             new CutsceneMovementAction(joseph,new List<MovementAction>{new (657.4657f,0)},
-            0,true,false,0)
+            0,true,false,0) 
           }),
+        
         new(new SpeechAction(narrator,new SpeechLine("And baby Jesus was born. "),5),
           new List<CutsceneAction> {spawnJesus}),
-        new(new SpeechAction(narrator,null,1),
-          new List<CutsceneAction>())
-      }, new Vector2(2303.1116f, 530.73663f));
+        
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1)
+        
+      });
     return new List<IHasObjective> {cutsceneObjective};
   }
   

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=4 uid="uid://damxe4tyy6od8"]
+
+[ext_resource type="TileSet" uid="uid://c0x0o66oy1cgq" path="res://assets/tiles/visibleTiles.tres" id="1_n0ixt"]
+[ext_resource type="Script" path="res://levels/Level6.cs" id="1_toqfi"]
+
+[node name="Level6" type="Node2D"]
+script = ExtResource("1_toqfi")
+
+[node name="VisibleTileMap" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD+//7/AgAAAAAAAAD+////AgAAAAAAAAD+/wAAAgAAAAAAAAD+/wEAAgAAAAAAAAD///7/AgAAAAAAAAD/////AgAAAAAAAAD//wAAAgAAAAAAAAD//wEAAgAAAAAAAAAAAP7/AgAAAAAAAAAAAP//AgAAAAAAAAAAAAAAAgAAAAAAAAAAAAEAAgAAAAAAAAABAP7/AgAAAAAAAAABAP//AgAAAAAAAAABAAAAAgAAAAAAAAABAAEAAgAAAAAAAAA=")
+tile_set = ExtResource("1_n0ixt")

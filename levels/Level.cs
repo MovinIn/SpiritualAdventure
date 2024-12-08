@@ -121,12 +121,7 @@ public partial class Level : Node2D
     
     Level.isCutscene = isCutscene;
     
-    if (isCutscene)
-    {
-      cutsceneCamera.Position = position;
-      cutsceneCamera.MakeCurrent();
-    }
-    else
+    if (!isCutscene)
     {
       player.MakeCameraCurrent();
     }

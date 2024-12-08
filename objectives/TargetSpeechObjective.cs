@@ -28,11 +28,11 @@ public class TargetSpeechObjective:IHasObjective
   
   private void OnInteract()
   {
+    npc.OnInteract();
     if (((IHasObjective)this).IsCurrent()&&foundTargetLine)
     {
       objective.CompletedObjective();
     }
-    npc.OnInteract();
   }
 
   private void NewSpeechLine(string line)
