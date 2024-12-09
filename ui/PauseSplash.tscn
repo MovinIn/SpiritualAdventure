@@ -74,6 +74,21 @@ theme_override_colors/font_color = Color(0, 0.877659, 0, 1)
 theme_override_font_sizes/font_size = 32
 text = "NEXT LEVEL"
 
+[node name="CancelMargin" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+
+[node name="Cancel" type="Button" parent="CancelMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "Cancel (X)"
+
 [connection signal="pressed" from="ButtonMargin/HBoxContainer/Restart" to="." method="RestartPressed"]
 [connection signal="pressed" from="ButtonMargin/HBoxContainer/MainMenu" to="." method="MainMenuPressed"]
 [connection signal="pressed" from="ButtonMargin/HBoxContainer/NextLevel" to="." method="NextLevelPressed"]
+[connection signal="pressed" from="CancelMargin/Cancel" to="." method="CancelPressed"]

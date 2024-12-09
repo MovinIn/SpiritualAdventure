@@ -5,7 +5,7 @@ using SpiritualAdventure.ui;
 
 public partial class PauseSplash : MarginContainer
 {
-  private static Button restart, menu, next;
+  private static Button restart, menu, next,cancel;
   private static RichTextLabel description;
   private static bool buttonsEnabled;
   
@@ -23,6 +23,7 @@ public partial class PauseSplash : MarginContainer
 	restart = GetNode<Button>("%Restart");
 	menu = GetNode<Button>("%MainMenu");
 	next = GetNode<Button>("%NextLevel");
+    cancel = GetNode<Button>("%Cancel");
     description = GetNode<RichTextLabel>("%PauseDescription");
 	buttonsEnabled = false;
   }
@@ -47,12 +48,19 @@ public partial class PauseSplash : MarginContainer
 	next.Visible = true;
 	menu.Visible = true;
 	restart.Visible = true;
+    cancel.Visible = true;
+    
 	buttonsEnabled = true;
 
 	if (state is State.Paused or State.Failed)
 	{
 	  next.Visible = false;
 	}
+
+    if (state is State.Complete or State.Failed)
+    {
+      cancel.Visible = false;
+    }
 
 	singleton.Visible = true;
   }
@@ -84,6 +92,12 @@ public partial class PauseSplash : MarginContainer
 	Visible = false;
     
 	Root.NextLevel();
+  }
+
+  public void CancelPressed()
+  {
+    if (!ButtonsEnabled()) return;
+    Visible = false;
   }
 
   private bool ButtonsEnabled()
