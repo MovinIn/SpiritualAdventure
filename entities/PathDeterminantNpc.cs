@@ -79,7 +79,7 @@ public partial class PathDeterminantNpc : Npc
     this.moveDelay = moveDelay;
     this.isRelativePath = isRelativePath;
     this.repeatMotion = repeatMotion;
-    this.currTime = moveDelay;
+    currTime = moveDelay;
     
     if (IsInsideTree())
     {

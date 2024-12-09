@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Godot;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
 
@@ -38,8 +39,15 @@ public class SimpleCutsceneObjective: IHasObjective
 
   private void QueueNextActions()
   {
+    
     actions[actionIndex].Item1.narrator.NotInteracting = ()=>
     {
+      
+      if (actions.Count <=actionIndex)
+      {
+        return;
+      }
+      
       foreach (var action in actions[actionIndex].Item2)
       {
         action.Act();
@@ -58,8 +66,8 @@ public class SimpleCutsceneObjective: IHasObjective
 
   private void Completed()
   {
-    objective.CompletedObjective();
     Level.SetCutscene(false);
+    objective.CompletedObjective();
   }
 
   public static Tuple<SpeechAction, List<CutsceneAction>> DelayedActionsWithoutSpeech(float delay,

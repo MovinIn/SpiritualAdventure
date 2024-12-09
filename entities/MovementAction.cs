@@ -11,4 +11,9 @@ public class MovementAction:Action
     {
         nextPoint = new Vector2(x,y);
     }
+
+    public MovementAction(Vector2 nextPoint,double initialDelay=0d): base(initialDelay)
+    {
+      this.nextPoint = nextPoint;
+    }
 }

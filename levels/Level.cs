@@ -138,7 +138,7 @@ public partial class Level : Node2D
     return Root.currentDisplay == Root.Displaying.Game;
   }
 
-  public static void SetCutscene(bool isCutscene,Vector2 position=default)
+  public static void SetCutscene(bool isCutscene)
   {
     if (!InGame()) return; 
     

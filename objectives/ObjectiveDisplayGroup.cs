@@ -27,7 +27,7 @@ public class ObjectiveDisplayGroup
 
   public bool AllCompleted()
   {
-    return objectives.All(io => io.objective.status == Objective.Status.Completed);
+    return objectives.All(io => io.objective.status == Objective.Status.Completed || io is NegativeObjective);
   }
 
   public bool AnyFailed()

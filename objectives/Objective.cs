@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Godot;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -14,14 +15,12 @@ public class Objective
     Uninitiated,Initiated,Completed,Failed
   }
   
-  public delegate void ObjectiveStatusChangeHandler(Status status,Objective objective);
-  
   [JsonIgnore]
   public bool completed { get; private set; }
   [JsonIgnore]
   public bool hardFail { get; private set; }
   [JsonIgnore]
-  private List<ObjectiveStatusChangeHandler> handlers=new();
+  private List<Action<Status,Objective>> handlers=new();
   
   [JsonProperty("postCompletionFeedback", NullValueHandling=NullValueHandling.Ignore)]
 #nullable enable
@@ -79,12 +78,12 @@ public class Objective
     BroadcastAll(Status.Initiated);
   }
   
-  public void AddChangeHandler(ObjectiveStatusChangeHandler handler)
+  public void AddChangeHandler(Action<Status,Objective> handler)
   {
     handlers.Add(handler);
   }
 
-  public void RemoveChangeHandler(ObjectiveStatusChangeHandler handler)
+  public void RemoveChangeHandler(Action<Status,Objective> handler)
   {
     handlers.Remove(handler);
   }

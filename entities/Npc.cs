@@ -224,7 +224,7 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
   }
 	
   protected void IdleOrElse(string animation="idle"){
-    sprite.Play(animation);
+      // sprite.Play(animation);
   }
 
   public override void _Notification(int what)
