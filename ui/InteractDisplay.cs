@@ -24,12 +24,21 @@ public partial class InteractDisplay : MarginContainer
   private static Interactable currentInteractable;
   private static double currSpeechDelay;
   private static HashSet<Action<SpeechType, string>> interactHandlers;
-	
+
+  private InteractDisplay()
+  {
+    singleton = this;
+    interactHandlers = new HashSet<Action<SpeechType, string>>();
+    options = new Option[4];
+    currentSpeechLine = null;
+    currentInteractable = null;
+    currSpeechDelay = 0;
+  }
+  
+  
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
-    interactHandlers = new HashSet<Action<SpeechType, string>>();
-    options = new Option[4];
     for (int i = 1; i < 5; i++) {
       options[i-1]=GetNode<Option>("%Option"+i);
     }
@@ -38,7 +47,6 @@ public partial class InteractDisplay : MarginContainer
     speakerDetails=GetNode<SpeakerDetails>("%SpeakerDetails");
 		
     Visible = false;
-    singleton = this;
   }
 
   public static void UpdateInteractDisplay(Texture2D texture, string name, SpeechLine speech, Interactable interactable)

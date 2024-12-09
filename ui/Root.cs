@@ -83,6 +83,13 @@ public partial class Root : Node
 
   private static void LoadLevel()
   {
+    gameUI.QueueFree();
+    var scene = ResourceLoader.Load<PackedScene>("res://ui/GameUI.tscn");
+    gameUI = scene.Instantiate<CanvasLayer>();
+    singleton.AddChild(gameUI);
+    
+    
+    
     HideAll();
     gameUI.Visible = true; //TODO: should we re-instantiate or reset?
     

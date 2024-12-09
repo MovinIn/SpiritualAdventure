@@ -17,10 +17,17 @@ public partial class ObjectiveDisplay : HBoxContainer
   private static ObjectiveDisplayGroup? objectiveGroup;
 #nullable disable
 
+  public ObjectiveDisplay()
+  {
+    instance = this;
+    Failed = null;
+    objectiveGroup = null;
+  }
+  
+  
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
-    instance = this;
     description=GetNode<RichTextLabel>("Description");
     timerDisplay=GetNode<TimerDisplay>("%TimerDisplay");
     timerDisplay.Visible = false;

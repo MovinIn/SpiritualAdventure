@@ -23,9 +23,11 @@ public partial class Level : Node2D
 
   public static bool isCutscene { get; private set; }
   public static Camera2D cutsceneCamera;
-  
+
   private void Init(Vector2 playerPosition,List<ObjectiveDisplayGroup> iObjectiveGroups,List<Npc> npcList,Narrator narrator)
   {
+    isCutscene = false;
+    
     GetNodeOrNull<TileMapLayer>("InvisibleTileMap")?.SetVisible(false);
     
     cutsceneCamera = new Camera2D();

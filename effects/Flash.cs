@@ -55,12 +55,11 @@ public partial class Flash : ColorRect
 
   private static Queue<Tuple<IFlashEffect,double>> changes;
 
-
-  // Called when the node enters the scene tree for the first time.
-  public override void _Ready()
+  public Flash()
   {
-	changes = new Queue<Tuple<IFlashEffect, double>>();
-	singleton = this;
+    singleton = this;
+    isFlashing = false;
+    changes = new Queue<Tuple<IFlashEffect, double>>();
   }
 
   // Called every frame. 'delta' is the elapsed time since the previous frame.
