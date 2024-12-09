@@ -184,9 +184,8 @@ layout_mode = 2
 
 [node name="PauseButton" type="Button" parent="Control/MarginContainer/ObjectiveDisplay/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 4
 theme_override_font_sizes/font_size = 24
-text = "||"
+text = " || "
 script = ExtResource("8_4i7ye")
 
 [node name="PauseSplash" parent="Control" instance=ExtResource("8_eoecq")]
