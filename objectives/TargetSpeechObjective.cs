@@ -1,43 +1,34 @@
 ﻿using Godot;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.objects;
+using SpiritualAdventure.ui;
 
 namespace SpiritualAdventure.objectives;
 
 public class TargetSpeechObjective:IHasObjective
 {
-  private readonly string targetLine;
   public Objective objective { get; }
+  
+  private readonly string targetLine;
+  private bool foundTargetLine;
 
-  public bool foundTargetLine;
-  private Npc npc;
-
-  public TargetSpeechObjective(Npc npc,Objective objective, string targetLine)
+  public TargetSpeechObjective(Objective objective, string targetLine)
   {
     this.objective = objective;
     this.targetLine = targetLine;
-    this.npc = npc;
     foundTargetLine = false;
+    InteractDisplay.AttachInteractHandler(OnInteract);
   }
 
-  public void Start()
+  private void OnInteract(InteractDisplay.SpeechType type,string line)
   {
-    npc.SetInteractHandler(OnInteract);
-    npc.NewSpeechLine = NewSpeechLine;
-  }
-  
-  private void OnInteract()
-  {
-    npc.OnInteract();
-    if (((IHasObjective)this).IsCurrent()&&foundTargetLine)
+    if (objective.IsActive()&&foundTargetLine)
     {
       objective.CompletedObjective();
+      return;
     }
-  }
 
-  private void NewSpeechLine(string line)
-  {
-    if (((IHasObjective)this).IsCurrent()&&targetLine.Equals(line))
+    if (type==InteractDisplay.SpeechType.Line && targetLine.Equals(line))
     {
       foundTargetLine = true;
     }

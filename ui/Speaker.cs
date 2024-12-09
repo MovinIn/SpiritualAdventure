@@ -7,11 +7,11 @@ public enum Speaker
     Archer,
     Archer2,
     
-    Cowboy,
-    Cowboy2,
-    
     Layman,
     Layman2,
+    
+    Red_Cowboy,
+    Red_Cowboy2,
     
     Black_Cowboy,
     Black_Cowboy2,
@@ -27,6 +27,8 @@ public enum Speaker
     
     Black_Merchant,
     Black_Merchant2,
+    
+    Skeleton
 }
 
 internal static class SpeakerExtensions

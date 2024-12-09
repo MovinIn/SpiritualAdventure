@@ -39,26 +39,20 @@ public class Objective
     this.postCompletionFeedback = postCompletionFeedback;
     status = Status.Uninitiated;
   }
-  
+
   public virtual void CompletedObjective()
   {
-    if (!Initiated()) return;
-    
-    if (completed)
-    {
-      return;
-    }
-    
-    completed = !hardFail;
+    if (!Initiated() || hardFail|| completed) return;
+
+    completed = true;
     BroadcastAll(Status.Completed);
   }
 
   public virtual void FailedObjective()
   {
-    if (!Initiated()) return;
+    if (!Initiated()||completed) return;
     
     hardFail = true;
-    completed = false;
     BroadcastAll(Status.Failed);
   }
   
@@ -82,7 +76,6 @@ public class Objective
   
   public virtual void SetAsObjective()
   {
-    ObjectiveDisplay.instance.UpdateObjective(this,FailedObjective);
     BroadcastAll(Status.Initiated);
   }
   
@@ -108,6 +101,14 @@ public class Objective
   public bool Initiated()
   {
     return status != Status.Uninitiated;
+  }
+  
+  /**
+   * Returns true if not completed, not failed, and initiated. Returns false otherwise.
+   */
+  public bool IsActive()
+  {
+    return !completed && !hardFail && Initiated();
   }
 
 }

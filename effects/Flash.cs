@@ -66,6 +66,8 @@ public partial class Flash : ColorRect
   // Called every frame. 'delta' is the elapsed time since the previous frame.
   public override void _Process(double delta)
   {
+    if (!isFlashing) return;
+    
 	if (changes.Count == 0)
 	{
 	  currTime = 0;
@@ -127,11 +129,11 @@ public partial class Flash : ColorRect
 	  })
 	  
 	  .SetFlashEffect(proportion =>
-	  {
+      {
 		singleton.Modulate = new Color(baseColor.R+dr*proportion,baseColor.G+dg*proportion,
 		  baseColor.B+db*proportion,baseColor.A+da*proportion);
-	  
-	  }),duration));
+
+      }),duration));
   }
 
   public static void StayStagnant(double duration)

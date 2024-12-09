@@ -66,6 +66,7 @@ public partial class PauseSplash : MarginContainer
   {
 	if (!ButtonsEnabled()) return;
 	Visible = false;
+    
 	Root.RestartLevel();
   }
   
@@ -73,6 +74,7 @@ public partial class PauseSplash : MarginContainer
   {
 	if (!ButtonsEnabled()) return;
 	Visible = false;
+
 	Root.MainMenu();
   }
   
@@ -80,6 +82,7 @@ public partial class PauseSplash : MarginContainer
   {
 	if (!ButtonsEnabled()) return;
 	Visible = false;
+    
 	Root.NextLevel();
   }
 

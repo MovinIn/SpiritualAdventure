@@ -1,5 +1,6 @@
-using System;
+using System.Linq;
 using Godot;
+using SpiritualAdventure.objectives;
 using SpiritualAdventure.objects;
 using Action = System.Action;
 
@@ -7,88 +8,121 @@ namespace SpiritualAdventure.ui;
 
 public partial class ObjectiveDisplay : HBoxContainer
 {
-  public static ObjectiveDisplay instance { get; private set; }
-  private RichTextLabel description;
-  private TimerDisplay timerDisplay;
-  private Action Failed;
+  private static ObjectiveDisplay instance;
+  private static RichTextLabel description;
+  private static TimerDisplay timerDisplay;
+  private static Action Failed;
 
 #nullable enable
-  private Objective? objective;
+  private static ObjectiveDisplayGroup? objectiveGroup;
+#nullable disable
 
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
-	instance = this;
-	description=GetNode<RichTextLabel>("Description");
-	timerDisplay=GetNode<TimerDisplay>("%TimerDisplay");
-	timerDisplay.Visible = false;
+    instance = this;
+    description=GetNode<RichTextLabel>("Description");
+    timerDisplay=GetNode<TimerDisplay>("%TimerDisplay");
+    timerDisplay.Visible = false;
   }
 
   public override void _Process(double delta)
   {
-	if (!IsObjectiveRunning()) return;
-	
-	RunTimer(objective!.IsTimeRunning());
+    if (!IsObjectiveRunning()) return;
+    
+    RunTimer(objectiveGroup.IsTimed());
   }
 
-  public bool IsObjectiveRunning()
+  public static bool IsObjectiveRunning()
   {
-	return objective != null;
+    return objectiveGroup != null;
   }
 
-  public bool EqualsThisObjective(Objective objective)
+  public static bool ContainsObjective(Objective objective)
   {
-	return this.objective == objective;
+    return IsObjectiveRunning() && objectiveGroup!.objectives.Any(i => i.objective == objective);
   }
   
-  public void UpdateObjective(Objective objective, Action onFail)
+  public static void UpdateObjective(ObjectiveDisplayGroup objectiveDisplayGroup, Action onFail)
   {
-	Failed = onFail;
-	this.objective = objective;
-	description.Modulate = Colors.White;
-	description.Text = "Objective: "+objective.description;
+    Failed = onFail;
+    objectiveGroup = objectiveDisplayGroup;
+    description.Text = "Objectives";
+    objectiveGroup!.objectives.ForEach(io=>description.Text+="\n"+io.objective.description);
 
-	if (objective.IsTimeConstrained())
-	{
-	  timerDisplay.Visible = true;
-	  timerDisplay.Update(objective.GetTimeLimit());
-	}
-	else
-	{
-	  timerDisplay.Visible = false;
-	}
-	objective.AddChangeHandler(UpdateObjectiveStatus);
+    if (objectiveDisplayGroup.IsTimed())
+    {
+      timerDisplay.Visible = true;
+      timerDisplay.Update(objectiveDisplayGroup.GetTimeLimit());
+    }
+    else
+    {
+      timerDisplay.Visible = false;
+    }
+    objectiveDisplayGroup.objectives.ForEach(io=>io.objective.AddChangeHandler(UpdateObjectiveStatus));
   }
 
-  public void UpdateObjectiveStatus(Objective.Status status, Objective objective)
+  public static void UpdateDescription()
   {
-	if (this.objective != objective||status==Objective.Status.Initiated) return;
-	bool completed = status == Objective.Status.Completed;
-	
-	description.Text = completed ? "Objective Complete!" : "Objective Failed!";
-	description.Modulate = completed ? Colors.Green : Colors.Red;
-	Reset();
-  }
+    
+    description.Text = "Objectives";
 
-  private void Reset()
-  {
-	objective = null;
-	Failed = null;
-	RunTimer(false);
-  }
-
-  public void RunTimer(bool on)
-  {
-	timerDisplay.On(on);
-  }
-
-  public void SetObjectiveFailed()
-  {
-	Failed?.Invoke();
+    if (!IsObjectiveRunning()) return;
+    
+    foreach (var iObjective in objectiveGroup!.objectives)
+    {
+      switch (iObjective.objective.status)
+      {
+        case Objective.Status.Completed:
+          description.Text += "\n[color=green]Objective Complete![/color]";
+          break;
+        case Objective.Status.Failed:
+          description.Text += "\n[color=red]Objective Failed![/color]";
+          break;
+        default:
+          description.Text += "\n" + iObjective.objective.description;
+          break;
+      }
+    }
   }
   
-  public void OnTimerTimeout()
+  public static void UpdateObjectiveStatus(Objective.Status status, Objective objective)
   {
-	SetObjectiveFailed();
+    if (!ContainsObjective(objective)||status==Objective.Status.Initiated) return;
+    
+    UpdateDescription();
+
+    if (objectiveGroup!.AnyFailed())
+    {
+      Reset();
+      return;
+    }
+    
+    if (objectiveGroup!.AllCompleted())
+    {
+      Reset();
+    }
+  }
+
+  private static void Reset()
+  {
+    objectiveGroup = null;
+    Failed = null;
+    RunTimer(false);
+  }
+
+  public static void RunTimer(bool on)
+  {
+    timerDisplay.On(on);
+  }
+
+  public static void ObjectiveFailed()
+  {
+    Failed?.Invoke();
+  }
+  
+  public static void OnTimerTimeout()
+  {
+    ObjectiveFailed();
   }
 }

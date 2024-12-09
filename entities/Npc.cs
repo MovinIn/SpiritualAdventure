@@ -184,8 +184,13 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
   {
     if (!Level.isCutscene)
     {
-      sprite.updateRotation(Level.player.Position.X-Position.X);
+      SetDirection(Level.player.Position.X-Position.X);
     }
+  }
+
+  public void SetDirection(float direction)
+  {
+    sprite.updateRotation(direction);
   }
 	
   public void OnInteract()

@@ -1,5 +1,4 @@
-﻿using Godot;
-using SpiritualAdventure.entities;
+﻿using SpiritualAdventure.entities;
 
 namespace SpiritualAdventure.objects;
 

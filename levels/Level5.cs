@@ -19,10 +19,10 @@ public partial class Level5 : Level
     NextObjective();
   }
 
-  public List<IHasObjective> CutsceneObjective()
+  public List<ObjectiveDisplayGroup> CutsceneObjective()
   {
 
-    var initialPosition = new Vector2(1603.8605f, 714.938f);
+    var initialPosition = new Vector2(1603f, 714f);
     
     
     PathDeterminantNpc mary=PathDeterminantNpc.Instantiate(new List<MovementAction>(),initialPosition,
@@ -31,20 +31,16 @@ public partial class Level5 : Level
     
     PathDeterminantNpc joseph = PathDeterminantNpc.Instantiate(new List<MovementAction>(),
       initialPosition+new Vector2(110,0),0,true,false);
-    joseph.Who(Speaker.Red_Warrior,"Joseph");
+    joseph.Who(Speaker.Red_Cowboy,"Joseph");
 
     AddChild(mary);
     AddChild(joseph);
     
-    // (1603.8605, 714.938)
-    
-    // (2345.0134, 713.32605)
-    // (2261.3262, 713.32605)
-    // (2313.6738, 713.32605)
 
     var spawnJesus = new InlineCutsceneAction(() =>
     {
-      Npc jesus = Npc.Instantiate(new Vector2(2313.6738f,713.32605f));
+      joseph.SetDirection(-1);
+      Npc jesus = Npc.Instantiate(new Vector2(2313f,713f));
       jesus.Who(Speaker.Layman,"Jesus");
       AddChild(jesus);
     });
@@ -58,7 +54,7 @@ public partial class Level5 : Level
         {
           new InlineCutsceneAction(() =>
           {
-            Flash.ToColor(new Color(255,255,255,0),0);
+            Flash.ToColor(new Color(1,1,1,0),0);
             Flash.ToSolid(0.5f);
             Flash.Initiate();
           })
@@ -66,7 +62,7 @@ public partial class Level5 : Level
         
         SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1.5f,new List<CutsceneAction>
         {
-          new PanCutsceneAction(new Vector2(2303.1116f, 530.73663f)),
+          new PanCutsceneAction(new Vector2(2303f, 530f)),
           new InlineCutsceneAction(() =>
           {
             Flash.Dissolve(2);
@@ -78,24 +74,29 @@ public partial class Level5 : Level
                                                      "protection, stopping to rest at an old stable..." ),1),
           new List<CutsceneAction>
           {
-            new CutsceneMovementAction(mary,new List<MovementAction>{new (657.4657f,0)},
+            new CutsceneMovementAction(mary,new List<MovementAction>{new (657f,0)},
               0,true,false,0),
-            new CutsceneMovementAction(joseph,new List<MovementAction>{new (657.4657f,0)},
-            0,true,false,0) 
+            new CutsceneMovementAction(joseph,new List<MovementAction>{new (657f,0)},
+              0,true,false,0) 
           }),
         
-        new(new SpeechAction(narrator,new SpeechLine("And baby Jesus was born. "),5),
+        new(new SpeechAction(narrator,new SpeechLine("And baby Jesus was born. "),7),
           new List<CutsceneAction> {spawnJesus}),
         
         SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1)
         
       });
-    return new List<IHasObjective> {cutsceneObjective};
+    
+    
+    return new List<ObjectiveDisplayGroup>
+    {
+      new(new List<IHasObjective>{cutsceneObjective})
+    };
   }
   
-  public List<IHasObjective> JosephObjectives()
+  public List<ObjectiveDisplayGroup> JosephObjectives()
   {
-    var npc=Npc.Instantiate(new Vector2(872.67f,712.67f));
+    var npc=Npc.Instantiate(new Vector2(872f,712f));
     AddChild(npc);
 
     const string verse = "Joseph, son of David, do not be afraid to take Mary your wife into your home. " +
@@ -118,7 +119,7 @@ public partial class Level5 : Level
         })
     };
     
-    npc.Who(Speaker.Red_Warrior,"Joseph");
+    npc.Who(Speaker.Red_Cowboy,"Joseph");
     npc.UseTrigger("interact","Talk");
     npc.SetSpeech(speechLines);
     
@@ -126,14 +127,17 @@ public partial class Level5 : Level
     StartChatObjective startChatObjective=new(npc,rawChatObjective);
 
     var rawOptionObjective = new Objective("Deliver the correct message in Joseph's dream");
-    OptionObjective optionObjective = new(npc,verse,rawOptionObjective,
+    OptionObjective optionObjective = new(verse,rawOptionObjective,
       new[]{"WRONG OPTION 1","WRONG OPTION 2","WRONG OPTION 3"});
 
     var rawTargetSpeechObjective = new Objective("Finish talking to Joseph");
-    TargetSpeechObjective targetSpeechObjective = new(npc,rawTargetSpeechObjective,targetLine);
+    TargetSpeechObjective targetSpeechObjective = new(rawTargetSpeechObjective,targetLine);
     
     
-    return new List<IHasObjective> {startChatObjective,optionObjective,targetSpeechObjective};
+    return new List<ObjectiveDisplayGroup>
+    {
+      new(new List<IHasObjective>{startChatObjective,optionObjective,targetSpeechObjective})
+    };
   }
   
   

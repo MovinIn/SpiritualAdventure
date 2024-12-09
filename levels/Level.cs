@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Godot;
 using Newtonsoft.Json;
 using SpiritualAdventure.entities;
+using SpiritualAdventure.objectives;
 using SpiritualAdventure.objects;
 using SpiritualAdventure.ui;
 
@@ -12,7 +13,7 @@ namespace SpiritualAdventure.levels;
 public partial class Level : Node2D
 {
   
-  private Queue<IHasObjective> iObjectives=new();
+  private Queue<ObjectiveDisplayGroup> objectiveQueue=new();
   private Dictionary<Type, List<Npc>> npcs=new();
   private Narrator narrator;
 
@@ -23,7 +24,7 @@ public partial class Level : Node2D
   public static bool isCutscene { get; private set; }
   public static Camera2D cutsceneCamera;
   
-  private void Init(Vector2 playerPosition,List<IHasObjective> iObjectivesList,List<Npc> npcList,Narrator narrator)
+  private void Init(Vector2 playerPosition,List<ObjectiveDisplayGroup> iObjectiveGroups,List<Npc> npcList,Narrator narrator)
   {
     GetNodeOrNull<TileMapLayer>("InvisibleTileMap")?.SetVisible(false);
     
@@ -35,11 +36,11 @@ public partial class Level : Node2D
     AddChild(player);
     
     this.narrator = narrator;
-    narrator.NotInteracting = NextObjective;
+    narrator.NotInteracting = CheckAllCompleted;
     
-    foreach (var iObjective in iObjectivesList)
+    foreach (var objectiveGroup in iObjectiveGroups)
     {
-      iObjectives.Enqueue(iObjective);
+      objectiveQueue.Enqueue(objectiveGroup);
     }
     
     foreach (var npc in npcList)
@@ -55,9 +56,9 @@ public partial class Level : Node2D
   
   
   
-  public void LoadLevel(Vector2 playerPosition,List<IHasObjective> iObjectivesList,List<Npc> npcList,Narrator narrator)
+  public void LoadLevel(Vector2 playerPosition,List<ObjectiveDisplayGroup> iObjectiveGroups,List<Npc> npcList,Narrator narrator)
   {
-    Init(playerPosition,iObjectivesList,npcList,narrator);
+    Init(playerPosition,iObjectiveGroups,npcList,narrator);
     foreach (var npc in npcList)
     {
       AddChild(npc);
@@ -66,16 +67,34 @@ public partial class Level : Node2D
 
   public void NextObjective()
   {
-    if (iObjectives.Count == 0) {
+    if (objectiveQueue.Count == 0) {
       PauseSplash.Display(PauseSplash.State.Complete);
       return; 
     }
 
-    var iObjective = iObjectives.Peek();
-    iObjective.objective.AddChangeHandler(OnObjectiveStatusChanged);
-    iObjective.objective.SetAsObjective();
-    iObjective.Start();
+    var objectiveGroup = objectiveQueue.Peek();
+    
+    ObjectiveDisplay.UpdateObjective(objectiveGroup, () =>
+    {
+      objectiveGroup.objectives.ForEach(io=>io.objective.FailedObjective());
+    });
+
+    foreach (var iObjective in objectiveGroup.objectives)
+    {
+      iObjective.objective.AddChangeHandler(OnObjectiveStatusChanged);
+      iObjective.objective.SetAsObjective();
+      iObjective.Start();
+    }
   }
+
+  public void CheckAllCompleted()
+  {
+    if (!objectiveQueue.Peek().AllCompleted()) return;
+    
+    objectiveQueue.Dequeue();
+    NextObjective();
+  }
+  
 
   public void OnObjectiveStatusChanged(Objective.Status status,Objective objective)
   {
@@ -84,14 +103,16 @@ public partial class Level : Node2D
       case Objective.Status.Completed:
       {
         GD.Print("Objective Complete!");
-        var lines = iObjectives.Peek().objective.postCompletionFeedback;
-        iObjectives.Dequeue();
-        if (lines == null)
+        
+        var lines = objective.postCompletionFeedback;
+        if (lines != null)
         {
-          NextObjective();
-          return;
+          narrator.Narrate(lines);
         }
-        narrator.Narrate(lines);
+        else
+        {
+          CheckAllCompleted();
+        }
         break;
       }
       case Objective.Status.Failed:

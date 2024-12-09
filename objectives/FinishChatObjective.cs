@@ -3,6 +3,7 @@ using SpiritualAdventure.objects;
 
 namespace SpiritualAdventure.objectives;
 
+//TODO: maybe somehow use interactdisplay handler? but we don't know which speech finishes...
 public class FinishChatObjective:IHasObjective
 {
   public Objective objective { get; }
@@ -21,7 +22,7 @@ public class FinishChatObjective:IHasObjective
 
   private void FinishedSpeech()
   {
-    if (((IHasObjective)this).IsCurrent())
+    if (objective.IsActive())
     {
       objective.CompletedObjective();
     }
