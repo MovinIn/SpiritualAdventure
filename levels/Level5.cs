@@ -2,6 +2,7 @@ using System;
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
 using SpiritualAdventure.objectives;
@@ -12,14 +13,157 @@ public partial class Level5 : Level
 {
   public override void _Ready()
   {
+
+    var objectivesList = new List<ObjectiveDisplayGroup>
+    {
+      GospelCutsceneObjective(),DescriptionCutsceneObjective(),JosephObjective(),CutsceneObjective()
+    };
     
-    var combinedObjectivesList = JosephObjectives().Concat(CutsceneObjective()).ToList();
-    
-    LoadLevel(new Vector2(0,0),combinedObjectivesList,new List<Npc>(),new Narrator());
+    LoadLevel(new Vector2(0,0),objectivesList,new List<Npc>(),new Narrator());
     NextObjective();
   }
 
-  public List<ObjectiveDisplayGroup> CutsceneObjective()
+  public ObjectiveDisplayGroup GospelCutsceneObjective()
+  {
+
+    string gospelVerse = "Romans 6:23 - 'For the wages of sin is death, " +
+                         "but the gift of God is eternal life in Christ Jesus our Lord.";
+    
+    var prologue = SimpleLinearSpeechBuilder.of(new List<string>
+    {
+      "In the next 3 levels, we will be exploring the gospel. The gospel is a term to describe 'good news'.",
+      "Before we describe what the gospel is in accordance with Christianity, we must first define a few terms.",
+      "The verse we will be unpacking to describe the gospel is "+gospelVerse+
+      " This verse is provided at the top left of the screen as reference.",
+    });
+
+    var wageQuestion = new SpeechLine();
+    var wageCorrect = new SpeechLine();
+    var wageIncorrect = new SpeechLine();
+    var wageExampleAfterQuestion = new SpeechLine();
+
+    
+    var sinQuestion = new SpeechLine();
+    var sinCorrect = new SpeechLine();
+    var sinIncorrect = new SpeechLine();
+    var sinExampleAfterQuestion = new SpeechLine();
+    
+    var understandingWagesAndSin = new SpeechLine();
+    
+    var giftQuestion = new SpeechLine();
+    var giftCorrect = new SpeechLine();
+    var giftIncorrect = new SpeechLine();
+    var giftExampleAfterQuestion = new SpeechLine();
+    
+    var eternalLifeQuestion = new SpeechLine();
+    var eternalLifeCorrect = new SpeechLine();
+    var eternalLifeIncorrect = new SpeechLine();
+    
+    var understandingGodLove = new SpeechLine();
+    
+    prologue.LastLine().next = wageQuestion;
+    wageQuestion.Update("Let's unpack what this is saying. What do you think the word 'wage' means in this context?",
+      new Dictionary<string, SpeechLine>
+      {
+        { "A wage is a reward you get in return for some sort of work.", wageCorrect },
+        {"INCORRECT ANSWER",wageIncorrect}
+      });
+    wageCorrect.Update("Nice job! You're completely right.",wageExampleAfterQuestion);
+    wageIncorrect.Update("Close. The correct answer was " +
+                         "'A wage is a reward you get in return for some sort of work.'",wageExampleAfterQuestion);
+    wageExampleAfterQuestion.Update("An easy example of a wage can be seen through jobs. " +
+                                    "People work in jobs to earn wages, usually money.",sinQuestion);
+    
+    
+    sinQuestion.Update("Okay, easy enough. Now what do you think is sin? This one is a tough question if " +
+                       "you've never been exposed to Christianity before.",
+      new Dictionary<string, SpeechLine>
+      {
+        {"'Missing the mark'. Something must be perfect in order to be regarded as sinless.",sinCorrect},
+        {"INCORRECT ANSWER",sinIncorrect}
+      });
+    sinCorrect.Update("Great work! You definitely know your stuff.",sinExampleAfterQuestion);
+    sinIncorrect.Update("Almost. The correct answer was 'Missing the mark'. " +
+                        "Something must be perfect in order to be regarded as sinless.",sinExampleAfterQuestion);
+    
+    sinExampleAfterQuestion.Update("Ever lied to your parents? Or gotten angry at someone? " +
+                                   "Or judged someone at all? These are all examples of sin.",understandingWagesAndSin);
+    
+    understandingWagesAndSin.Update("Now that we have those definitions cleared up, we can derive the meaning" +
+                                    "of the first half, or 'The wages of sin is death'. ",
+      SimpleLinearSpeechBuilder.of(new List<string>
+      {
+        "A wage is receiving something in return for your actions. We receive death for committing sin.",
+        "The rough part about this is that every human is not perfect. So what this is saying is that every single " +
+        "human on Earth is subject to death through sin.",
+        "Pretty gloomy right? Well, don't be afraid. There is a way out."
+      }));
+    understandingWagesAndSin.LastLine().next = giftQuestion;
+    
+    giftQuestion.Update("What do you think 'gift' means?",
+      new Dictionary<string, SpeechLine>
+      {
+        {"A gift is a undeserved reward.",giftCorrect},
+        {"INCORRECT ANSWER",giftIncorrect}
+      });
+    giftCorrect.Update("Nice one! You're absolutely correct.",giftExampleAfterQuestion);
+    giftIncorrect.Update("Not quite. The answer was 'A gift is a undeserved reward.'",giftExampleAfterQuestion);
+    giftExampleAfterQuestion.Update("One example of a gift would receiving a Thomas the Train toy during Christmas.",
+      new SpeechLine("A gift is free and undeserving: you never had to lift a finger for that shiny blue engine.",
+        eternalLifeQuestion));
+    
+    eternalLifeQuestion.Update("What do you think 'eternal life' means in this context?",
+      new Dictionary<string, SpeechLine>
+      {
+        {"Eternal life is the ultimate reward. It is an infinite life of bliss " +
+         "spurred by a personal relationship with God.",eternalLifeCorrect},
+        {"INCORRECT ANSWER",eternalLifeIncorrect}
+      });
+    eternalLifeCorrect.Update("Yep! It's definitely the place you want to be.",understandingGodLove);
+    eternalLifeIncorrect.Update("Not exactly. The correct answer was 'Eternal life is the ultimate reward. " +
+                                "It is an infinite life of bliss spurred by a personal relationship with God.'",
+      understandingGodLove);
+    
+    understandingGodLove.Update("Now, even though we deserved death through our sin, God provides a gift " +
+                                "of eternal life through Jesus.",
+      SimpleLinearSpeechBuilder.of(new List<string>
+      {
+        "Who is Jesus, you may ask? Well, he goes by many names. The Messiah, the Savior, Son of God, Son of Man, " +
+        "and many others. But the main thing you need to know about him right now is that he paid for the penalty " +
+        "of everyone's sins.",
+        "We will get into how Jesus is the bridge from death to eternal life, but first I want you to " +
+        "observe the life of Jesus through the next 3 levels. Have fun!"
+      }));
+    
+    return new ObjectiveDisplayGroup(new List<IHasObjective>{
+      new SimpleCutsceneObjective(new List<Tuple<SpeechAction, List<CutsceneAction>>>
+      {
+        new (new SpeechAction(new Narrator(Speaker.Layman,"Narrator"),prologue,1),
+          new List<CutsceneAction>()),
+      }),
+      new NegativeObjective(new Objective("Understand "+gospelVerse),new List<Objective>())
+    });
+  }
+
+  public ObjectiveDisplayGroup DescriptionCutsceneObjective()
+  {
+    SimpleCutsceneObjective cutsceneObjective = new(
+      new List<Tuple<SpeechAction, List<CutsceneAction>>>
+      {
+        new(new SpeechAction(new Narrator(Speaker.Layman,"Narrator"),
+          SimpleLinearSpeechBuilder.of(new List<string>
+          {
+            "We are set in the time before Jesus was born.",
+            "The father of Jesus is Joseph - however, because his wife Mary is unexpectedly pregnant, he " +
+            "wishes to divorce her quietly, as he cannot explain how she has become pregnant!",
+            "As an angel sent down from heaven by God, encourage Joseph to support Mary and give birth to Jesus Christ!"
+          }),1), new List<CutsceneAction>())
+      });
+
+    return new ObjectiveDisplayGroup(new List<IHasObjective>{cutsceneObjective});
+  }
+  
+  public ObjectiveDisplayGroup CutsceneObjective()
   {
 
     var initialPosition = new Vector2(1603f, 714f);
@@ -87,14 +231,10 @@ public partial class Level5 : Level
         
       });
     
-    
-    return new List<ObjectiveDisplayGroup>
-    {
-      new(new List<IHasObjective>{cutsceneObjective})
-    };
+    return new ObjectiveDisplayGroup(new List<IHasObjective>{cutsceneObjective});
   }
   
-  public List<ObjectiveDisplayGroup> JosephObjectives()
+  public ObjectiveDisplayGroup JosephObjective()
   {
     var npc=Npc.Instantiate(new Vector2(872f,712f));
     AddChild(npc);
@@ -132,12 +272,12 @@ public partial class Level5 : Level
 
     var rawTargetSpeechObjective = new Objective("Finish talking to Joseph");
     TargetSpeechObjective targetSpeechObjective = new(rawTargetSpeechObjective,targetLine);
-    
-    
-    return new List<ObjectiveDisplayGroup>
+
+
+    return new ObjectiveDisplayGroup(new List<IHasObjective>
     {
-      new(new List<IHasObjective>{startChatObjective,optionObjective,targetSpeechObjective})
-    };
+      startChatObjective, optionObjective, targetSpeechObjective
+    });
   }
   
   

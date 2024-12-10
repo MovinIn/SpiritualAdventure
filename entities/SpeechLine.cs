@@ -6,7 +6,7 @@ namespace SpiritualAdventure.entities;
 
 public class SpeechLine
 {
-  public string line;
+  public string line { get; private set;}
 
   [JsonProperty("delay", NullValueHandling=NullValueHandling.Ignore)]
   private double? delay;
@@ -20,25 +20,54 @@ public class SpeechLine
     
   private static readonly double letterDelay = SpeechDisplay.letterDelay;
 
-  public SpeechLine(string line, SpeechLine? next=null) : this(line, (Dictionary<string,SpeechLine>?)null)
+  public SpeechLine() { }
+  
+  public SpeechLine(string line, SpeechLine? next=null)
   {
-    this.next = next;
+    Update(line,next);
   }
     
   public SpeechLine(string line, Dictionary<string, SpeechLine>? options)
   {
-    this.options = options;
-    this.line = line;
+    Update(line,options);
   }
 
   [JsonConstructor]
   public SpeechLine(string line, SpeechLine? next, Dictionary<string, SpeechLine>? options)
   {
-    this.line = line;
+    Update(line,next,options);
+  }
+
+  public void Update(string line,SpeechLine? next=null)
+  {
     this.next = next;
+    Update(line,(Dictionary<string,SpeechLine>?)null);
+  }
+
+  public void Update(string line,Dictionary<string,SpeechLine>? options)
+  {
+    this.line = line;
     this.options = options;
   }
 
+  public void Update(string line, SpeechLine? next, Dictionary<string, SpeechLine>? options)
+  {
+    this.next = next;
+    Update(line,options);
+  }
+
+  public SpeechLine LastLine()
+  {
+    var l=this;
+    while (l.next != null)
+    {
+      l = l.next;
+    }
+
+    return l;
+  }
+  
+  
   public bool HasNext()
   {
     return next != null;

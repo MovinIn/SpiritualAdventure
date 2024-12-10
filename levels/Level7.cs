@@ -154,7 +154,7 @@ public partial class Level7 : Level
                 "Continue",
                 new SpeechLine("Hahaha. Keep walking, you blasphemer.")
               }
-            }),4),
+            }),2),
           new List<CutsceneAction>
           {
             new CutsceneMovementAction(jesus,new List<MovementAction>
@@ -191,7 +191,7 @@ public partial class Level7 : Level
                 "Continue",
                 new SpeechLine("Yep. Knew it.")
               }
-            }),4),
+            }),2),
           new List<CutsceneAction>
           {
             new CutsceneMovementAction(jesus,new List<MovementAction>
@@ -229,7 +229,7 @@ public partial class Level7 : Level
                 "Continue",
                 new SpeechLine("I get my paycheck after this. Hurry it up, loser.")
               }
-            }),4),
+            }),2),
           new List<CutsceneAction>
           {
             new CutsceneMovementAction(jesus,new List<MovementAction>
@@ -278,7 +278,7 @@ public partial class Level7 : Level
         }),
         
         
-        new(new SpeechAction(guardNarrator,new SpeechLine("So, after 6 hours of grueling torture; Jesus, the " +
+        new(new SpeechAction(narrator,new SpeechLine("So, after 24 hours of grueling torture; Jesus, the " +
                                                           "Son of God who did not sin, died on the cross and " +
                                                           "paid for the penalty of our sin for those who " +
                                                           "believe in him."),7),new List<CutsceneAction>()),
