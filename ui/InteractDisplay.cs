@@ -63,7 +63,9 @@ public partial class InteractDisplay : MarginContainer
 
   public override void _Process(double delta)
   {
+    if (Level.Paused()) return;
     if (!IsActive()) return;
+    
     currSpeechDelay += delta;
   }
   

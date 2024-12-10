@@ -1,4 +1,5 @@
 using Godot;
+using SpiritualAdventure.levels;
 
 public partial class SpeechDisplay : RichTextLabel
 {
@@ -25,6 +26,8 @@ public partial class SpeechDisplay : RichTextLabel
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
+      if (Level.Paused()) return;
+
         if (finished) return;
         currDelay += delta;
         if (currDelay < letterDelay) return;

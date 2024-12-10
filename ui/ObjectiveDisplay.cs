@@ -1,5 +1,6 @@
 using System.Linq;
 using Godot;
+using SpiritualAdventure.levels;
 using SpiritualAdventure.objectives;
 using SpiritualAdventure.objects;
 using Action = System.Action;
@@ -35,6 +36,7 @@ public partial class ObjectiveDisplay : HBoxContainer
 
   public override void _Process(double delta)
   {
+    if (Level.Paused()) return;
     if (!IsObjectiveRunning()) return;
     
     RunTimer(objectiveGroup.IsTimed());

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using SpiritualAdventure.ui;
 
 namespace SpiritualAdventure.objects;
 
@@ -9,9 +10,8 @@ public abstract class DelayedCutsceneAction:Action,CutsceneAction
 
   protected abstract void ActAfterDelay();
   
-  public async void Act()
+  public void Act()
   {
-    await Task.Delay((int)(initialDelay*1000));
-    ActAfterDelay();
+    GameTimer.Add(ActAfterDelay,initialDelay);
   }
 }

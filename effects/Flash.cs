@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using SpiritualAdventure.levels;
 
 public partial class Flash : ColorRect
 {
@@ -65,7 +66,9 @@ public partial class Flash : ColorRect
   // Called every frame. 'delta' is the elapsed time since the previous frame.
   public override void _Process(double delta)
   {
+    if (Level.Paused()) return;
     if (!isFlashing) return;
+    
     
 	if (changes.Count == 0)
 	{

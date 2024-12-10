@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dfbolqsgmpdwr"]
+[gd_scene load_steps=12 format=3 uid="uid://dfbolqsgmpdwr"]
 
 [ext_resource type="Script" path="res://ui/InteractDisplay.cs" id="1_kly7l"]
 [ext_resource type="Script" path="res://ui/SpeakerDetails.cs" id="1_onhbl"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://ui/PauseButton.cs" id="8_4i7ye"]
 [ext_resource type="PackedScene" uid="uid://diyqik5ht8wgx" path="res://ui/PauseSplash.tscn" id="8_eoecq"]
 [ext_resource type="Script" path="res://effects/Flash.cs" id="10_w7k6s"]
+[ext_resource type="Script" path="res://ui/GameTimer.cs" id="11_wk12k"]
 
 [node name="GameUI" type="CanvasLayer"]
 
@@ -203,6 +204,9 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("10_w7k6s")
+
+[node name="GameTimer" type="Node" parent="."]
+script = ExtResource("11_wk12k")
 
 [connection signal="OnOptionPressed" from="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set1/Option1" to="Control/InteractDisplay" method="OnOptionPressed"]
 [connection signal="OnOptionPressed" from="Control/InteractDisplay/VBoxContainer/MarginSpeaker/SpeakerDetails/Options/Set1/Option2" to="Control/InteractDisplay" method="OnOptionPressed"]
