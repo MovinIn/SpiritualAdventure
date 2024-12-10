@@ -4,7 +4,7 @@ namespace SpiritualAdventure.entities;
 
 public static class SimpleLinearSpeechBuilder
 {
-    public static SpeechLine of(List<string> lines)
+    public static SpeechLine Of(List<string> lines)
     {
         if (lines.Count == 0)
         {

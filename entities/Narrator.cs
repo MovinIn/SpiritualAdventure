@@ -8,15 +8,17 @@ public class Narrator : Interactable
 {
   [JsonIgnore]
   private bool interacting;
-  [JsonIgnore]
-#nullable enable
-  public System.Action? NotInteracting { get; set; }
   
   private Speaker narrator;
   private string name;
-
-  private SpeechLine currLine;
-
+  
+#nullable enable
+  [JsonIgnore]
+  public System.Action? NotInteracting { get; set; }
+  
+  private SpeechLine? currLine;
+#nullable disable
+  
   public Narrator(Speaker narrator=Speaker.Archer,string name="narrator",System.Action? notInteracting=null)
   {
     this.narrator = narrator;
@@ -40,12 +42,17 @@ public class Narrator : Interactable
 
   public SpeechLine NextLine()
   {
-    if (currLine.Finished())
+    if (currLine!.Finished())
     {
       return null;
     }
+
+    if (!currLine.HasNext())
+    {
+      return currLine;
+    }
     
-    currLine = currLine.next;
+    currLine = currLine.next!;
     return currLine;
   }
   
@@ -64,7 +71,7 @@ public class Narrator : Interactable
 
   public void OptionInteract(string option)
   {
-    currLine = currLine.options![option];
+    currLine = currLine?.options![option];
   }
 
   public bool IsInteracting()

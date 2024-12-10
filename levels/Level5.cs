@@ -29,7 +29,7 @@ public partial class Level5 : Level
     string gospelVerse = "Romans 6:23 - 'For the wages of sin is death, " +
                          "but the gift of God is eternal life in Christ Jesus our Lord.";
     
-    var prologue = SimpleLinearSpeechBuilder.of(new List<string>
+    var prologue = SimpleLinearSpeechBuilder.Of(new List<string>
     {
       "In the next 3 levels, we will be exploring the gospel. The gospel is a term to describe 'good news'.",
       "Before we describe what the gospel is in accordance with Christianity, we must first define a few terms.",
@@ -91,7 +91,7 @@ public partial class Level5 : Level
     
     understandingWagesAndSin.Update("Now that we have those definitions cleared up, we can derive the meaning" +
                                     "of the first half, or 'The wages of sin is death'. ",
-      SimpleLinearSpeechBuilder.of(new List<string>
+      SimpleLinearSpeechBuilder.Of(new List<string>
       {
         "A wage is receiving something in return for your actions. We receive death for committing sin.",
         "The rough part about this is that every human is not perfect. So what this is saying is that every single " +
@@ -126,7 +126,7 @@ public partial class Level5 : Level
     
     understandingGodLove.Update("Now, even though we deserved death through our sin, God provides a gift " +
                                 "of eternal life through Jesus.",
-      SimpleLinearSpeechBuilder.of(new List<string>
+      SimpleLinearSpeechBuilder.Of(new List<string>
       {
         "Who is Jesus, you may ask? Well, he goes by many names. The Messiah, the Savior, Son of God, Son of Man, " +
         "and many others. But the main thing you need to know about him right now is that he paid for the penalty " +
@@ -151,7 +151,7 @@ public partial class Level5 : Level
       new List<Tuple<SpeechAction, List<CutsceneAction>>>
       {
         new(new SpeechAction(new Narrator(Speaker.Layman,"Narrator"),
-          SimpleLinearSpeechBuilder.of(new List<string>
+          SimpleLinearSpeechBuilder.Of(new List<string>
           {
             "We are set in the time before Jesus was born.",
             "The father of Jesus is Joseph - however, because his wife Mary is unexpectedly pregnant, he " +

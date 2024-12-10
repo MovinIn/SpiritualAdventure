@@ -44,7 +44,7 @@ public partial class Level3 : LevelWithTestExtensions
     npc.UseTrigger("interact","Talk");
     var speechLines = new List<SpeechLine>
     {
-      SimpleLinearSpeechBuilder.of(new List<string>
+      SimpleLinearSpeechBuilder.Of(new List<string>
       {
         "Hello! My name is Roman and I love soccer.", "Test Text 2", "Test Text 3"
       }),
@@ -55,7 +55,7 @@ public partial class Level3 : LevelWithTestExtensions
           { "Option 2", new SpeechLine("You chose option 2! Nice :)") },
           {
             "Option 3", new SpeechLine("You chose option 3! Nice :)",
-              SimpleLinearSpeechBuilder.of(new List<string>
+              SimpleLinearSpeechBuilder.Of(new List<string>
               {
                 "This speech is really really hard to write, " +
                 "so we should make a speech parser that parses" +
