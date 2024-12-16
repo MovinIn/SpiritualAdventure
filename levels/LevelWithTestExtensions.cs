@@ -53,7 +53,7 @@ public partial class LevelWithTestExtensions:Level
   
   public ObjectiveDisplayGroup TestChatObjective(Vector2 position,int timeLimit=-1)
   {
-    var npc=Npc.Instantiate(position);
+    var npc=Npc.Instantiate().WithPosition(position);
     AddChild(npc);
     
     var speechLines = new List<SpeechLine>
@@ -75,7 +75,7 @@ public partial class LevelWithTestExtensions:Level
   
   public ObjectiveDisplayGroup TestOptionObjective(Vector2 position,int timeLimit=-1)
   {
-    var npc=Npc.Instantiate(position);
+    var npc=Npc.Instantiate().WithPosition(position);
     AddChild(npc);
     var speechLines = new List<SpeechLine>
     { 

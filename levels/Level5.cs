@@ -169,12 +169,14 @@ public partial class Level5 : Level
     var initialPosition = new Vector2(1603f, 714f);
     
     
-    PathDeterminantNpc mary=PathDeterminantNpc.Instantiate(new List<MovementAction>(),initialPosition,
+    PathDeterminantNpc mary=PathDeterminantNpc.Instantiate().UpdateMovement(new List<MovementAction>(),
       0,true,false);
+    mary.Position = initialPosition;
     mary.Who(Speaker.Archer,"Mary");
     
-    PathDeterminantNpc joseph = PathDeterminantNpc.Instantiate(new List<MovementAction>(),
-      initialPosition+new Vector2(110,0),0,true,false);
+    PathDeterminantNpc joseph = PathDeterminantNpc.Instantiate().UpdateMovement(new List<MovementAction>(),
+      0,true,false);
+    joseph.Position = initialPosition + new Vector2(110, 0);
     joseph.Who(Speaker.Red_Cowboy,"Joseph");
 
     AddChild(mary);
@@ -184,7 +186,7 @@ public partial class Level5 : Level
     var spawnJesus = new InlineCutsceneAction(() =>
     {
       joseph.SetDirection(-1);
-      Npc jesus = Npc.Instantiate(new Vector2(2313f,713f));
+      Npc jesus = Npc.Instantiate().WithPosition(new Vector2(2313f,713f));
       jesus.Who(Speaker.Layman,"Jesus");
       AddChild(jesus);
     });
@@ -236,7 +238,7 @@ public partial class Level5 : Level
   
   public ObjectiveDisplayGroup JosephObjective()
   {
-    var npc=Npc.Instantiate(new Vector2(872f,712f));
+    var npc=Npc.Instantiate().WithPosition(new Vector2(872f,712f));
     AddChild(npc);
 
     const string verse = "Joseph, son of David, do not be afraid to take Mary your wife into your home. " +

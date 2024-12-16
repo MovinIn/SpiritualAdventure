@@ -83,9 +83,9 @@ public partial class Level6 : Level
   public ObjectiveDisplayGroup TouchHomeObjective()
   {
     Npc neighbor1, neighbor2, neighbor3;
-    neighbor1 = Npc.Instantiate(new Vector2(1796,351));
-    neighbor2 = Npc.Instantiate(new Vector2(1344,371));
-    neighbor3 = Npc.Instantiate(new Vector2(287,446));
+    neighbor1 = Npc.Instantiate().WithPosition(new Vector2(1796,351));
+    neighbor2 = Npc.Instantiate().WithPosition(new Vector2(1344,371));
+    neighbor3 = Npc.Instantiate().WithPosition(new Vector2(287,446));
     AddChild(neighbor1);
     AddChild(neighbor2);
     AddChild(neighbor3);
@@ -142,7 +142,7 @@ public partial class Level6 : Level
     var rnd = new Random();
 
 
-    Npc jesus = Npc.Instantiate(jesusPosition);
+    Npc jesus = Npc.Instantiate().WithPosition(jesusPosition);
     jesus.Who(Speaker.Layman,"Jesus");
     AddChild(jesus);
     
@@ -185,7 +185,7 @@ public partial class Level6 : Level
     
     for (int i = 0; i < 6; i++)
     {
-      var soldier=PathDeterminantNpc.Instantiate(new List<MovementAction>(), new Vector2(),
+      var soldier=PathDeterminantNpc.Instantiate().UpdateMovement(new List<MovementAction>(),
         0, true, false);
       soldier.Who(Speaker.Red_Warrior,"");
       soldier.SetDirection(1);

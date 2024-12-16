@@ -11,7 +11,7 @@ using SpiritualAdventure.utility;
 namespace SpiritualAdventure.entities;
 
 [JsonObject(MemberSerialization.OptIn)]
-public partial class Npc : AnimatableBody2D, IJsonParseable
+public partial class Npc : AnimatableBody2D
 {
   protected const float SPEED = 120f;
   protected CharacterSprite sprite;
@@ -28,210 +28,214 @@ public partial class Npc : AnimatableBody2D, IJsonParseable
 #nullable disable
   
   
-  public static T Instantiate<T>(string path) where T:Npc
+  protected static T Instantiate<T>(string path) where T:Npc
   {
-    
-    return Instantiate().SafelySetScript<T>(path);
-  }
-
-  public static Npc Instantiate()
-  {
-    return ResourceLoader.Load<PackedScene>("res://entities/Npc.tscn").Instantiate<Npc>();
+	return Instantiate().SafelySetScript<T>(path);
   }
   
-  public static Npc Instantiate(Vector2 position)
+  public static Npc Instantiate()
   {
-    var instance = Instantiate();
-    instance.Position = position;
-    return instance;
+	return ResourceLoader.Load<PackedScene>("res://entities/Npc.tscn").Instantiate<Npc>();
+  }
+
+  public Npc WithPosition(Vector2 position)
+  {
+    Position = position;
+    return this;
   }
   
   public virtual void Parse(JObject json)
   {
-    if (json.TryGetValue("position", out var positionToken))
-    {
-      Position = positionToken.ToObject<Vector2>();
-    }
-    
-    if (json.TryGetValue("name", out var nameToken) && json.TryGetValue("speaker", out var speakerToken))
-    {
-      Who(speakerToken.ToObject<Speaker>(),nameToken.ToObject<string>());
-    }
+	if (json.TryGetValue("position", out var positionToken))
+	{
+	  Position = positionToken.ToObject<Vector2>();
+	}
+	
+	if (json.TryGetValue("name", out var nameToken) && json.TryGetValue("speaker", out var speakerToken))
+	{
+	  Who(speakerToken.ToObject<Speaker>(),nameToken.ToObject<string>());
+	}
 
-    if (json.TryGetValue("trigger", out var triggerToken) && json.TryGetValue("content", out var contentToken))
-    {
-      UseTrigger(triggerToken.ToObject<string>(),contentToken.ToObject<string>());
-    }
+	if (json.TryGetValue("trigger", out var triggerToken) && json.TryGetValue("content", out var contentToken))
+	{
+	  UseTrigger(triggerToken.ToObject<string>(),contentToken.ToObject<string>());
+	}
 
-    if (json.TryGetValue("speech", out var speechToken))
-    {
-      SetSpeech(speechToken.ToObject<List<SpeechLine>>());
-    }
+	if (json.TryGetValue("speech", out var speechToken))
+	{
+	  SetSpeech(speechToken.ToObject<List<SpeechLine>>());
+	}
   }
 
   public Npc()
   {
-    speech=new Queue<SpeechLine>();
-    InitNodes();
+	speech=new Queue<SpeechLine>();
+	InitNodes();
   }
 
   /**
-   * Initializes the children node references if possible. 
+   * Initializes the children node references if possible.
    */
   private void InitNodes()
   {
-    if (!HasNode("Sprite")) return;
-    sprite=GetNode<CharacterSprite>("Sprite");
-    interactTrigger = GetNode<InteractTriggerDisplay>("InteractTriggerDisplay");
+	if (!HasNode("Sprite")) return;
+	sprite=GetNode<CharacterSprite>("Sprite");
+	interactTrigger = GetNode<InteractTriggerDisplay>("InteractTriggerDisplay");
   }
   
-  public override void _Process(double delta)
+  public override void _PhysicsProcess(double delta)
   {
-    if (Level.Paused()) return;
+	if (Level.Paused()) return;
+	IdleOrElse();
   }
 
   public void Who(Speaker speaker,string name)
   {
-    this.speaker = speaker;
-    this.name = name;
-    sprite.SetSpriteFrames(speaker.asFrames());
+	this.speaker = speaker;
+	this.name = name;
+	sprite.SetSpriteFrames(speaker.asFrames());
   }
 
-  public void SetInteractHandler(System.Action interactHandler=null)
+  public void SetInteractHandler(Action interactHandler=null)
   {
-    interactHandler ??= OnInteract;
-    interactTrigger.SetInteractHandler(interactHandler);
+	interactHandler ??= OnInteract;
+	interactTrigger.SetInteractHandler(interactHandler);
   }
 
   public void SetOptionHandler(Action<string> optionHandler=null)
   {
-    optionHandler ??= OnOption;
-    interactTrigger.SetOptionHandler(optionHandler);
+	optionHandler ??= OnOption;
+	interactTrigger.SetOptionHandler(optionHandler);
   }
   
   public void UseTrigger(string trigger,string content,System.Action interactHandler=null)
   {
-    interactHandler ??= OnInteract;
-    interactTrigger.SetContent(trigger,content);
-    SetInteractHandler(interactHandler);
-    interactTrigger.SetOptionHandler(OnOption);
+	interactHandler ??= OnInteract;
+	interactTrigger.SetContent(trigger,content);
+	SetInteractHandler(interactHandler);
+	interactTrigger.SetOptionHandler(OnOption);
   }
 	
   public void SetSpeech(List<SpeechLine> speech)
   {
-    if (!interactTrigger.HasContent())
-      throw new InvalidOperationException("Trigger does not have content. Please call UseTrigger() first.");
+	GD.Print(interactTrigger is null);
+	if (!interactTrigger.HasContent())
+	  throw new InvalidOperationException("Trigger does not have content. Please call UseTrigger() first.");
 		
-    this.speech.Clear();
-    foreach (var se in speech)
-      this.speech.Enqueue(se);
+	this.speech.Clear();
+	foreach (var se in speech)
+	  this.speech.Enqueue(se);
   }
 
   public SpeechLine NextLine()
   {
-    if (speech.Count == 0) return null;
-    
-    if (currLine==null)
-    {
-      currLine = speech.Peek();
-      return currLine;
-    }
-    if (currLine.Finished())
-    {
-      StopInteract();
-      speech.Enqueue(speech.Dequeue());
-      return null;
-    }
-    if (!currLine.HasNext())
-      return currLine;
+	if (speech.Count == 0) return null;
+	
+	if (currLine==null)
+	{
+	  currLine = speech.Peek();
+	  return currLine;
+	}
+	if (currLine.Finished())
+	{
+	  StopInteract();
+	  speech.Enqueue(speech.Dequeue());
+	  return null;
+	}
+	if (!currLine.HasNext())
+	  return currLine;
 		
-    currLine = currLine.next;
-    return currLine;
+	currLine = currLine.next;
+	return currLine;
   }
 
   public void OnInteractBodyEntered(Node2D body)
   {
-    if (interactTrigger.HasContent() && body is Player)
-    {
-      InteractProximityFilter.Add(interactTrigger,Position);
-    }
+	if (interactTrigger.HasContent() && body is Player)
+	{
+	  InteractProximityFilter.Add(interactTrigger,Position);
+	}
   }
 
   public void StopInteract()
   {
-    if (interactTrigger.IsInteracting()) {
-      interactTrigger.SetNotInteracting();
-      InteractDisplay.Exit();
-    }
-    currLine = null;
+	if (interactTrigger.IsInteracting()) {
+	  interactTrigger.SetNotInteracting();
+	  InteractDisplay.Exit();
+	}
+	currLine = null;
   }
 	
   public void DetachInteract()
   {
-    StopInteract();
-    InteractProximityFilter.Remove(interactTrigger);
+	StopInteract();
+	InteractProximityFilter.Remove(interactTrigger);
   }
 	
   public void OnInteractBodyExited(Node2D body)
   {
-    if (body is Player)
-    {
-      DetachInteract();
-    }
+	if (body is Player)
+	{
+	  DetachInteract();
+	}
   }
 
   private void UpdateRotation()
   {
-    if (!Level.isCutscene)
-    {
-      SetDirection(Level.player.Position.X-Position.X);
-    }
+	if (!Level.isCutscene)
+	{
+	  SetDirection(Level.player.Position.X-Position.X);
+	}
   }
 
   public void SetDirection(float direction)
   {
-    sprite.updateRotation(direction);
+	sprite.updateRotation(direction);
   }
 	
   public void OnInteract()
   {
-    UpdateRotation();
-    
-    SpeechLine line = NextLine();
-    if (line == null)
-    {
-      interactTrigger.SetNotInteracting();
-      
-      FinishedSpeech?.Invoke();
-      
-      return;
-    }
-    
-    NewSpeechLine?.Invoke(line.line);
-    
-    InteractDisplay.UpdateInteractDisplay(speaker.asTexture(),name,line,interactTrigger);
+	UpdateRotation();
+	
+	SpeechLine line = NextLine();
+	if (line == null)
+	{
+	  interactTrigger.SetNotInteracting();
+	  
+	  FinishedSpeech?.Invoke();
+	  
+	  return;
+	}
+	
+	NewSpeechLine?.Invoke(line.line);
+	
+	InteractDisplay.UpdateInteractDisplay(speaker.asTexture(),name,line,interactTrigger);
   }
 
   public void OnOption(string option)
   {
-    UpdateRotation();
-    currLine = currLine.options![option];
-    
-    if (currLine != null)
-    {
-      NewSpeechLine?.Invoke(currLine.line);
-    }
+	UpdateRotation();
+	currLine = currLine.options![option];
+	
+	if (currLine != null)
+	{
+	  NewSpeechLine?.Invoke(currLine.line);
+	}
   }
 	
-  protected void IdleOrElse(string animation="idle"){
-      // sprite.Play(animation);
+  protected void IdleOrElse(string animation="idle")
+  {
+	if (sprite.SpriteFrames.HasAnimation(animation))
+	{
+	  sprite.Play(animation);
+	}
   }
 
   public override void _Notification(int what)
   {
-    if (what == NotificationSceneInstantiated)
-    {
-      InitNodes();
-    }
+	if (what == NotificationSceneInstantiated)
+	{
+	  InitNodes();
+	}
   }
 }

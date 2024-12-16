@@ -1,0 +1,11 @@
+﻿{
+  "movement": [[100,0],[200,100],[0,0]],
+  "x": 1,
+  "y": 1,
+  "moveDelay": 2.3,
+  "repeatMotion": true,
+  "speaker": "Black_Merchant",
+  "name": "Jaquavius",
+  "interactable": true,
+  "speech": ["utility/json/SpeechLineTest.json"]
+}

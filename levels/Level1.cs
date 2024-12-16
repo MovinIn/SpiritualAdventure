@@ -1,11 +1,10 @@
 using Godot;
-using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
 using SpiritualAdventure.objectives;
-using SpiritualAdventure.objects;
-using SpiritualAdventure.ui;
+using SpiritualAdventure.utility;
 
 public partial class Level1 : LevelWithTestExtensions
 {
@@ -13,7 +12,9 @@ public partial class Level1 : LevelWithTestExtensions
   public override void _Ready()
   {
     var objective= TestTouchObjective(new Vector2(100,100));
-    LoadLevel(new Vector2(0,0),new List<ObjectiveDisplayGroup>{objective},new List<Npc>(),new Narrator());
+    var parsedNpc=JsonParseUtils.ParseNpc(JsonParseUtils.ParseFromFile<JObject>("utility/json/NpcTest.json"),this);
+    LoadLevel(new Vector2(0,0),new List<ObjectiveDisplayGroup>{objective},
+      new List<Npc>{parsedNpc},new Narrator());
     NextObjective();
   }
 }

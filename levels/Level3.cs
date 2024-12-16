@@ -37,9 +37,9 @@ public partial class Level3 : LevelWithTestExtensions
 
   public Npc TestNpc(Vector2 position)
   {
-    Npc npc=PathDeterminantNpc.Instantiate(
-      new List<MovementAction>{new (100,0),new (100,100,1.5d),new (0,100),new (0,0)},
-      position,2,true,true);
+    Npc npc=PathDeterminantNpc.Instantiate().UpdateMovement(new List<MovementAction>{new (100,0),
+        new (100,100,1.5d),new (0,100),new (0,0)},2,true,true);
+    npc.Position = position;
     npc.Who(Speaker.Red_Warrior,"Roman");
     npc.UseTrigger("interact","Talk");
     var speechLines = new List<SpeechLine>

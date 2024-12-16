@@ -49,7 +49,7 @@ public partial class Level7 : Level
     
     for (int i = 0; i < 6; i++)
     {
-      Npc npc = Npc.Instantiate(rightJudgePosition - i * new Vector2(75, 0));
+      Npc npc = Npc.Instantiate().WithPosition(rightJudgePosition - i * new Vector2(75, 0));
       npc.Who(Speaker.Red_Cowboy,"");
       AddChild(npc);
     } 
@@ -104,12 +104,15 @@ public partial class Level7 : Level
     var j2 = new Vector2(349,-219);
     var j3 = new Vector2(641,-236);
 
-    PathDeterminantNpc jesus = PathDeterminantNpc.Instantiate(new List<MovementAction>(),initialJesusPosition,0,
+    PathDeterminantNpc jesus = PathDeterminantNpc.Instantiate().UpdateMovement(new List<MovementAction>(),0,
       true,false);
-    PathDeterminantNpc guard1 = PathDeterminantNpc.Instantiate(new List<MovementAction>(),initialGuardPosition,0,
+    jesus.Position = initialJesusPosition;
+    PathDeterminantNpc guard1 = PathDeterminantNpc.Instantiate().UpdateMovement(new List<MovementAction>(),0,
       true,false);
-    PathDeterminantNpc guard2 = PathDeterminantNpc.Instantiate(new List<MovementAction>(),initialGuardPosition2,0,
+    guard1.Position = initialGuardPosition;
+    PathDeterminantNpc guard2 = PathDeterminantNpc.Instantiate().UpdateMovement(new List<MovementAction>(),0,
       true,false);
+    guard2.Position = initialGuardPosition2;
     
     jesus.Who(Speaker.Layman,"Jesus");
     guard1.Who(Speaker.Red_Warrior,"Guard 1");

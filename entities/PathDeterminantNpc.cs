@@ -4,7 +4,6 @@ using Godot;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SpiritualAdventure.levels;
-using SpiritualAdventure.utility;
 
 namespace SpiritualAdventure.entities;
 
@@ -42,12 +41,9 @@ public partial class PathDeterminantNpc : Npc
     actions=json.Value<List<MovementAction>>("actions") ?? new List<MovementAction>();
   }
   
-  public static PathDeterminantNpc Instantiate(List<MovementAction> actions,Vector2 position,float moveDelay,bool isRelativePath,bool repeatMotion)
+  public new static PathDeterminantNpc Instantiate()
   {
-    var npc=Npc.Instantiate(position)
-      .SafelySetScript<PathDeterminantNpc>("res://entities/PathDeterminantNpc.cs");
-    npc.UpdateMovement(actions,moveDelay,isRelativePath,repeatMotion);
-    return npc;
+    return Npc.Instantiate<PathDeterminantNpc>("res://entities/PathDeterminantNpc.cs");
   }
 	
   private void UpdateReplay()
@@ -73,7 +69,8 @@ public partial class PathDeterminantNpc : Npc
     sprite.updateRotation(1);
   }
 
-  public void UpdateMovement(List<MovementAction> actions,float moveDelay,bool isRelativePath,bool repeatMotion)
+  public PathDeterminantNpc UpdateMovement(List<MovementAction> actions,float moveDelay,
+    bool isRelativePath,bool repeatMotion)
   {
     this.actions = actions;
     this.moveDelay = moveDelay;
@@ -86,6 +83,8 @@ public partial class PathDeterminantNpc : Npc
       UpdateReplay();
       replayPlayer.PlayReplay(replay);
     }
+
+    return this;
   }
 	
   public override void _Ready()

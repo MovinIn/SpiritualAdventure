@@ -27,11 +27,6 @@ public partial class GameTimer: Node
 	  return;
 	}
 
-	for (var i = 0; i < actions.Count; i++)
-	{
-	  actions.TryPeek(out var q, out double x);
-	}
-
 	currTime += delta;
 	if(!actions.TryPeek(out _,out double lowestDelay))
 	{
@@ -53,7 +48,6 @@ public partial class GameTimer: Node
 
   public static void Add(Action callbackAction,double delay)
   {
-	GD.Print(delay);
 	actions.Enqueue(callbackAction,delay+currTime);
   }
   
