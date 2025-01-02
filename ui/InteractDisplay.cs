@@ -22,7 +22,7 @@ public partial class InteractDisplay : MarginContainer
   private static Option[] options;
   private static SpeechLine currentSpeechLine;
   private static Interactable currentInteractable;
-  private static double currSpeechDelay;
+  private static double currentSpeechDelay;
   private static HashSet<Action<SpeechType, string>> interactHandlers;
 
   private InteractDisplay()
@@ -32,7 +32,7 @@ public partial class InteractDisplay : MarginContainer
     options = new Option[4];
     currentSpeechLine = null;
     currentInteractable = null;
-    currSpeechDelay = 0;
+    currentSpeechDelay = 0;
   }
   
   
@@ -66,7 +66,7 @@ public partial class InteractDisplay : MarginContainer
     if (Level.Paused()) return;
     if (!IsActive()) return;
     
-    currSpeechDelay += delta;
+    currentSpeechDelay += delta;
   }
   
   public override void _Input(InputEvent @event)  
@@ -85,9 +85,9 @@ public partial class InteractDisplay : MarginContainer
 
     if (@event.IsActionPressed("interact"))
     {
-      if (currentSpeechLine!=null&&currSpeechDelay<currentSpeechLine.GetDelay()) return;
+      if (currentSpeechLine!=null&&currentSpeechDelay<currentSpeechLine.GetDelay()) return;
 
-      currSpeechDelay = 0;
+      currentSpeechDelay = 0;
       
       if (!currentInteractable.IsInteracting())
       {
@@ -131,6 +131,7 @@ public partial class InteractDisplay : MarginContainer
 
   public void OnOptionPressed(string option)
   {
+    currentSpeechDelay = 0;
     currentInteractable.OptionInteract(option);
     PingHandlers(SpeechType.Option,option);
     UpdateSpeechLine(currentSpeechLine?.options![option]);
@@ -169,7 +170,7 @@ public partial class InteractDisplay : MarginContainer
     speechDisplay.SetSpeech("");
     currentInteractable?.SetNotInteracting();
     currentInteractable = null;
-    currSpeechDelay = 0;
+    currentSpeechDelay = 0;
   }
 
   public static void AttachInteractHandler(Action<SpeechType,string> handler)
