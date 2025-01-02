@@ -12,6 +12,62 @@ namespace SpiritualAdventure.levels;
 [JsonObject(MemberSerialization.OptIn)]
 public partial class Level : Node2D
 {
+  protected class LevelBuilder
+  {
+    private Vector2 playerPosition = Vector2.Zero;
+    private List<ObjectiveDisplayGroup> iObjectiveGroups = new();
+    private List<Npc> npcList = new();
+    private Narrator narrator = new();
+
+    private LevelBuilder() { }
+
+    public static LevelBuilder Init()
+    {
+      return new LevelBuilder();
+    }
+
+    public LevelBuilder SetPlayerPosition(Vector2 playerPosition)
+    {
+      this.playerPosition = playerPosition;
+      return this;
+    }
+    
+    public LevelBuilder AppendIObjectiveGroups(List<ObjectiveDisplayGroup> iObjectiveGroups)
+    {
+      this.iObjectiveGroups.AddRange(iObjectiveGroups);
+      return this;
+    }
+    
+    public LevelBuilder AppendNpcList(List<Npc> npcList)
+    {
+      this.npcList.AddRange(npcList);
+      return this;
+    }
+
+    public LevelBuilder ClearNpcList()
+    {
+      npcList.Clear();
+      return this;
+    }
+
+    public LevelBuilder ClearIObjectiveGroups()
+    {
+      iObjectiveGroups.Clear();
+      return this;
+    }
+    
+    public LevelBuilder SetNarrator(Narrator narrator)
+    {
+      this.narrator = narrator;
+      return this;
+    }
+
+    public void Build(Level level)
+    {
+      level.Init(playerPosition, iObjectiveGroups, npcList, narrator);
+    }
+  }
+  
   
   private Queue<ObjectiveDisplayGroup> objectiveQueue=new();
   private Dictionary<Type, List<Npc>> npcs=new();
@@ -58,12 +114,11 @@ public partial class Level : Node2D
   
   
   
-  public void LoadLevel(Vector2 playerPosition,List<ObjectiveDisplayGroup> iObjectiveGroups,List<Npc> npcList,Narrator narrator)
+  public void LoadLevel()
   {
-    Init(playerPosition,iObjectiveGroups,npcList,narrator);
-    foreach (var npc in npcList)
+    foreach (var npcList in npcs.Values)
     {
-      AddChild(npc);
+      npcList.ForEach(npc=>AddChild(npc));
     }
   }
 

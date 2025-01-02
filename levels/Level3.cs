@@ -18,7 +18,16 @@ public partial class Level3 : LevelWithTestExtensions
   private void LoadWithObjectives(List<ObjectiveDisplayGroup>objectives)
   {
     Npc n=TestNpc(new Vector2(200,200));
-    LoadLevel(new Vector2(0,0),objectives,new List<Npc>{n},new Narrator());
+    
+    LevelBuilder.Init()
+      .SetPlayerPosition(Vector2.Zero)
+      .AppendIObjectiveGroups(objectives)
+      .AppendNpcList(new List<Npc> { n })
+      .SetNarrator(new Narrator())
+      .Build(this);
+
+    LoadLevel();
+    
   }
 
   public void TestMultipleObjectives()

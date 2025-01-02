@@ -12,7 +12,16 @@ public partial class Level4 : LevelWithTestExtensions
   public override void _Ready()
   {
     var objective= TestTouchObjective(new Vector2(100,100));
-    LoadLevel(new Vector2(0,0),new List<ObjectiveDisplayGroup>{objective},new List<Npc>(),new Narrator());
+    
+    LevelBuilder.Init()
+      .SetPlayerPosition(Vector2.Zero)
+      .AppendIObjectiveGroups(new List<ObjectiveDisplayGroup> { objective })
+      .AppendNpcList(new List<Npc>())
+      .SetNarrator(new Narrator())
+      .Build(this);
+    
+    LoadLevel();
+    
     NextObjective();
   }
 }

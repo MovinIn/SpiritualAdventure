@@ -17,8 +17,16 @@ public partial class Level2 : LevelWithTestExtensions
     
     var touchObjective= TestTouchObjective(new Vector2(200,200));
     var cutsceneObjective = CutsceneTest(npc);
-    LoadLevel(new Vector2(0,0),new List<ObjectiveDisplayGroup>{touchObjective,cutsceneObjective},
-      new List<Npc>{npc},new Narrator());
+    
+    LevelBuilder.Init()
+      .SetPlayerPosition(Vector2.Zero)
+      .AppendIObjectiveGroups(new List<ObjectiveDisplayGroup> { touchObjective,cutsceneObjective })
+      .AppendNpcList(new List<Npc> { npc })
+      .SetNarrator(new Narrator())
+      .Build(this);
+
+    LoadLevel();
+    
     NextObjective();
   }
 }

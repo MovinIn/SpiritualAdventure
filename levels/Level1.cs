@@ -13,8 +13,15 @@ public partial class Level1 : LevelWithTestExtensions
   {
     var objective= TestTouchObjective(new Vector2(100,100));
     var parsedNpc=JsonParseUtils.ParseNpc(JsonParseUtils.ParseFromFile<JObject>("utility/json/NpcTest.json"),this);
-    LoadLevel(new Vector2(0,0),new List<ObjectiveDisplayGroup>{objective},
-      new List<Npc>{parsedNpc},new Narrator());
+    
+    LevelBuilder.Init()
+      .SetPlayerPosition(Vector2.Zero)
+      .AppendIObjectiveGroups(new List<ObjectiveDisplayGroup> { objective })
+      .AppendNpcList(new List<Npc> { parsedNpc })
+      .SetNarrator(new Narrator())
+      .Build(this);
+    
+    LoadLevel();
     NextObjective();
   }
 }
