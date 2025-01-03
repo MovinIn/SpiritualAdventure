@@ -12,16 +12,17 @@ public partial class Level6 : Level
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
-    
-    LevelBuilder.Init()
+
+    var builder = LevelBuilder.Init()
       .SetPlayerPosition(Vector2.Zero)
       .AppendIObjectiveGroups(new List<ObjectiveDisplayGroup>
       {
-        BlindCutsceneObjective(),TouchHomeObjective(),JesusCutsceneObjective()
+        BlindCutsceneObjective(), TouchHomeObjective(), JesusCutsceneObjective()
       })
       .AppendNpcList(new List<Npc>())
-      .SetNarrator(new Narrator())
-      .Build(this);
+      .SetNarrator(new Narrator());
+    
+    AppendBuilder(builder);
     
     LoadLevel();
     

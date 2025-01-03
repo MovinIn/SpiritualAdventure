@@ -18,13 +18,14 @@ public partial class Level5 : Level
     {
       GospelCutsceneObjective(),DescriptionCutsceneObjective(),JosephObjective(),CutsceneObjective()
     };
-    
-    LevelBuilder.Init()
+
+    var builder = LevelBuilder.Init()
       .SetPlayerPosition(Vector2.Zero)
       .AppendIObjectiveGroups(objectivesList)
       .AppendNpcList(new List<Npc>())
-      .SetNarrator(new Narrator())
-      .Build(this);
+      .SetNarrator(new Narrator());
+    
+    AppendBuilder(builder);
 
     LoadLevel();
     

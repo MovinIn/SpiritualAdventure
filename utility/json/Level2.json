@@ -1,0 +1,61 @@
+{
+	"template": "Level2",
+	"playerPosition": [
+		500,
+		500
+	],
+	"npcs": [
+		"utility/json/NpcTest.json",
+		"pointer-npc"
+	],
+	"pointer-npc": {
+		"movement": [
+			[
+				300,
+				0
+			],
+			[
+				0,
+				0
+			]
+		],
+		"x": -300,
+		"y": 300,
+		"moveDelay": 2.3,
+		"repeatMotion": true,
+		"speaker": "Archer",
+		"name": "Wick",
+		"interactable": true,
+		"speech": [
+			"pointer-speech"
+		]
+	},
+	"pointer-speech": {
+		"content": "start speech content",
+		"nextKey": "a",
+		"a": {
+			"content": "a content",
+			"options": [
+				[
+					"option 1",
+					"c"
+				],
+				[
+					"option 2",
+					"c"
+				],
+				[
+					"option 3",
+					"c"
+				]
+			],
+			"nextKey": "b"
+		},
+		"b": {
+			"content": "b content"
+		},
+		"c": {
+			"content": "c content"
+		}
+	}
+}

@@ -26,27 +26,23 @@ public partial class Level7 : Level
     red3.Visible = false;
     crossLayer.Visible = false;
 
-    
-    LevelBuilder.Init()
-      .SetPlayerPosition(new Vector2(1000,1000))
+
+    var builder=LevelBuilder.Init()
+      .SetPlayerPosition(new Vector2(1000, 1000))
       .AppendIObjectiveGroups(new List<ObjectiveDisplayGroup>
       {
-        CourtCutsceneObjective(),JesusTortureCutsceneObjective()
+        CourtCutsceneObjective(), JesusTortureCutsceneObjective()
       })
       .AppendNpcList(new List<Npc>())
-      .SetNarrator(new Narrator())
-      .Build(this);
+      .SetNarrator(new Narrator());
 
+    AppendBuilder(builder);
+    
     LoadLevel();
     
     NextObjective();
       
   }
-    
-  // (-1565.3118, 42.673996): cutscene cam position
-  // (-1267.929, 162.674): right most judge position
-  // (442.67752, -316.67258) cross cutscene position
-  
     
   public ObjectiveDisplayGroup CourtCutsceneObjective()
   {

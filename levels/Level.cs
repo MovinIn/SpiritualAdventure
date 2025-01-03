@@ -12,12 +12,12 @@ namespace SpiritualAdventure.levels;
 [JsonObject(MemberSerialization.OptIn)]
 public partial class Level : Node2D
 {
-  protected class LevelBuilder
+  public class LevelBuilder
   {
-    private Vector2 playerPosition = Vector2.Zero;
-    private List<ObjectiveDisplayGroup> iObjectiveGroups = new();
-    private List<Npc> npcList = new();
-    private Narrator narrator = new();
+    public Vector2 playerPosition = Vector2.Zero;
+    public List<ObjectiveDisplayGroup> iObjectiveGroups = new();
+    public List<Npc> npcList = new();
+    public Narrator narrator = new();
 
     private LevelBuilder() { }
 
@@ -62,9 +62,14 @@ public partial class Level : Node2D
       return this;
     }
 
-    public void Build(Level level)
+    public LevelBuilder AppendBuilder(LevelBuilder toAppend)
     {
-      level.Init(playerPosition, iObjectiveGroups, npcList, narrator);
+      playerPosition = toAppend.playerPosition;
+      AppendNpcList(toAppend.npcList);
+      AppendIObjectiveGroups(toAppend.iObjectiveGroups);
+      narrator= toAppend.narrator;
+      
+      return this;
     }
   }
   
@@ -79,6 +84,17 @@ public partial class Level : Node2D
 
   public static bool isCutscene { get; private set; }
   public static Camera2D cutsceneCamera;
+  private LevelBuilder builder;
+
+  protected Level()
+  {
+    builder = LevelBuilder.Init();
+  }
+  
+  public void AppendBuilder(LevelBuilder toAppend)
+  {
+    builder.AppendBuilder(toAppend);
+  }
 
   private void Init(Vector2 playerPosition,List<ObjectiveDisplayGroup> iObjectiveGroups,List<Npc> npcList,Narrator narrator)
   {
@@ -116,6 +132,8 @@ public partial class Level : Node2D
   
   public void LoadLevel()
   {
+    Init(builder.playerPosition, builder.iObjectiveGroups, builder.npcList, builder.narrator);
+    
     foreach (var npcList in npcs.Values)
     {
       npcList.ForEach(npc=>AddChild(npc));

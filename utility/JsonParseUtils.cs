@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml.XPath;
 using Godot;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -14,7 +15,7 @@ namespace SpiritualAdventure.utility;
 
 public static class JsonParseUtils
 {
-  public static void ParseLevel(JObject json,out Level level,out LevelLoadData data)
+  public static void ParseLevel(JObject json,out Level level,out Level.LevelBuilder dataSkeleton)
   {
     json = DataFromPathIfString(json);
     
@@ -26,27 +27,25 @@ public static class JsonParseUtils
     List<Npc> npcs = new();
     if (json.TryGetValue("npcs", out JToken npcData))
     {
-      npcs = ParseNpcList(npcData, level);
+      npcs = ParseNpcList(npcData, level,json);
     }
 
-    JToken positionToken = json["playerPosition"];
     Vector2 playerPosition;
-    if (positionToken!=null&&positionToken.Children().Count()==2)
+    
+    if (json.ContainsKey("playerPosition")&&json["playerPosition"]!.Type == JTokenType.Array)
     {
-      playerPosition=new Vector2(positionToken.Children()[0].Value<float>(),
-        positionToken.Children()[1].Value<float>());
+      JArray positionArray = json["playerPosition"].ToObject<JArray>();
+      playerPosition = new Vector2(positionArray[0].Value<float>(),positionArray[1].Value<float>());
     }
     else
     {
       playerPosition = Vector2.Zero;
     }
 
-    data = new LevelLoadData
-    {
-      npcList = npcs,
-      playerPosition = playerPosition,
-      narrator = ParseNarrator(json)
-    };
+    dataSkeleton = Level.LevelBuilder.Init()
+      .AppendNpcList(npcs)
+      .SetPlayerPosition(playerPosition)
+      .SetNarrator(ParseNarrator(json));
   }
 
   public static Narrator ParseNarrator(JObject json)
@@ -72,28 +71,32 @@ public static class JsonParseUtils
   }
 
   //TODO: make it return and parse a dictionary
-  public static List<Npc> ParseNpcList(JToken json,Node futureParent)
+  public static List<Npc> ParseNpcList(JToken json,Node futureParent,JToken rootJson=null)
   {
     json = DataFromPathIfString(json);
+
+    rootJson ??= json;
     
     var npcList = new List<Npc>();
     foreach (var token in json.Values())
     {
-      var npcToken = TokenAsDataIfPointer(token,json);
+      var npcToken = TokenAsDataIfPointer(token,rootJson);
       
       if (npcToken.Type != JTokenType.Object)
       {
         throw new JsonException("Tried to create npc, but type was not JObject.");
       }
 
-      npcList.Add(ParseNpc(npcToken.ToObject<JObject>(),futureParent));
+      npcList.Add(ParseNpc(npcToken.ToObject<JObject>(),futureParent,rootJson));
     }
 
     return npcList;
   }
   
-  public static Npc ParseNpc(JObject json,Node futureParent)
+  public static Npc ParseNpc(JObject json,Node futureParent,JToken rootJson=null)
   {
+    rootJson ??= json;
+    
     json = DataFromPathIfString(json);
     
     Npc npc = InitializeNpc(json);
@@ -117,7 +120,7 @@ public static class JsonParseUtils
 
     if (!json.TryGetValue("speech", out var speechToken)) return npc;
 
-    var speechList = ParseSpeechList(speechToken,json);
+    var speechList = ParseSpeechList(speechToken,rootJson);
     npc.SetSpeech(speechList);
 
     futureParent.RemoveChild(npc);
@@ -142,12 +145,12 @@ public static class JsonParseUtils
     return PathDeterminantNpc.Instantiate().UpdateMovement(actionList,moveDelay,isRelativePath,repeatMotion);
   }
 
-  private static List<SpeechLine> ParseSpeechList(JToken speechArrayToken,JToken parent)
+  private static List<SpeechLine> ParseSpeechList(JToken speechArrayToken,JToken rootJson)
   {
     var speechList=new List<SpeechLine>();
     foreach (var token in speechArrayToken.Values<JToken>())
     {
-      var changeableToken = TokenAsDataIfPointer(token, parent);
+      var changeableToken = TokenAsDataIfPointer(token, rootJson);
       AddToSpeechOrThrow(changeableToken,speechList);
     }
 
@@ -155,9 +158,9 @@ public static class JsonParseUtils
   }
   
   
-  private static List<MovementAction> ParseMovementActions(JToken movements,JToken parent)
+  private static List<MovementAction> ParseMovementActions(JToken movements,JToken rootJson)
   {
-    movements= TokenAsDataIfPointer(movements, parent);
+    movements= TokenAsDataIfPointer(movements, rootJson);
     
     var actions = new List<MovementAction>();
     foreach (var jToken in movements.Children())
@@ -269,17 +272,23 @@ public static class JsonParseUtils
     return token.Type != JTokenType.String ? token : ParseFromFile<T>(token.Value<string>());
   }
   
-  private static T TokenAsDataIfPointer<T>(T token,JToken parent) where T:JToken
+  private static T TokenAsDataIfPointer<T>(T token,JToken rootJson) where T:JToken
   {
     if (token.Type != JTokenType.String) return token;
+
+    string tokenData = token.ToObject<string>();
     
-    if (parent.Type == JTokenType.Object && ((JObject)parent).ContainsKey(token.ToObject<string>()))
+    if (rootJson.Type == JTokenType.Object && ((JObject)rootJson).ContainsKey(tokenData))
     {
-      return ((JObject)parent)[parent.Value<string>(token)].ToObject<T>();
+      return ((JObject)rootJson)[tokenData].ToObject<T>();
     }
 
+    if (!ResourceLoader.Exists(tokenData))
+    {
+      throw new JsonException("Could not find path: " + tokenData);
+    }
+    
     return ParseFromFile<T>(token.Value<string>());
-
   }
 
   private static T OrAsOptional<T>(this JObject json, string key,T optional)

@@ -1,6 +1,8 @@
 using System;
 using Godot;
+using Newtonsoft.Json.Linq;
 using SpiritualAdventure.levels;
+using SpiritualAdventure.utility;
 
 namespace SpiritualAdventure.ui;
 
@@ -100,9 +102,23 @@ public partial class Root : Node
     }
 
     currentDisplay = Displaying.Game;
-    var levelScene = ResourceLoader.Load<PackedScene>("res://levels/Level"+levelCounter+".tscn");
+
+    string jsonPath = "utility/json/Level" + levelCounter + ".json";
+
+    if (ResourceLoader.Exists(jsonPath))
+    {
+      JsonParseUtils.ParseLevel(JsonParseUtils.ParseFromFile<JObject>(jsonPath),
+        out Level level,out Level.LevelBuilder dataSkeleton);
+      currentLevel = level;
+      currentLevel.AppendBuilder(dataSkeleton);
+    }
+    else
+    {
+      var levelScene = ResourceLoader.Load<PackedScene>("res://levels/Level"+levelCounter+".tscn");
     
-    currentLevel = levelScene.Instantiate<Level>();
+      currentLevel = levelScene.Instantiate<Level>();
+    }
+    
     singleton.AddChild(currentLevel);
     
   }

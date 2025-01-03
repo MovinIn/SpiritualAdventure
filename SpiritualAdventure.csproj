@@ -12,6 +12,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="utility\json\Level2.json" />
     <Content Include="utility\json\NpcTest.json" />
     <Content Include="utility\json\SpeechLineTest.json" />
   </ItemGroup>
