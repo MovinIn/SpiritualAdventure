@@ -72,7 +72,14 @@ public partial class Level : Node2D
       return this;
     }
   }
+
+  public enum CameraMode
+  {
+    Player,Cutscene,Ghost
+  }
   
+  
+  private LevelBuilder builder;
   
   private Queue<ObjectiveDisplayGroup> objectiveQueue=new();
   private Dictionary<Type, List<Npc>> npcs=new();
@@ -82,9 +89,8 @@ public partial class Level : Node2D
 
   public static Player player;
 
-  public static bool isCutscene { get; private set; }
-  public static Camera2D cutsceneCamera;
-  private LevelBuilder builder;
+  public static Camera2D cutsceneCamera,ghostCamera;
+  public static CameraMode currentCameraMode { get; private set; }
 
   protected Level()
   {
@@ -98,13 +104,16 @@ public partial class Level : Node2D
 
   private void Init(Vector2 playerPosition,List<ObjectiveDisplayGroup> iObjectiveGroups,List<Npc> npcList,Narrator narrator)
   {
-    isCutscene = false;
+    currentCameraMode=CameraMode.Player;
     
     GetNodeOrNull<TileMapLayer>("InvisibleTileMap")?.SetVisible(false);
     
     cutsceneCamera = new Camera2D();
-    AddChild(cutsceneCamera);
+    ghostCamera = new Camera2D();
     
+    AddChild(cutsceneCamera);
+    AddChild(ghostCamera);
+      
     player = Player.Instantiate();
     player.Position = playerPosition;
     AddChild(player);
@@ -205,22 +214,27 @@ public partial class Level : Node2D
   {
     return !InGame() || PauseSplash.Paused();
   }
-  
+
   public static bool InGame()
   {
     return Root.currentDisplay == Root.Displaying.Game;
   }
 
-  public static void SetCutscene(bool isCutscene)
+  public static void SetCameraMode(CameraMode cameraMode)
   {
-    if (!InGame()) return; 
+    if (!InGame()) return;
+
+    currentCameraMode = cameraMode;
     
-    Level.isCutscene = isCutscene;
-    
-    if (!isCutscene)
+    switch(cameraMode)
     {
-      player.MakeCameraCurrent();
+      case CameraMode.Player:
+        player.MakeCameraCurrent();
+        break;
+      case CameraMode.Ghost:
+        ghostCamera.MakeCurrent();
+        break;
     }
-    
   }
+  
 }

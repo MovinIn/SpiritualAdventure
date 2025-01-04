@@ -125,9 +125,16 @@ public partial class Root : Node
 
   public override void _Input(InputEvent @event)
   {
-    if (Level.InGame()&&@event.IsActionPressed("printPlayerPosition"))
+    if (Level.InGame()&&@event.IsActionPressed("printCameraPosition"))
     {
-      GD.Print(Level.player.Position);
+      GD.Print(GetViewport().GetCamera2D().GetScreenCenterPosition());
+    }
+
+    if (Level.InGame() && @event.IsActionPressed("ghostMode"))
+    {
+      Level.SetCameraMode(Level.currentCameraMode!=Level.CameraMode.Ghost 
+        ? Level.CameraMode.Ghost : Level.CameraMode.Player);
+      GD.Print("toggling to mode: "+Level.currentCameraMode);
     }
   }
 }

@@ -29,7 +29,8 @@ public partial class Player : CharacterBody2D
   private void GameTick(double delta)
   {
     if (Level.Paused()) return;
-    if (Level.isCutscene)
+    if (Level.currentCameraMode!=Level.CameraMode.Player && 
+        Level.currentCameraMode!=Level.CameraMode.Ghost)
     {
       IdleOrElse(true);
       return;
@@ -42,7 +43,15 @@ public partial class Player : CharacterBody2D
     IdleOrElse(inputDirection==new Vector2(),"walk");
     sprite.updateRotation(Velocity.X);
 
-    MoveAndSlide();
+    switch (Level.currentCameraMode)
+    {
+      case Level.CameraMode.Player:
+        MoveAndSlide();
+        break;
+      case Level.CameraMode.Ghost:
+        Translate(Velocity*(float)delta);
+        break;
+    }
   }
 
   private void IdleOrElse(bool idle,string animation="idle"){

@@ -15,10 +15,9 @@ public class PanCutsceneAction:CutsceneAction
   
   public void Act()
   {
-    if (Level.isCutscene)
-    {
-      Level.cutsceneCamera.Position = position;
-      Level.cutsceneCamera.MakeCurrent();
-    }
+    if (Level.currentCameraMode != Level.CameraMode.Cutscene) return;
+    
+    Level.cutsceneCamera.Position = position;
+    Level.cutsceneCamera.MakeCurrent();
   }
 }

@@ -25,7 +25,7 @@ public class SimpleCutsceneObjective: IHasObjective
   {
     if (this.objective != objective || status != Objective.Status.Initiated) return;
     
-    Level.SetCutscene(true);
+    Level.SetCameraMode(Level.CameraMode.Cutscene);
     
     if (actions.Count == 0)
     {
@@ -66,7 +66,7 @@ public class SimpleCutsceneObjective: IHasObjective
 
   private void Completed()
   {
-    Level.SetCutscene(false);
+    Level.SetCameraMode(Level.CameraMode.Player);
     objective.CompletedObjective();
   }
 

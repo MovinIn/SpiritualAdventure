@@ -77,7 +77,7 @@ public partial class InteractDisplay : MarginContainer
       return;
     }
     
-    if (!IsActive()&&!Level.isCutscene)
+    if (!IsActive()&&Level.currentCameraMode!=Level.CameraMode.Cutscene)
     {
       InteractProximityFilter.OnInput(@event);
       return;

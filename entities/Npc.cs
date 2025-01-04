@@ -182,7 +182,7 @@ public partial class Npc : AnimatableBody2D
 
   private void UpdateRotation()
   {
-	if (!Level.isCutscene)
+	if (Level.currentCameraMode!=Level.CameraMode.Cutscene)
 	{
 	  SetDirection(Level.player.Position.X-Position.X);
 	}
