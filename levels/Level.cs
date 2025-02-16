@@ -6,6 +6,7 @@ using SpiritualAdventure.entities;
 using SpiritualAdventure.objectives;
 using SpiritualAdventure.objects;
 using SpiritualAdventure.ui;
+using SpiritualAdventure.utility;
 
 namespace SpiritualAdventure.levels;
 
@@ -15,11 +16,18 @@ public partial class Level : Node2D
   public class LevelBuilder
   {
     public Vector2 playerPosition = Vector2.Zero;
-    public List<ObjectiveDisplayGroup> iObjectiveGroups = new();
-    public List<Npc> npcList = new();
-    public Narrator narrator = new();
+    public List<ObjectiveDisplayGroup> iObjectiveGroups { get; private set; }
+    public List<Npc> npcList { get; private set; }
+    public Narrator narrator { get; private set; }
+    public List<GameObject> gameObjects { get; private set; }
 
-    private LevelBuilder() { }
+    private LevelBuilder()
+    {
+      iObjectiveGroups = new List<ObjectiveDisplayGroup>();
+      npcList = new List<Npc>();
+      narrator = new Narrator();
+      gameObjects = new List<GameObject>();
+    }
 
     public static LevelBuilder Init()
     {
@@ -29,6 +37,12 @@ public partial class Level : Node2D
     public LevelBuilder SetPlayerPosition(Vector2 playerPosition)
     {
       this.playerPosition = playerPosition;
+      return this;
+    }
+
+    public LevelBuilder AppendGameObjects(List<GameObject> gameObjects)
+    {
+      this.gameObjects.AddRange(gameObjects);
       return this;
     }
     
@@ -43,6 +57,8 @@ public partial class Level : Node2D
       this.npcList.AddRange(npcList);
       return this;
     }
+    
+    
 
     public LevelBuilder ClearNpcList()
     {

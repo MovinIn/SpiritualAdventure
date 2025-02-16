@@ -1,18 +1,18 @@
-﻿{
+{
   "content": "start speech content",
   "nextKey": "a",
   
   "a": {
-    "content": "a content",
-    "options": [["option 1","c"],["option 2","c"],["option 3","c"]],
-    "nextKey": "b"
+	"content": "a content",
+	"options": [["option 1","c"],["option 2","c"],["option 3","c"]],
+	"nextKey": "b"
   },
   
   "b": {
-    "content": "b content"
+	"content": "b content"
   },
   
   "c": {
-    "content": "c content"
+	"content": "c content"
   }
 }

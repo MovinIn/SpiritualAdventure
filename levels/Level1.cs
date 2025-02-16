@@ -12,7 +12,9 @@ public partial class Level1 : LevelWithTestExtensions
   public override void _Ready()
   {
     var objective= TestTouchObjective(new Vector2(100,100));
-    var parsedNpc=JsonParseUtils.ParseNpc(JsonParseUtils.ParseFromFile<JObject>("utility/json/NpcTest.json"),this);
+    var parser = new DynamicParser(null);
+    var parsedNpc = parser.ParseNpc(DynamicParser.ParseFromFile<JObject>("utility/json/NpcTest.json"));    
+    // var parsedNpc=JsonParseUtils.ParseNpc(JsonParseUtils.ParseFromFile<JObject>("utility/json/NpcTest.json"));
 
     var builder=LevelBuilder.Init()
       .SetPlayerPosition(Vector2.Zero)

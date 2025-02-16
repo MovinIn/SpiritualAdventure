@@ -15,8 +15,11 @@ public class JsonParseTests
   [Test]
   public void TestSpeechLineParsing() //troll test
   {
-    var speechLine = JsonParseUtils.ParseSpeech(JsonParseUtils.ParseFromFile<JObject>(
+    var parser = new DynamicParser(null);
+    var speechLine = parser.ParseSpeechLine(DynamicParser.ParseFromFile<JObject>(
       "C:/Users/steve/csharp-workspace/SpiritualAdventure/utility/json//SpeechLineTest.json"));
+    // var speechLine = JsonParseUtils.ParseSpeech(JsonParseUtils.ParseFromFile<JObject>(
+      // "C:/Users/steve/csharp-workspace/SpiritualAdventure/utility/json//SpeechLineTest.json"));
 
     try
     {

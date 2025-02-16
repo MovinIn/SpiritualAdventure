@@ -107,9 +107,12 @@ public partial class Root : Node
 
     if (ResourceLoader.Exists(jsonPath))
     {
-      JsonParseUtils.ParseLevel(JsonParseUtils.ParseFromFile<JObject>(jsonPath),
-        out Level level,out Level.LevelBuilder dataSkeleton);
-      currentLevel = level;
+      DynamicParser parser = new DynamicParser(null);
+      currentLevel = parser.ParseLevel(DynamicParser.ParseFromFile<JObject>(jsonPath),
+        out var dataSkeleton);
+      // JsonParseUtils.ParseLevel(JsonParseUtils.ParseFromFile<JObject>(jsonPath),
+        // out Level level,out Level.LevelBuilder dataSkeleton);
+      // currentLevel = level;
       currentLevel.AppendBuilder(dataSkeleton);
     }
     else
