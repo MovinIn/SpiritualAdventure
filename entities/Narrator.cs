@@ -5,9 +5,8 @@ namespace SpiritualAdventure.entities;
 
 public class Narrator : Interactable
 {
-  [JsonIgnore]
-  private bool interacting;
-  
+  [JsonIgnore] public bool isInteracting { get; private set; }
+
   private Speaker narrator;
   private string name;
   
@@ -22,7 +21,7 @@ public class Narrator : Interactable
   {
     this.narrator = narrator;
     this.name = name;
-    interacting = false;
+    isInteracting = false;
     NotInteracting = notInteracting;
   }
 
@@ -34,7 +33,7 @@ public class Narrator : Interactable
   
   public void Narrate(SpeechLine lines)
   {
-    interacting = true;
+    isInteracting = true;
     currLine = lines;
     InteractDisplay.UpdateInteractDisplay(narrator.asTexture(),name,lines,this);
   }
@@ -73,14 +72,9 @@ public class Narrator : Interactable
     currLine = currLine?.options![option];
   }
 
-  public bool IsInteracting()
-  {
-    return interacting;
-  }
-
   public void SetNotInteracting()
   {
-    interacting = false;
+    isInteracting = false;
     NotInteracting?.Invoke();
   }
 }

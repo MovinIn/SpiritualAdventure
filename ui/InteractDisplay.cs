@@ -89,7 +89,7 @@ public partial class InteractDisplay : MarginContainer
 
       currentSpeechDelay = 0;
       
-      if (!currentInteractable.IsInteracting())
+      if (!currentInteractable.isInteracting)
       {
         Exit();
         return;

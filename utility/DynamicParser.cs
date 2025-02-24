@@ -13,7 +13,7 @@ namespace SpiritualAdventure.utility;
 public class DynamicParser
 {
   private JObject rawPointers;
-  private Dictionary<string, object> filteredPointers;
+  private readonly Dictionary<string, object> filteredPointers;
   public DynamicParser(JObject rawPointers)
   {
     this.rawPointers = rawPointers ?? new JObject();
@@ -26,14 +26,8 @@ public class DynamicParser
     var line = new SpeechLine((string)dyn.content);
     if (dyn.nextKey != null)
     {
-      line.next = DynamicParse<SpeechLine, JObject>(dyn.nextKey, extraPointers,
-        out JObject unparsed, out bool isPointer) ?? ParseSpeechLineRecursive(unparsed, extraPointers);
-      // JObject nextKey = OrOfPointer<JObject>(dyn.nextKey,extraPointers,out bool isPointer);
-      // line.next = ParseSpeechLineRecursive(nextKey,extraPointers);
-      if (isPointer)
-      {
-        filteredPointers[((JToken)dyn.nextKey).Value<string>()]=line.next;
-      }
+      line.next = DynamicClone<SpeechLine, JObject>(dyn.nextKey, extraPointers,
+        new Func<JObject, SpeechLine>(o => ParseSpeechLineRecursive(o,extraPointers)));
     }
 
     if (dyn.options != null)
@@ -43,14 +37,8 @@ public class DynamicParser
       foreach (var token in options)
       {
         JArray option = (JArray)token;
-        SpeechLine nextLine=DynamicParse<SpeechLine,JObject>(option[1],extraPointers,
-          out var unparsed,out bool isPointer) ?? ParseSpeechLineRecursive(unparsed, extraPointers);
-        // JObject lineData=OrOfPointer<JObject>(option[1],extraPointers,out var isPointer);
-        // SpeechLine nextLine = ParseSpeechLineRecursive(lineData,extraPointers);
-        if (isPointer)
-        {
-          filteredPointers[option[1].Value<string>()] = nextLine;
-        }
+        SpeechLine nextLine=DynamicClone(option[1], extraPointers,
+          new Func<JObject, SpeechLine>(o => ParseSpeechLineRecursive(o,extraPointers)));
         optionsDict.Add(option[0].Value<string>(),nextLine);
       }
       line.options=optionsDict;
@@ -217,18 +205,61 @@ public class DynamicParser
                                 "pointers, nor was a valid resource path.");
   }
 
-  public TV DynamicParse<TV,TP>(JToken token,JObject extraPointers, out TP unparsed, out bool isPointer) where TP:JToken
+  /**
+   * Returns the value of type TV if the token is of type string and is a key in filteredPointers,
+   * otherwise outs unparsed JToken of type TP and bool isPointer.
+   */
+  private TV DynamicParseHelper<TV,TP>(JToken token,JObject extraPointers, 
+    out TP unparsed, out bool isUnparsedPointer) where TP:JToken where TV:ICloneable<TV>
   {
     unparsed = null;
-    isPointer = false;
+    isUnparsedPointer = false;
     if (token.Type == JTokenType.String && filteredPointers.TryGetValue(token.Value<string>(), out var value))
     {
       return (TV)value;
     }
 
-    unparsed = OrOfPointer<TP>(token, extraPointers, out var x);
-    isPointer = x;
+    unparsed = OrOfPointer<TP>(token, extraPointers, out var isPointer);
+    isUnparsedPointer = isPointer;
     return default;
+  }
+
+  /**
+   * Returns the value of type TV if the token is of type string and is a key in filteredPointers,
+   * otherwise uses the parser to return TV. If it uses the parser, it adds the
+   * resulting value to filteredPointers.
+   */
+  public TV DynamicParse<TV, TP>(JToken token,JObject extraPointers,Func<TP,TV> parser) 
+    where TP:JToken where TV:ICloneable<TV>
+  {
+    var value = DynamicParseHelper<TV, TP>(token, extraPointers,
+      out var unparsed, out var isPointer) ?? parser(unparsed);
+    if (isPointer)
+    {
+      filteredPointers[token.Value<string>()] = value;
+    }
+
+    return value;
+  }
+  /**
+   * Similar to DynamicParse except for the fact that it clones the value if it is pre-existing
+   * in filteredPointers.
+   * <br/><br/>
+   * Returns a clone of the value of type TV if the token is of type string and is a key in filteredPointers,
+   * otherwise uses the parser to return TV. If it uses the parser, it adds the
+   * resulting value to filteredPointers.
+   */
+  public TV DynamicClone<TV, TP>(JToken token,JObject extraPointers,Func<TP,TV> parser)
+    where TP:JToken where TV:class,ICloneable<TV>
+  {
+    var value = DynamicParseHelper<TV, TP>(token, extraPointers,
+      out var unparsed, out var isPointer)?.Clone() ?? parser(unparsed);
+    if (isPointer)
+    {
+      filteredPointers[token.Value<string>()] = value;
+    }
+
+    return value;
   }
   
   public static T ParseFromFile<T>(string file) where T:JToken

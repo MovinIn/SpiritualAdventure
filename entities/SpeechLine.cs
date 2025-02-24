@@ -5,20 +5,23 @@ using Newtonsoft.Json;
 
 namespace SpiritualAdventure.entities;
 
-public class SpeechLine
+public class SpeechLine:ICloneable<SpeechLine>
 {
   public string line { get; private set;}
-
+  
+#nullable enable
+  
   [JsonProperty("delay", NullValueHandling=NullValueHandling.Ignore)]
   private double? delay;
-
+  
   [JsonProperty("next", NullValueHandling=NullValueHandling.Ignore)]
   public SpeechLine? next;
   
-#nullable enable
   [JsonProperty("options", NullValueHandling=NullValueHandling.Ignore)]
   public Dictionary<string, SpeechLine>? options;
-    
+  
+#nullable disable
+  
   private static readonly double letterDelay = SpeechDisplay.letterDelay;
 
   public SpeechLine() { }
@@ -87,5 +90,15 @@ public class SpeechLine
   public double GetDelay()
   {
     return delay ?? line.Length*letterDelay;
+  }
+
+  public SpeechLine Clone()
+  {
+    return new SpeechLine {
+      line = line,
+      options = options?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value),
+      delay = delay,
+      next = next?.Clone()
+    };
   }
 }

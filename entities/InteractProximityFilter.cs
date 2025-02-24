@@ -36,9 +36,9 @@ public partial class InteractProximityFilter : Node
   public override void _Process(double delta)
   {
     if (Level.Paused()||Level.currentCameraMode==Level.CameraMode.Cutscene) return;
-    if (min != null && min.IsInteracting()) return;
+    if (min != null && min.isInteracting) return;
     min = Closest(Level.player.Position);
-    interactTrigger = min?.GetInteractTrigger();
+    interactTrigger = min?.trigger;
   }
 
   public static void OnInput(InputEvent @event)

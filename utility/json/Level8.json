@@ -1,0 +1,109 @@
+﻿{
+  "template": "Level8",
+  "playerPosition": [0,0],
+  "npcs":[
+    "1", "2", "3", "4", "5", "6", "7", "8","herod","priest1","priest2","priest3"
+  ],
+  "rawPointers": {
+    "p-npc": {
+      "type": "path-determinant",
+      "movement": [[0,0,5],[20,0,5],[0,0,5],[-20,0,5],[0,0,5]],
+      "x": 0,
+      "y": 0,
+      "repeatMotion": true,
+      "speaker": "Archer",
+      "name": "Npc",
+      "interactable": true,
+      "speech": ["s1","s2","s3","s4"]
+    },
+    "1": "p-npc", "2": "p-npc", "3": "p-npc", "4": "p-npc", "5": "p-npc", "6": "p-npc",
+    "7": "p-npc", "8": "p-npc",
+    "herod": {
+      "type": "regular",
+      "x": 2000,
+      "y": 250,
+      "speaker": "Red_Merchant",
+      "name": "Herod",
+      "interactable": true,
+      "speech": ["h1"]
+    },
+    "priest1": {
+      "type": "regular",
+      "x": 5000,
+      "y": 250,
+      "speaker": "Swordsman",
+      "name": "Priest 1",
+      "interactable": false
+    },
+    "priest2": {
+      "type": "regular",
+      "x": 5200,
+      "y": 250,
+      "speaker": "Swordsman",
+      "name": "Priest 2",
+      "interactable": false
+    },
+    "priest3": {
+      "type": "regular",
+      "x": 5400,
+      "y": 250,
+      "speaker": "Swordsman",
+      "name": "Priest 3",
+      "interactable": false
+    },
+    
+    
+    
+    "s1": {
+      "content": "King of the Jews; I'm honestly not sure. Another ten years, I suppose?"
+    },
+    "s2": {
+      "content": "Somehow he is to be the perfect sacrifice... Am I a sinner too? (psst! Psalm 40:6–8)"
+    },
+    "s3": {
+      "content": "Legend has it that the Messiah would speak in parables - I wonder the implications! (psst! Psalm 78:1–2)"
+    },
+    "s4": {
+      "content": "The scriptures prophesize of several miracles performed by the Messiah - I await excitedly for his appearance. (psst! Isaiah 35:5–6)"
+    },
+    "h1": {
+      "content": "Ah, King of the Jews, you say? Hmm.. how interesting. ",
+      "nextKey": "a",
+      "a": {
+        "content": "What say you, those who seek; may receive! Let us call together all the chief priests and teachers of the law, so that we may discover the birthplace of such a great Messiah!"
+      }
+    },
+    "h2": {
+      "content": "Ah, the town of Bethlehem! Praise be his name.",
+      "nextKey": "a",
+      "a": {
+        "content": " Go and search carefully for the child. As soon as you find him, report to me, so that I too may go and worship him."
+      }
+    },
+    "warning1": {
+      "content": "h-huh!? What's this?",
+      "nextKey": "a",
+      "a": {
+        "content": "I see... a bright.. light....."
+      }
+    },
+    "warning2": {
+      "content": "Do not be afraid, dear Magi. I have been sent from the Holy one above to brief you of the coming of the Messiah.",
+      "nextKey": "a",
+      "a": {
+        "content": "Let it become necessary to NOT report back to the king. For he is wicked and the Messiah's safety must be assured.",
+        "nextKey": "b"
+      },
+      "b": {
+        "content": "Peace and grace be to you all who believe in our Lord who is to be named Jesus Christ."
+      }
+    },
+    "end": {
+      "content": "And so, the gifts of gold, frankincense, and myrrh were given to the Son of God. Praise be his name.",
+      "nextKey": "a",
+      "a": {
+        "content": "And you, as the Magi, return back in secrecy, not alerting Herod, the wicked."
+      }
+    }
+  }
+}

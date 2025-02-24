@@ -2,7 +2,7 @@
 
 public interface TriggerableInteractable:Interactable
 {
+  public string trigger { get; }
   public void HideInteractTrigger();
   public void ShowInteractTrigger();
-  public string GetInteractTrigger();
 }

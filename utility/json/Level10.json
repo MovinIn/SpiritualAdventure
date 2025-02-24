@@ -1,0 +1,11 @@
+﻿{
+  "template": "Level10",
+  "playerPosition": [0,0],
+  "npcs":[
+  ],
+  "rawPointers": {
+    "person": {
+      
+    }
+  }
+}

@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NUnit.Framework.Constraints;
 using SpiritualAdventure.levels;
+using SpiritualAdventure.utility;
 
 namespace SpiritualAdventure.entities;
 
 [JsonObject(MemberSerialization.OptIn)]
-public partial class PathDeterminantNpc : Npc
+public partial class PathDeterminantNpc : Npc,ICloneable<PathDeterminantNpc>
 {
   private bool moving=true;
   private bool repeatMotion=false;
@@ -24,6 +27,8 @@ public partial class PathDeterminantNpc : Npc
   private float moveDelay;
   [JsonProperty]
   private List<MovementAction> actions;
+
+  private const string scenePath = "res://entities/PathDeterminantNpc.cs";
   
   public override void Parse(JObject json)
   {
@@ -43,7 +48,7 @@ public partial class PathDeterminantNpc : Npc
   
   public new static PathDeterminantNpc Instantiate()
   {
-    return Npc.Instantiate<PathDeterminantNpc>("res://entities/PathDeterminantNpc.cs");
+    return Npc.Instantiate<PathDeterminantNpc>(scenePath);
   }
 	
   private void UpdateReplay()
@@ -106,7 +111,7 @@ public partial class PathDeterminantNpc : Npc
     if (Level.Paused()) return;
     
     // If not moving, or interacting, or in delay, do not process.
-    if (!moving || interactTrigger.IsInteracting())
+    if (!moving || interactTrigger.isInteracting)
     {
       IdleOrElse();
       return;
@@ -144,5 +149,11 @@ public partial class PathDeterminantNpc : Npc
     replayPlayer.PlayReplay(replay);
     originalPosition = Position;
     IdleOrElse();
+  }
+  
+  public new PathDeterminantNpc Clone()
+  {
+    return base.Clone().SafelySetScript<PathDeterminantNpc>(scenePath)
+      .UpdateMovement(actions.ToList(),moveDelay,isRelativePath,repeatMotion);
   }
 }

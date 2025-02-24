@@ -1,0 +1,54 @@
+﻿{
+  "template": "Level9",
+  "playerPosition": [0,0],
+  "npcs":[
+    "w1", "w2", "w3", "w4", "w5", "w6", "w7", "w8", "w9"
+  ],
+  "rawPointers": {
+    "angel1": {
+      "content": "Get up! Take the child and his mother and escape to Egypt.",
+      "nextKey": "a",
+      "a": {
+        "content": "Stay there until I tell you, for Herod is going to search for the child to kill him.",
+        "nextKey": "b"
+      },
+      "b": {
+        "content": "Be assured, Joseph, for God will protect you and your child as necessary to glorify him at the proper time."
+      }
+    },
+    "caught": {
+      "content": "Aha! Caught you, you sneaky peasant! To King Herod you will pay your dividends."
+    },
+    "angel2": {
+      "content": "Get up, take the child and his mother and go to the land of Israel, for those who were trying to take the child’s life are dead."
+    },
+    "end": {
+      "content": "But when he heard that Archelaus was reigning in Judea in place of his father Herod, he was afraid to go there. Having been warned in a dream, he withdrew to the district of Galilee, 23 and he went and lived in a town called Nazareth.",
+      "nextKey": "a",
+      "a": {
+        "content": " So was fulfilled what was said through the prophets, that he would be called a Nazarene."
+      }
+    },
+    
+    
+    "p-warrior": {
+      "type": "path-determinant",
+      "movement": [[0,0,5],[20,0,5],[0,0,5],[-20,0,5],[0,0,5]],
+      "x": 0,
+      "y": 0,
+      "repeatMotion": true,
+      "speaker": "Archer",
+      "name": "Herod's Warriors",
+      "interactable": false
+    },
+    "w1": "p-warrior",
+    "w2": "p-warrior",
+    "w3": "p-warrior",
+    "w4": "p-warrior",
+    "w5": "p-warrior",
+    "w6": "p-warrior",
+    "w7": "p-warrior",
+    "w8": "p-warrior",
+    "w9": "p-warrior"
+  }
+}

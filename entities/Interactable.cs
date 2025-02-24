@@ -2,9 +2,8 @@
 
 public interface Interactable
 {
-    public void Interact();
-    public void OptionInteract(string option);
-    public bool IsInteracting();
-    public void SetNotInteracting();
-    
+  public bool isInteracting { get; }
+  public void Interact();
+  public void OptionInteract(string option);
+  public void SetNotInteracting();
 }
