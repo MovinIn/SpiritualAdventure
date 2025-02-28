@@ -3,6 +3,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using SpiritualAdventure.cutscene.actions;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
 using SpiritualAdventure.objectives;
@@ -145,10 +146,10 @@ public partial class Level5 : Level
       }));
     
     return new ObjectiveDisplayGroup(new List<IHasObjective>{
-      new SimpleCutsceneObjective(new List<Tuple<SpeechAction, List<CutsceneAction>>>
+      new SimpleCutsceneObjective(new List<Tuple<SpeechAction, List<ICutsceneAction>>>
       {
         new (new SpeechAction(new Narrator(Speaker.Layman,"Narrator"),prologue,1),
-          new List<CutsceneAction>()),
+          new List<ICutsceneAction>()),
       }),
       new NegativeObjective(new Objective("Understand "+gospelVerse),new List<Objective>())
     });
@@ -157,7 +158,7 @@ public partial class Level5 : Level
   public ObjectiveDisplayGroup DescriptionCutsceneObjective()
   {
     SimpleCutsceneObjective cutsceneObjective = new(
-      new List<Tuple<SpeechAction, List<CutsceneAction>>>
+      new List<Tuple<SpeechAction, List<ICutsceneAction>>>
       {
         new(new SpeechAction(new Narrator(Speaker.Layman,"Narrator"),
           SimpleLinearSpeechBuilder.Of(new List<string>
@@ -166,7 +167,7 @@ public partial class Level5 : Level
             "The father of Jesus is Joseph - however, because his wife Mary is unexpectedly pregnant, he " +
             "wishes to divorce her quietly, as he cannot explain how she has become pregnant!",
             "As an angel sent down from heaven by God, encourage Joseph to support Mary and give birth to Jesus Christ!"
-          }),1), new List<CutsceneAction>())
+          }),1), new List<ICutsceneAction>())
       });
 
     return new ObjectiveDisplayGroup(new List<IHasObjective>{cutsceneObjective});
@@ -203,9 +204,9 @@ public partial class Level5 : Level
 
     var narrator = new Narrator(Speaker.Archer,"Narrator");
     SimpleCutsceneObjective cutsceneObjective=new(
-      new List<Tuple<SpeechAction, List<CutsceneAction>>> {
+      new List<Tuple<SpeechAction, List<ICutsceneAction>>> {
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0,new List<CutsceneAction>
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -215,7 +216,7 @@ public partial class Level5 : Level
           })
         }),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1.5f,new List<CutsceneAction>
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1.5f,new List<ICutsceneAction>
         {
           new PanCutsceneAction(new Vector2(2303f, 530f)),
           new InlineCutsceneAction(() =>
@@ -227,16 +228,16 @@ public partial class Level5 : Level
         
         new(new SpeechAction(narrator,new SpeechLine("And so, Joseph and Mary traveled safely to Bethlehem in God's " +
                                                      "protection, stopping to rest at an old stable..." ),1),
-          new List<CutsceneAction>
+          new List<ICutsceneAction>
           {
-            new CutsceneMovementAction(mary,new List<MovementAction>{new (657f,0)},
+            new MovementCutsceneAction(mary,new List<MovementAction>{new (657f,0)},
               0,true,false,0),
-            new CutsceneMovementAction(joseph,new List<MovementAction>{new (657f,0)},
+            new MovementCutsceneAction(joseph,new List<MovementAction>{new (657f,0)},
               0,true,false,0) 
           }),
         
         new(new SpeechAction(narrator,new SpeechLine("And baby Jesus was born. "),7),
-          new List<CutsceneAction> {spawnJesus}),
+          new List<ICutsceneAction> {spawnJesus}),
         
         SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1)
         
@@ -282,7 +283,7 @@ public partial class Level5 : Level
       new[]{"WRONG OPTION 1","WRONG OPTION 2","WRONG OPTION 3"});
 
     var rawTargetSpeechObjective = new Objective("Finish talking to Joseph");
-    TargetSpeechObjective targetSpeechObjective = new(rawTargetSpeechObjective,targetLine);
+    TargetSpeechObjective targetSpeechObjective = new(targetLine,rawTargetSpeechObjective);
 
 
     return new ObjectiveDisplayGroup(new List<IHasObjective>

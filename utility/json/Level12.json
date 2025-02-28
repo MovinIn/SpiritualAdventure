@@ -1,0 +1,79 @@
+﻿{
+  "template": "Level12",
+  "playerPosition": [0,0],
+  "npcs": [
+    "p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9"
+  ],
+  "rawPointers": {
+    "person": {
+      "type": "path-determinant",
+      "movement": [[0,0],[100,0]],
+      "x": 0,
+      "y": 0,
+      "repeatMotion": false,
+      "speaker": "Archer",
+      "name": "Person",
+      "interactable": true
+    },
+    "p0": "person",
+    "p1": "person",
+    "p2": "person",
+    "p3": "person",
+    "p4": "person",
+    "p5": "person",
+    "p6": "person",
+    "p7": "person",
+    "p8": "person",
+    "p9": "person",
+    
+    "checkHeart": {
+      "content": "My belief that I can be healed: ${number}/100"
+    },
+
+    "s0":{
+      "content": "Lord, my son is suffering terribly—please heal him!",
+      "options": [["Heal",null],["Check Heart","checkHeart"]]
+    },
+    "s1":{
+      "content": "Jesus, have mercy on me and restore my sight!",
+      "options": [["Heal",null],["Check Heart","checkHeart"]]
+    },
+    "s2":{
+      "content": "Master, my body is crippled—can you make me walk again?",
+      "options": [["Heal",null],["Check Heart","checkHeart"]]
+    },
+    "s3":{
+      "content": "Heal my daughter, for she is tormented by sickness!",
+      "options": [["Heal",null],["Check Heart","checkHeart"]]
+    },
+    "s4":{
+      "content": "Rabbi, my hands are withered—please make them whole!",
+      "options": [["Heal",null],["Check Heart","checkHeart"]]
+    },
+    "s5":{
+      "content": "Jesus, my loved one is dying—only You can save them!",
+      "options": [["Heal",null],["Check Heart","checkHeart"]]
+    },
+    "s6":{
+      "content": "Son of David, cast out the demons that torment my brother!",
+      "options": [["Heal",null],["Check Heart","checkHeart"]]
+    },
+    "s7":{
+      "content": "Lord, my friend is paralyzed—let him rise and walk!",
+      "options": [["Heal",null],["Check Heart","checkHeart"]]
+    },
+    "s8":{
+      "content": "Healer, cleanse me of this leprosy and make me pure!",
+      "options": [["Heal",null],["Check Heart","checkHeart"]]
+    },
+    "s9":{
+      "content": "Jesus, just say the word, and I know I will be healed!",
+      "options": [["Heal",null],["Check Heart","checkHeart"]]
+    },
+    
+    "cutscene": {
+      "content": "As in scripture,Jesus never refused healing for those who seeked him."
+    }
+  }
+  
+}

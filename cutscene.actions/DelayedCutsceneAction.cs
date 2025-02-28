@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using SpiritualAdventure.objects;
 using SpiritualAdventure.ui;
 
-namespace SpiritualAdventure.objects;
+namespace SpiritualAdventure.cutscene.actions;
 
-public abstract class DelayedCutsceneAction:Action,CutsceneAction
+public abstract class DelayedCutsceneAction:Action,ICutsceneAction
 {
   
   protected DelayedCutsceneAction(double initialDelay) : base(initialDelay) { }

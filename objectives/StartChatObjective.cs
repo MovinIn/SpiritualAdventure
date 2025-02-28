@@ -1,6 +1,5 @@
 ﻿using SpiritualAdventure.entities;
-
-namespace SpiritualAdventure.objects;
+using SpiritualAdventure.objects;
 
 public class StartChatObjective: IHasObjective
 {

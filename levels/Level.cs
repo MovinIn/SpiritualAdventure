@@ -7,6 +7,7 @@ using SpiritualAdventure.objectives;
 using SpiritualAdventure.objects;
 using SpiritualAdventure.ui;
 using SpiritualAdventure.utility;
+using SpiritualAdventure.utility.parse;
 
 namespace SpiritualAdventure.levels;
 
@@ -20,6 +21,7 @@ public partial class Level : Node2D
     public List<Npc> npcList { get; private set; }
     public Narrator narrator { get; private set; }
     public List<GameObject> gameObjects { get; private set; }
+    public DynamicParser parser { get; private set; }
 
     private LevelBuilder()
     {
@@ -27,6 +29,7 @@ public partial class Level : Node2D
       npcList = new List<Npc>();
       narrator = new Narrator();
       gameObjects = new List<GameObject>();
+      parser = new DynamicParser(null);
     }
 
     public static LevelBuilder Init()
@@ -37,6 +40,12 @@ public partial class Level : Node2D
     public LevelBuilder SetPlayerPosition(Vector2 playerPosition)
     {
       this.playerPosition = playerPosition;
+      return this;
+    }
+
+    public LevelBuilder SetDynamicParser(DynamicParser parser)
+    {
+      this.parser = parser;
       return this;
     }
 
@@ -95,7 +104,7 @@ public partial class Level : Node2D
   }
   
   
-  private LevelBuilder builder;
+  protected LevelBuilder builder;
   
   private Queue<ObjectiveDisplayGroup> objectiveQueue=new();
   private Dictionary<Type, List<Npc>> npcs=new();

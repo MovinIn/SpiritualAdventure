@@ -3,6 +3,7 @@ using Godot;
 using Newtonsoft.Json.Linq;
 using SpiritualAdventure.levels;
 using SpiritualAdventure.utility;
+using SpiritualAdventure.utility.parse;
 
 namespace SpiritualAdventure.ui;
 
@@ -107,12 +108,9 @@ public partial class Root : Node
 
     if (ResourceLoader.Exists(jsonPath))
     {
-      DynamicParser parser = new DynamicParser(null);
+      var parser = new DynamicParser(null); //TODO: somehow get this parser accessible in Level[X].cs
       currentLevel = parser.ParseLevel(DynamicParser.ParseFromFile<JObject>(jsonPath),
         out var dataSkeleton);
-      // JsonParseUtils.ParseLevel(JsonParseUtils.ParseFromFile<JObject>(jsonPath),
-        // out Level level,out Level.LevelBuilder dataSkeleton);
-      // currentLevel = level;
       currentLevel.AppendBuilder(dataSkeleton);
     }
     else

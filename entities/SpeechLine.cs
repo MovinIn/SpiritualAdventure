@@ -1,30 +1,90 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using Newtonsoft.Json;
+using SpiritualAdventure.objectives;
 
 namespace SpiritualAdventure.entities;
 
 public class SpeechLine:ICloneable<SpeechLine>
 {
+
+  public class SpeechLineBuilder
+  {
+    private string line;
+    private double? delay;
+    private SpeechLine? next;
+    private Dictionary<string, SpeechLine>? options;
+    private Identity? identity;
+
+    private SpeechLineBuilder(string line)
+    {
+      this.line = line;
+    }
+
+    public static SpeechLineBuilder Init(string line)
+    {
+      return new SpeechLineBuilder(line);
+    }
+    
+    public SpeechLineBuilder SetLine(string line)
+    {
+      this.line = line;
+      return this;
+    }
+    public SpeechLineBuilder SetDelay(double delay)
+    {
+      this.delay = delay;
+      return this;
+    }
+    public SpeechLineBuilder SetNext(SpeechLine next)
+    {
+      this.next = next;
+      return this;
+    }
+    public SpeechLineBuilder SetOptions(Dictionary<string,SpeechLine> options)
+    {
+      this.options=new Dictionary<string, SpeechLine>(options);
+      return this;
+    }
+    public SpeechLineBuilder SetIdentity(Identity identity)
+    {
+      this.identity = identity;
+      return this;
+    }
+
+    public SpeechLine Build()
+    {
+      return new SpeechLine(line,delay,next,options,identity);
+    }
+  }
+  
+  
+  
+  
   public string line { get; private set;}
   
-#nullable enable
-  
-  [JsonProperty("delay", NullValueHandling=NullValueHandling.Ignore)]
   private double? delay;
-  
-  [JsonProperty("next", NullValueHandling=NullValueHandling.Ignore)]
   public SpeechLine? next;
-  
-  [JsonProperty("options", NullValueHandling=NullValueHandling.Ignore)]
   public Dictionary<string, SpeechLine>? options;
-  
-#nullable disable
+  public Identity? identity { get; private set; } 
   
   private static readonly double letterDelay = SpeechDisplay.letterDelay;
 
+  private SpeechLine(string line,double? delay,SpeechLine? next,
+    Dictionary<string,SpeechLine>? options,Identity? identity)
+  {
+    this.line = line;
+    this.delay = delay;
+    this.next = next;
+    this.options = options;
+    this.identity = identity;
+  }
+
   public SpeechLine() { }
+  
+  
   
   public SpeechLine(string line, SpeechLine? next=null)
   {

@@ -4,6 +4,7 @@ using System.Linq;
 using Godot;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
+using SpiritualAdventure.objectives;
 
 namespace SpiritualAdventure.ui;
 
@@ -49,7 +50,7 @@ public partial class InteractDisplay : MarginContainer
     Visible = false;
   }
 
-  public static void UpdateInteractDisplay(Texture2D texture, string name, SpeechLine speech, Interactable interactable)
+  public static void UpdateInteractDisplay(Identity identity, SpeechLine speech, Interactable interactable)
   {
     if (currentInteractable != interactable)
     {
@@ -57,7 +58,7 @@ public partial class InteractDisplay : MarginContainer
     }
 
     currentInteractable = interactable;
-    speakerDetails.setSpeaker(texture, name);
+    speakerDetails.SetIdentity(identity);
     UpdateSpeechLine(speech);
   }
 
@@ -108,8 +109,13 @@ public partial class InteractDisplay : MarginContainer
       Exit();
       return;
     }
+    
     currentSpeechLine = speech;
     speechDisplay.SetSpeech(speech.line);
+    if (speech.identity != null)
+    {
+      speakerDetails.SetIdentity(speech.identity.Value);
+    }
     PingHandlers(SpeechType.Line,speech.line);
     singleton.Visible = true;
     HideOptions();

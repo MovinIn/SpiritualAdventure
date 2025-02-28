@@ -1,0 +1,44 @@
+﻿{
+  "template": "Level11",
+  "playerPosition": [0,0],
+  "npcs": [
+    "devil"
+  ],
+  "rawPointers": {
+    "devil": {
+      "type": "regular",
+      "x": 0,
+      "y": 0,
+      "speaker": "Red_Merchant",
+      "name": "Satan",
+      "interactable": false
+    },
+    
+    "narration1": {
+      "content": "Then Jesus was led by the Spirit into the wilderness to be tempted by the devil. After fasting forty days and forty nights, he was hungry."
+    },
+    "temptation1": {
+      "content": "The tempter came to him and said, “If you are the Son of God, tell these stones to become bread.”",
+      "options": [["It is written: ‘Man shall not live on bread alone, but on every word that comes from the mouth of God.'","r1"],["WRONG ANSWER","w"]]
+    },
+    "r1": {
+      "content": "Hmm... very wise. (psst! check out Deut 8:3)",
+      "nextKey": "temptation2"
+    },
+    "temptation2": {
+      "content": "If you are the Son of God,” he said, “throw yourself down. For it is written: 'He will command his angels concerning you, and they will lift you up in their hands, so that you will not strike your foot against a stone.' (psst! Psalm 91:11,12)",
+      "options": [["It is also written: ‘Do not put the Lord your God to the test.’","r2"],["WRONG ANSWER","w"]]
+    },
+    "r2": {
+      "content": "mmmm... (psst! check out Deut. 6:16)",
+      "nextKey": "temptation3"
+    },
+    "temptation3": {
+      "content": "All this I will give you,” he said, “if you will bow down and worship me.”",
+      "options": [["Away from me, Satan! For it is written: ‘Worship the Lord your God, and serve him only.’","r3"],["WRONG ANSWER","w"]],
+    },
+    "r3": {
+      "content": "Then the devil left him, and angels came and attended him."
+    }
+  }
+}

@@ -8,7 +8,7 @@ using SpiritualAdventure.ui;
 
 namespace SpiritualAdventure.objects;
 
-public class Objective
+public class Objective:ICloneable<Objective>
 {
   public enum Status
   {
@@ -110,4 +110,8 @@ public class Objective
     return !completed && !hardFail && Initiated();
   }
 
+  public Objective Clone()
+  {
+    return new Objective(description, postCompletionFeedback);
+  }
 }

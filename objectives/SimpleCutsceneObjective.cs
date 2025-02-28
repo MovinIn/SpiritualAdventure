@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Godot;
+using SpiritualAdventure.cutscene.actions;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
 
@@ -9,10 +10,10 @@ namespace SpiritualAdventure.objects;
 public class SimpleCutsceneObjective: IHasObjective
 {
   public Objective objective { get; }
-  private List<Tuple<SpeechAction, List<CutsceneAction>>> actions;
+  private List<Tuple<SpeechAction, List<ICutsceneAction>>> actions;
   private int actionIndex;
 
-  public SimpleCutsceneObjective(List<Tuple<SpeechAction, List<CutsceneAction>>> actions)
+  public SimpleCutsceneObjective(List<Tuple<SpeechAction, List<ICutsceneAction>>> actions)
   {
     // Every cutsceneAction (movement, effects, etc.) should be initiated by a speechaction.
     // Therefore, List<SpeechAction,CutsceneAction>
@@ -70,11 +71,11 @@ public class SimpleCutsceneObjective: IHasObjective
     objective.CompletedObjective();
   }
 
-  public static Tuple<SpeechAction, List<CutsceneAction>> DelayedActionsWithoutSpeech(float delay,
-    List<CutsceneAction> actions=null)
+  public static Tuple<SpeechAction, List<ICutsceneAction>> DelayedActionsWithoutSpeech(float delay,
+    List<ICutsceneAction> actions=null)
   {
-    actions ??= new List<CutsceneAction>();
-    return new Tuple<SpeechAction, List<CutsceneAction>>(new SpeechAction(new Narrator(), null, delay), actions);
+    actions ??= new List<ICutsceneAction>();
+    return new Tuple<SpeechAction, List<ICutsceneAction>>(new SpeechAction(new Narrator(), null, delay), actions);
   }
   
 }

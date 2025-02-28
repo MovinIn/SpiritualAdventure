@@ -1,6 +1,4 @@
-﻿using Godot;
-using SpiritualAdventure.entities;
-using SpiritualAdventure.objects;
+﻿using SpiritualAdventure.objects;
 using SpiritualAdventure.ui;
 
 namespace SpiritualAdventure.objectives;
@@ -12,7 +10,7 @@ public class TargetSpeechObjective:IHasObjective
   private readonly string targetLine;
   private bool foundTargetLine;
 
-  public TargetSpeechObjective(Objective objective, string targetLine)
+  public TargetSpeechObjective(string targetLine,Objective objective)
   {
     this.objective = objective;
     this.targetLine = targetLine;

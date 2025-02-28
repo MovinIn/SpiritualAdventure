@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using SpiritualAdventure.cutscene.actions;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
 using SpiritualAdventure.objectives;
@@ -62,9 +63,9 @@ public partial class Level7 : Level
     
     var narrator = new Narrator(Speaker.Archer,"Narrator");
     SimpleCutsceneObjective cutsceneObjective=new(
-      new List<Tuple<SpeechAction, List<CutsceneAction>>> {
+      new List<Tuple<SpeechAction, List<ICutsceneAction>>> {
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0,new List<CutsceneAction>
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0,new List<ICutsceneAction>
         {
           new PanCutsceneAction(camPosition)
         }),
@@ -73,13 +74,13 @@ public partial class Level7 : Level
                                                      " of sedition in a kangaroo court. He was arrested and " +
                                                      "forced up a hill wearing a crown of thorns while bearing " +
                                                      "the cross."),1),
-          new List<CutsceneAction>()),
+          new List<ICutsceneAction>()),
         
         new(new SpeechAction(evilJudgeNarrator,new SpeechLine("Here, here! We have unanimously found Jesus " +
                                                              "Christ to be guilty of sedition!" ),1.5f),
-          new List<CutsceneAction>()),
+          new List<ICutsceneAction>()),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1,new List<CutsceneAction>
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -134,16 +135,16 @@ public partial class Level7 : Level
     var failString="Yeah I know. It's tempting to use power when an opportunity presents itself. " +
                       "But Jesus's plan is selfless, dying on the cross to pay for the penalty of our sins.";
 
-    var targetSpeechObjective = new TargetSpeechObjective(new Objective(""),failString);
+    var targetSpeechObjective = new TargetSpeechObjective(failString,new Objective(""));
     
     var negativeObjective = new NegativeObjective(new Objective("Do not be tempted"),
       new List<Objective>{targetSpeechObjective.objective});
     
     
     SimpleCutsceneObjective cutsceneObjective=new(
-      new List<Tuple<SpeechAction, List<CutsceneAction>>> {
+      new List<Tuple<SpeechAction, List<ICutsceneAction>>> {
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0,new List<CutsceneAction>
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0,new List<ICutsceneAction>
         {
           new PanCutsceneAction(camPosition),
           new InlineCutsceneAction(() =>
@@ -164,19 +165,19 @@ public partial class Level7 : Level
                 new SpeechLine("Hahaha. Keep walking, you blasphemer.")
               }
             }),2),
-          new List<CutsceneAction>
+          new List<ICutsceneAction>
           {
-            new CutsceneMovementAction(jesus,new List<MovementAction>
+            new MovementCutsceneAction(jesus,new List<MovementAction>
               {
                 new(j1-jesus.Position)
               },
               0,true,false,0),
-            new CutsceneMovementAction(guard1,new List<MovementAction>
+            new MovementCutsceneAction(guard1,new List<MovementAction>
               {
                 new(initialJesusPosition-guard1.Position)
               },
               0,true,false,0),
-            new CutsceneMovementAction(guard2,new List<MovementAction>
+            new MovementCutsceneAction(guard2,new List<MovementAction>
               {
                 new(initialJesusPosition-guard1.Position-guardDistance)
               },
@@ -185,7 +186,7 @@ public partial class Level7 : Level
         
         FlashRed(),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0.3f,new List<CutsceneAction>
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0.3f,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() => { red1.Visible=true;})
         }),
@@ -201,19 +202,19 @@ public partial class Level7 : Level
                 new SpeechLine("Yep. Knew it.")
               }
             }),2),
-          new List<CutsceneAction>
+          new List<ICutsceneAction>
           {
-            new CutsceneMovementAction(jesus,new List<MovementAction>
+            new MovementCutsceneAction(jesus,new List<MovementAction>
               {
                 new(j2-j1)
               },
               0,true,false,0),
-            new CutsceneMovementAction(guard1,new List<MovementAction>
+            new MovementCutsceneAction(guard1,new List<MovementAction>
               {
                 new(j1-initialJesusPosition)
               },
               0,true,false,0),
-            new CutsceneMovementAction(guard2,new List<MovementAction>
+            new MovementCutsceneAction(guard2,new List<MovementAction>
               {
                 new(j1-initialJesusPosition-guardDistance)
               },
@@ -222,7 +223,7 @@ public partial class Level7 : Level
         
         FlashRed(),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0.3f,new List<CutsceneAction>
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0.3f,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() => { red2.Visible=true;})
         }),
@@ -239,19 +240,19 @@ public partial class Level7 : Level
                 new SpeechLine("I get my paycheck after this. Hurry it up, loser.")
               }
             }),2),
-          new List<CutsceneAction>
+          new List<ICutsceneAction>
           {
-            new CutsceneMovementAction(jesus,new List<MovementAction>
+            new MovementCutsceneAction(jesus,new List<MovementAction>
               {
                 new(j3-j2)
               },
               0,true,false,0),
-            new CutsceneMovementAction(guard1,new List<MovementAction>
+            new MovementCutsceneAction(guard1,new List<MovementAction>
               {
                 new(j2-j1)
               },
               0,true,false,0),
-            new CutsceneMovementAction(guard2,new List<MovementAction>
+            new MovementCutsceneAction(guard2,new List<MovementAction>
               {
                 new(j2-j1-guardDistance)
               },
@@ -260,13 +261,13 @@ public partial class Level7 : Level
         
         FlashRed(),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0.3f,new List<CutsceneAction>
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0.3f,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() => { red3.Visible=true;})
         }),
         
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(2f, new List<CutsceneAction>
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(2f, new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -277,7 +278,7 @@ public partial class Level7 : Level
           })
         }),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(3f, new List<CutsceneAction>
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(3f, new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -290,9 +291,9 @@ public partial class Level7 : Level
         new(new SpeechAction(narrator,new SpeechLine("So, after 24 hours of grueling torture; Jesus, the " +
                                                           "Son of God who did not sin, died on the cross and " +
                                                           "paid for the penalty of our sin for those who " +
-                                                          "believe in him."),7),new List<CutsceneAction>()),
+                                                          "believe in him."),7),new List<ICutsceneAction>()),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(2f, new List<CutsceneAction>
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(2f, new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -303,7 +304,7 @@ public partial class Level7 : Level
         
         new(new SpeechAction(narrator,new SpeechLine("'For the wages of sin is death, but the gift of God is " +
                                                           "eternal life in Christ Jesus our Lord.' - Romans 6:23"),7),
-          new List<CutsceneAction>()),
+          new List<ICutsceneAction>()),
         
         
         SimpleCutsceneObjective.DelayedActionsWithoutSpeech(4)
@@ -314,9 +315,9 @@ public partial class Level7 : Level
   }
 
 
-  private Tuple<SpeechAction, List<CutsceneAction>> FlashRed()
+  private Tuple<SpeechAction, List<ICutsceneAction>> FlashRed()
   {
-    return SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1, new List<CutsceneAction>
+    return SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1, new List<ICutsceneAction>
     {
       new InlineCutsceneAction(() =>
       {

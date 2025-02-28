@@ -1,6 +1,6 @@
 ﻿using SpiritualAdventure.entities;
 
-namespace SpiritualAdventure.objects;
+namespace SpiritualAdventure.cutscene.actions;
 
 public class SpeechAction : DelayedCutsceneAction
 {

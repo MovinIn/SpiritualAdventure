@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Godot;
+using SpiritualAdventure.cutscene.actions;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.objectives;
 using SpiritualAdventure.objects;
@@ -23,27 +24,27 @@ public partial class LevelWithTestExtensions:Level
   {
     var redWarrior = new Narrator(Speaker.Red_Warrior,"Solomon");
     SimpleCutsceneObjective cutsceneObjective=new(
-      new List<Tuple<SpeechAction, List<CutsceneAction>>> {
+      new List<Tuple<SpeechAction, List<ICutsceneAction>>> {
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0,new List<CutsceneAction>
+        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0,new List<ICutsceneAction>
         {
           new PanCutsceneAction(new Vector2(1000, 1000))
         }),
         
         new(new SpeechAction(redWarrior,new SpeechLine("I can't believe I'm going to walk right..."),1),
-          new List<CutsceneAction>
+          new List<ICutsceneAction>
           {
-            new CutsceneMovementAction(npc,new List<MovementAction>{new (100,0)},0,true,false,1.5)
+            new MovementCutsceneAction(npc,new List<MovementAction>{new (100,0)},0,true,false,1.5)
           }),
         
         new(new SpeechAction(redWarrior,new SpeechLine("Just to walk left again."),3),
-          new List<CutsceneAction>
+          new List<ICutsceneAction>
           {
-            new CutsceneMovementAction(npc,new List<MovementAction>{new (-100,0)},0,true,false,1.5)
+            new MovementCutsceneAction(npc,new List<MovementAction>{new (-100,0)},0,true,false,1.5)
           }),
         
         new(new SpeechAction(redWarrior,new SpeechLine("How life is meaningless without God."),3),
-          new List<CutsceneAction>()),
+          new List<ICutsceneAction>()),
         
         SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1)
         

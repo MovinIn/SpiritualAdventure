@@ -5,6 +5,7 @@ using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
 using SpiritualAdventure.objectives;
 using SpiritualAdventure.utility;
+using SpiritualAdventure.utility.parse;
 
 public partial class Level1 : LevelWithTestExtensions
 {
@@ -13,8 +14,7 @@ public partial class Level1 : LevelWithTestExtensions
   {
     var objective= TestTouchObjective(new Vector2(100,100));
     var parser = new DynamicParser(null);
-    var parsedNpc = parser.ParseNpc(DynamicParser.ParseFromFile<JObject>("utility/json/NpcTest.json"));    
-    // var parsedNpc=JsonParseUtils.ParseNpc(JsonParseUtils.ParseFromFile<JObject>("utility/json/NpcTest.json"));
+    var parsedNpc = NpcParseUtils.Parse(DynamicParser.ParseFromFile<JObject>("utility/json/NpcTest.json"),parser);    
 
     var builder=LevelBuilder.Init()
       .SetPlayerPosition(Vector2.Zero)

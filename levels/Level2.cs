@@ -1,11 +1,8 @@
-using System;
 using Godot;
 using System.Collections.Generic;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
 using SpiritualAdventure.objectives;
-using SpiritualAdventure.objects;
-using SpiritualAdventure.ui;
 
 public partial class Level2 : LevelWithTestExtensions
 {

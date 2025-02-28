@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using SpiritualAdventure.utility;
+using SpiritualAdventure.utility.parse;
 
 namespace SpiritualAdventure.tests;
 
@@ -16,10 +17,8 @@ public class JsonParseTests
   public void TestSpeechLineParsing() //troll test
   {
     var parser = new DynamicParser(null);
-    var speechLine = parser.ParseSpeechLine(DynamicParser.ParseFromFile<JObject>(
-      "C:/Users/steve/csharp-workspace/SpiritualAdventure/utility/json//SpeechLineTest.json"));
-    // var speechLine = JsonParseUtils.ParseSpeech(JsonParseUtils.ParseFromFile<JObject>(
-      // "C:/Users/steve/csharp-workspace/SpiritualAdventure/utility/json//SpeechLineTest.json"));
+    var speechLine = SpeechParseUtils.Parse(DynamicParser.ParseFromFile<JObject>(
+      "C:/Users/steve/csharp-workspace/SpiritualAdventure/utility/json//SpeechLineTest.json"),parser);
 
     try
     {

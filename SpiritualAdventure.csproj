@@ -13,6 +13,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="utility\json\Level10.json" />
+    <Content Include="utility\json\Level11.json" />
+    <Content Include="utility\json\Level12.json" />
     <Content Include="utility\json\Level2.json" />
     <Content Include="utility\json\Level8.json" />
     <Content Include="utility\json\Level9.json" />

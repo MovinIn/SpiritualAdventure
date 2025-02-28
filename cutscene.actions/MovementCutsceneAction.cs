@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using SpiritualAdventure.entities;
+using SpiritualAdventure.objectives;
 
-namespace SpiritualAdventure.objects;
+namespace SpiritualAdventure.cutscene.actions;
 
-public class CutsceneMovementAction:DelayedCutsceneAction
+public class MovementCutsceneAction:DelayedCutsceneAction
 {
   private List<MovementAction> moves;
   private float moveDelay;
   private bool isRelativePath,repeatMotion;
   private PathDeterminantNpc npc;
-  public CutsceneMovementAction(PathDeterminantNpc npc,List<MovementAction> moves,float moveDelay,
+  public MovementCutsceneAction(PathDeterminantNpc npc,List<MovementAction> moves,float moveDelay,
     bool isRelativePath,bool repeatMotion,double initialDelay) : base(initialDelay)
   {
     this.moves = moves;

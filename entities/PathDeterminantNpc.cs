@@ -14,7 +14,7 @@ namespace SpiritualAdventure.entities;
 public partial class PathDeterminantNpc : Npc,ICloneable<PathDeterminantNpc>
 {
   private bool moving=true;
-  private bool repeatMotion=false;
+  private bool repeatMotion;
   private double currTime;
 	
   private Replay replay;
@@ -29,22 +29,6 @@ public partial class PathDeterminantNpc : Npc,ICloneable<PathDeterminantNpc>
   private List<MovementAction> actions;
 
   private const string scenePath = "res://entities/PathDeterminantNpc.cs";
-  
-  public override void Parse(JObject json)
-  {
-    base.Parse(json);
-    if (json.TryGetValue("moveDelay", out var delayToken))
-    {
-      currTime = moveDelay;
-      moveDelay=delayToken.ToObject<float>();
-    }
-    if (json.TryGetValue("isRelativePath", out var isRelativePathToken))
-    {
-      isRelativePath = isRelativePathToken.ToObject<bool>();
-    }
-    
-    actions=json.Value<List<MovementAction>>("actions") ?? new List<MovementAction>();
-  }
   
   public new static PathDeterminantNpc Instantiate()
   {

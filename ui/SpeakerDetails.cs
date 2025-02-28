@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using SpiritualAdventure.objectives;
 using SpiritualAdventure.ui;
 
 public partial class SpeakerDetails : GridContainer
@@ -13,16 +14,21 @@ public partial class SpeakerDetails : GridContainer
         name=GetNode<RichTextLabel>("%Name");
 	}
 
-    public void setSpeaker(Speaker speaker)
+    public void SetIdentity(Identity identity)
     {
-        setSpeaker(speaker.asTexture(),speaker.asTitle());
+      SetIdentity(identity.speaker,identity.name);
     }
-    public void setSpeaker(Speaker speaker,string name)
+    
+    public void SetIdentity(Speaker speaker)
     {
-        setSpeaker(speaker.asTexture(),name);
+        SetIdentity(speaker.asTexture(),speaker.asTitle());
+    }
+    public void SetIdentity(Speaker speaker,string name)
+    {
+        SetIdentity(speaker.asTexture(),name);
     }
 
-    public void setSpeaker(Texture2D texture,string name)
+    public void SetIdentity(Texture2D texture,string name)
     {
         avatar.SetTexture(texture);
         this.name.Text = name;

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using SpiritualAdventure.cutscene.actions;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
 using SpiritualAdventure.objectives;
@@ -42,10 +43,10 @@ public partial class Level6 : Level
       new []{"Do not"});
     
 	
-    SimpleCutsceneObjective cutsceneObjective = new(new List<Tuple<SpeechAction, List<CutsceneAction>>>
+    SimpleCutsceneObjective cutsceneObjective = new(new List<Tuple<SpeechAction, List<ICutsceneAction>>>
     {
 	  
-      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0, new List<CutsceneAction>
+      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0, new List<ICutsceneAction>
       {
         new InlineCutsceneAction(() =>
         {
@@ -61,7 +62,7 @@ public partial class Level6 : Level
                                                    "in the Pharisees and Jewish leaders (who would eventually crucify " +
                                                    "Him).",
           new SpeechLine("If you couldn't tell already, you're the blind man - you've been blind your whole life.")),2),
-        new List<CutsceneAction>()),
+        new List<ICutsceneAction>()),
 	  
       new(new SpeechAction(jesusNarrator,new SpeechLine("<Spits on the ground and makes mud>",
           new SpeechLine("<Puts it on the blind man's (you) eyes>",
@@ -70,9 +71,9 @@ public partial class Level6 : Level
               { targetOption, new SpeechLine("Swish... Swish.....") },
               {"Do not", null}
             }))),3),
-        new List<CutsceneAction>()),
+        new List<ICutsceneAction>()),
 	  
-      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(2,new List<CutsceneAction>
+      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(2,new List<ICutsceneAction>
       {
         new InlineCutsceneAction(() =>
         {
@@ -85,7 +86,7 @@ public partial class Level6 : Level
 	  
       new(new SpeechAction(youNarrator,new SpeechLine("Wha..... What....? I can see again..!!",
           new SpeechLine("I must spread the word to my neighbors: how God has blessed my life!")),8),
-        new List<CutsceneAction>())
+        new List<ICutsceneAction>())
     });
     return new ObjectiveDisplayGroup(new List<IHasObjective>{cutsceneObjective,optionObjective});
   }
@@ -191,7 +192,7 @@ public partial class Level6 : Level
 
     Vector2 rightSoldierPosition = rightPhariseePosition - new Vector2(150 + 7 * 35, 0);
 
-    var soldierMovement = new List<CutsceneAction>();
+    var soldierMovement = new List<ICutsceneAction>();
     
     for (int i = 0; i < 6; i++)
     {
@@ -201,15 +202,15 @@ public partial class Level6 : Level
       soldier.SetDirection(1);
       soldier.Position = rightSoldierPosition - new Vector2(25,0)*i;
       AddChild(soldier);
-      soldierMovement.Add(new CutsceneMovementAction(soldier,new List<MovementAction>{new(-1000,0)},
+      soldierMovement.Add(new MovementCutsceneAction(soldier,new List<MovementAction>{new(-1000,0)},
         0,true,false,0));
     }
 
     
-    var actions = new List<Tuple<SpeechAction, List<CutsceneAction>>>
+    var actions = new List<Tuple<SpeechAction, List<ICutsceneAction>>>
     {
 
-      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(2, new List<CutsceneAction>
+      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(2, new List<ICutsceneAction>
       {
         new InlineCutsceneAction(() =>
         {
@@ -218,7 +219,7 @@ public partial class Level6 : Level
         })
       }),
 
-      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(3, new List<CutsceneAction>
+      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(3, new List<ICutsceneAction>
       {
         new PanCutsceneAction(jesusPosition),
         new InlineCutsceneAction(() =>
@@ -230,13 +231,13 @@ public partial class Level6 : Level
 
       new(new SpeechAction(narrator, new SpeechLine("He healed the sick and paralyzed, and performed countless" +
                                                     " miracles and broke numerous cultural barriers."), 2),
-        new List<CutsceneAction>())
+        new List<ICutsceneAction>())
     };
 
     foreach(Npc n in npcArray)
     {
       actions.Add(SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0.3f,
-        new List<CutsceneAction> { new InlineCutsceneAction(() =>
+        new List<ICutsceneAction> { new InlineCutsceneAction(() =>
         {
           
           n.Who((Speaker)speakerList.GetValue(rnd.Next(0,speakerList.Length-1-1))!,"");
@@ -246,7 +247,7 @@ public partial class Level6 : Level
     actions.AddRange(new []
     {
       
-      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(2, new List<CutsceneAction>
+      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(2, new List<ICutsceneAction>
       {
         new InlineCutsceneAction(() =>
         {
@@ -256,22 +257,22 @@ public partial class Level6 : Level
         })
       }),
       
-      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0.5f, new List<CutsceneAction>
+      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0.5f, new List<ICutsceneAction>
       {
         new PanCutsceneAction(phariseeCutscenePosition)
       }),
       
       
-      new Tuple<SpeechAction, List<CutsceneAction>>(new SpeechAction(narrator,
+      new Tuple<SpeechAction, List<ICutsceneAction>>(new SpeechAction(narrator,
           new SpeechLine("Because of this, the Pharisees and Jewish leaders were afraid of losing their political power" +
                          " and that their evil may be put into the light, so they plotted to kill Jesus. "),1),
-        new List<CutsceneAction>()),
+        new List<ICutsceneAction>()),
       
       new(new SpeechAction(phariseeNarrator,new SpeechLine("GO! Find him and BRING HIM TO ME! >:V >:V"),1.5),
-        new List<CutsceneAction>()),
+        new List<ICutsceneAction>()),
       
       new(new SpeechAction(romanSoldierNarrator,new SpeechLine("Sir yes sir!"),0.2),soldierMovement),
-      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0, new List<CutsceneAction>
+      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0, new List<ICutsceneAction>
       {
         new InlineCutsceneAction(() =>
         {
@@ -282,10 +283,10 @@ public partial class Level6 : Level
       }),
       
       new(new SpeechAction(new Narrator(Speaker.Red_Merchant,"Nicodemus"),
-        new SpeechLine("Wait, didn't He do like... nothing wrong?"),6),new List<CutsceneAction>()),
+        new SpeechLine("Wait, didn't He do like... nothing wrong?"),6),new List<ICutsceneAction>()),
       
       new(new SpeechAction(new Narrator(Speaker.Red_Merchant,"That Second Pharisee"),
-        new SpeechLine("Shut it. And close the door on your way out."),1),new List<CutsceneAction>()),
+        new SpeechLine("Shut it. And close the door on your way out."),1),new List<ICutsceneAction>()),
       
       SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1.5f)
       

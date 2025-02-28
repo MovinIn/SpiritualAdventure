@@ -1,10 +1,9 @@
 ﻿using Godot;
 using SpiritualAdventure.levels;
-using SpiritualAdventure.objects;
 
-namespace SpiritualAdventure.objectives;
+namespace SpiritualAdventure.cutscene.actions;
 
-public class PanCutsceneAction:CutsceneAction
+public class PanCutsceneAction:ICutsceneAction
 {
   private Vector2 position;
   

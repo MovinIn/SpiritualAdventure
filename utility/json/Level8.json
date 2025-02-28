@@ -2,7 +2,7 @@
   "template": "Level8",
   "playerPosition": [0,0],
   "npcs":[
-    "1", "2", "3", "4", "5", "6", "7", "8","herod","priest1","priest2","priest3"
+    "1", "2", "3", "4", "5", "6", "7", "8","herod","priest1","priest2","priest3","joseph"
   ],
   "rawPointers": {
     "p-npc": {
@@ -51,9 +51,18 @@
       "name": "Priest 3",
       "interactable": false
     },
-    
-    
-    
+    "joseph": {
+      "type": "regular",
+      "x": -5000,
+      "y": 0,
+      "speaker": "Layman",
+      "name": "Joseph",
+      "interactable": true,
+      "trigger": "Give"
+    },
+
+
+
     "s1": {
       "content": "King of the Jews; I'm honestly not sure. Another ten years, I suppose?"
     },
@@ -67,7 +76,7 @@
       "content": "The scriptures prophesize of several miracles performed by the Messiah - I await excitedly for his appearance. (psst! Isaiah 35:5–6)"
     },
     "h1": {
-      "content": "Ah, King of the Jews, you say? Hmm.. how interesting. ",
+      "content": "Ah, King of the Jews, you say? Hmm.. how interesting.",
       "nextKey": "a",
       "a": {
         "content": "What say you, those who seek; may receive! Let us call together all the chief priests and teachers of the law, so that we may discover the birthplace of such a great Messiah!"

@@ -5,6 +5,7 @@ using Godot;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SpiritualAdventure.levels;
+using SpiritualAdventure.objectives;
 using SpiritualAdventure.ui;
 using SpiritualAdventure.utility;
 
@@ -19,10 +20,10 @@ public partial class Npc : AnimatableBody2D, ICloneable<Npc>
   protected InteractTriggerDisplay interactTrigger;
   protected SpeechLine currLine;
   
-  protected Speaker speaker;
   protected Queue<SpeechLine> speech;
-  protected string name;
 
+  protected Identity identity;
+  
 #nullable enable
   public Action? FinishedSpeech { private get; set; }
   public Action<string>? NewSpeechLine { private get; set; }
@@ -43,29 +44,6 @@ public partial class Npc : AnimatableBody2D, ICloneable<Npc>
   {
     Position = position;
     return this;
-  }
-  
-  public virtual void Parse(JObject json)
-  {
-    if (json.TryGetValue("position", out var positionToken))
-    {
-      Position = positionToken.ToObject<Vector2>();
-    }
-	
-    if (json.TryGetValue("name", out var nameToken) && json.TryGetValue("speaker", out var speakerToken))
-    {
-      Who(speakerToken.ToObject<Speaker>(),nameToken.ToObject<string>());
-    }
-
-    if (json.TryGetValue("trigger", out var triggerToken) && json.TryGetValue("content", out var contentToken))
-    {
-      UseTrigger(triggerToken.ToObject<string>(),contentToken.ToObject<string>());
-    }
-
-    if (json.TryGetValue("speech", out var speechToken))
-    {
-      SetSpeech(speechToken.ToObject<List<SpeechLine>>());
-    }
   }
 
   public Npc()
@@ -90,11 +68,15 @@ public partial class Npc : AnimatableBody2D, ICloneable<Npc>
     IdleOrElse();
   }
 
-  public void Who(Speaker speaker,string name)
+  public void Who(Speaker speaker, string name)
   {
-    this.speaker = speaker;
-    this.name = name;
-    sprite.SetSpriteFrames(speaker.asFrames());
+    identity = new Identity(speaker, name);
+    sprite.SetSpriteFrames(identity.speaker.asFrames());
+  }
+  
+  public void Who(Identity identity)
+  {
+    Who(identity.speaker,identity.name);
   }
 
   public void SetInteractHandler(Action interactHandler=null)
@@ -209,7 +191,7 @@ public partial class Npc : AnimatableBody2D, ICloneable<Npc>
 	
     NewSpeechLine?.Invoke(line.line);
 	
-    InteractDisplay.UpdateInteractDisplay(speaker.asTexture(),name,line,interactTrigger);
+    InteractDisplay.UpdateInteractDisplay(identity,line,interactTrigger);
   }
 
   public void OnOption(string option)
@@ -243,7 +225,7 @@ public partial class Npc : AnimatableBody2D, ICloneable<Npc>
   {
     Npc clone=Instantiate();
     clone.Position = Position;
-    clone.Who(speaker,name);
+    clone.Who(identity);
     if (interactTrigger.HasContent())
     {
       clone.UseTrigger(interactTrigger.trigger,interactTrigger.content);
