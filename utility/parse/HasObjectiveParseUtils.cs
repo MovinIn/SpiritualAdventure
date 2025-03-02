@@ -54,22 +54,8 @@ public static class HasObjectiveParseUtils
                                       " was not a pointer, but of unparsable type: <"+token.Type+">.");
         }
 
-        string type = token.Value<string>();
-      
-        if (!parser.filteredPointers.TryGetValue(type, out var pointer))
-        {
-          throw new ArgumentException("Tried to parse NegativeObjective, but one or more negativeObjectives" +
-                                      " was not a pointer, ie. <"+token.Value<string>()+">.");
-        }
-
-        if (pointer is not Objective value)
-        {
-          throw new ArgumentException("Tried to parse NegativeObjective, but one or more negativeObjectives" +
-                                      " pointed to an object not of type Objective," +
-                                      " but of type <"+pointer.GetType()+">.");
-        }
-      
-        return value;
+        return parser.DynamicParse<Objective,JObject>(token, null, 
+          o => ObjectiveParseUtils.Parse(o, parser));
       }).ToList();
 
     return new NegativeObjective(objective, negativeObjectives);
@@ -86,7 +72,7 @@ public static class HasObjectiveParseUtils
   {
     string correctOption = dyn.correctOption;
     Objective objective = DynamicCloneObjective(dyn.objective,parser);
-    string[] incorrectOptions = ((JArray)dyn.negativeObjectives ?? new JArray())
+    string[] incorrectOptions = ((JArray)dyn.incorrectOptions ?? new JArray())
       .Children().Select(token => token.Value<string>()).ToArray();
     return new OptionObjective(correctOption,objective,incorrectOptions);
   }
@@ -96,10 +82,21 @@ public static class HasObjectiveParseUtils
     JArray tupleArray=dyn.actions;
     List<Tuple<SpeechAction,List<ICutsceneAction>>> actions=tupleArray.Children().Select(token =>
     {
-      dynamic tupleDyn = token.ToObject<JObject>();
+      if (token.Type == JTokenType.Array)
+      {
+        return SimpleCutsceneObjective.DelayedActionsWithoutSpeech(((JArray)token)[1].Value<float>());
+      }
       
-      SpeechAction speechAction = parser.DynamicParse<SpeechAction, JObject>(tupleDyn.speechAction,
-        null,new Func<JObject, SpeechAction>(o  => CutsceneParseUtils.ParseSpeechAction(o, parser)));
+      dynamic tupleDyn = token.ToObject<JObject>();
+      SpeechAction speechAction;
+      if (tupleDyn.speechAction == null)
+      {
+        speechAction = new SpeechAction(new Narrator(), null, 0);
+      }
+      else{
+        speechAction = parser.DynamicParse<SpeechAction, JObject>((JToken)tupleDyn.speechAction,
+          null,o  => CutsceneParseUtils.ParseSpeechAction(o, parser));
+      }
       JArray actions=tupleDyn.actions;
       List<ICutsceneAction> cutsceneActions=actions.Children().Select(actionToken => CutsceneParseUtils.Parse(
         parser.OrOfPointer<JObject>(actionToken, null, out _), parser)).ToList();

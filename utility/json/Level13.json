@@ -1,0 +1,163 @@
+﻿{
+  "template": "Level13",
+  "playerPosition": [0,0],
+  "npcs": [
+    "1","2","3"
+  ],
+  "rawPointers": {
+    "1": {
+      "type": "regular",
+      "x": 200,
+      "y": 0,
+      "speaker": "Red_Warrior",
+      "name": "1",
+      "interactable": true,
+      "speech": ["1-speech"]
+    },
+    "2": {
+      "type": "regular",
+      "x": 400,
+      "y": 0,
+      "speaker": "Layman",
+      "name": "2",
+      "interactable": true,
+      "speech": ["2-speech"]
+    },
+    "3": {
+      "type": "path-determinant",
+      "x": 600,
+      "y": 0,
+      "speaker": "Archer",
+      "name": "3",
+      "movement": []
+    },
+
+    "1-speech": {
+      "content": "insert some lengthy monologue from `1`."
+    },
+    "2-speech": {
+      "content": "some target speech content",
+      "options": [
+        ["some target option","option1"],
+        ["option2","option2"],
+        ["[wrong]option3","option3"],
+        ["[wrong]option4","option3"]],
+      "option1": {
+        "content": "this should complete the `OptionObjective`."
+      },
+      "option2": {
+        "content": "[negative objective]: option2 content"
+      },
+      "option3": {
+        "content": "no one cares"
+      }
+    },
+    "option2TargetSpeechObjective": {
+      "type": "targetSpeech",
+      "target": "[negative objective]: option2 content",
+      "objective": "negativeObjective"
+    },
+    "negativeObjective": {
+      "type": "objective",
+      "description": "o2-target-speech-objective"
+    },
+
+    "speechAction1": {
+      "type": "speechAction",
+      "speaker": "Archer",
+      "name": "N1",
+      "speech": {"content": "simple speech action 1"}
+    }
+  },
+
+
+  "objectiveDisplayGroups":[
+    {
+      "hiddenObjectives": [
+        "option2TargetSpeechObjective"
+      ],
+      "objectives":[
+        {
+          "type":"touch",
+          "position": [200,200],
+          "objective": {"type": "objective","description": "Touch cp at [200,200]"}
+        },
+        {
+          "type": "finishChatObjective",
+          "npc": "1",
+          "objective": {"type": "objective", "description": "Finish talking to \"1\""}
+        },
+        {
+          "type": "negative",
+          "negativeObjectives": ["negativeObjective"],
+          "objective": {
+            "type": "objective",
+            "description": "Option 2 Negative Objective"
+          }
+        },
+        {
+          "type": "option",
+          "correctOption": "some target option",
+          "incorrectOptions":[
+            "[wrong]option3","[wrong]option4"
+          ],
+          "objective": {
+            "type": "objective",
+            "description": "Target Option Objective"
+          }
+        },
+        {
+          "type": "startChat",
+          "npc": "2",
+          "objective": {
+            "type": "objective",
+            "description": "Start Chat with `2`"
+          }
+        }
+      ],
+      "timeLimit": 2000
+    },
+    {
+      "objectives": [
+        {
+          "type": "cutscene",
+          "actions": [
+            {
+              "speechAction": "speechAction1",
+              "actions": [
+                {
+                  "type": "cmovement",
+                  "npc": "3",
+                  "moves": [[0,-100],[-100,100,3],[0,0]]
+                }
+              ]
+            },
+            ["wait",5],
+            {
+              "actions": [
+                {"type": "pan","position": [200,200]},
+                {"type": "inline","pointer": "inline-pointer"},
+                {
+                  "type": "flash",
+                  "actions": [
+                    {"type": "set","color": "Black"},
+                    {"type": "dissolve","duration": 1},
+                    {"type": "toColor","color": "red","duration":0.3},
+                    {"type": "stayStagnant","duration": 1},
+                    {"type": "dissolve","duration": 0.2},
+                    {"type": "toSolid","duration": 1},
+                    {"type": "toColor","color": "green","duration": 5},
+                    {"type": "initiate"}
+                  ]
+                }
+              ]
+            },
+            ["wait",3.5],
+            {"actions": [{"type": "flash", "actions": [{"type": "hardReset"}]}]},
+            ["wait",1.5]
+          ]
+        }
+      ]
+    }
+  ]
+}

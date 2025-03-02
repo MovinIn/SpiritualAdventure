@@ -73,10 +73,11 @@ public static class FlashParseUtils
           a[2].Value<float>(),a[3].Value<float>());
       
       case JTokenType.String:
-        string c = t.Value<string>();
-        if (!OpenColors.GetColors().TryGetValue(c,out var color))
+        string colorInAllCaps = t.Value<string>().ToUpper().Replace("_","");
+        if (!OpenColors.GetColors().TryGetValue(colorInAllCaps,out var color))
         {
-          throw new ArgumentException("Failed to parse color, could not parse string: <" + c + ">.");
+          throw new ArgumentException("Failed to parse color, could not parse string:" +
+                                      " <" + colorInAllCaps + ">.");
         }
         return color;
       default:

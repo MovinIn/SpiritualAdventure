@@ -26,7 +26,7 @@ public class DynamicParser
     dynamic dyn = json;
     string template=json.Value<string>("template") ?? "Level1";
     var levelScene = ResourceLoader.Load<PackedScene>("res://levels/" + template + ".tscn");
-
+    var level = levelScene.Instantiate<Level>();
     rawPointers = dyn.rawPointers ?? new JObject();
 
     List<Npc> npcs = ((JArray)dyn.npcs ?? new JArray()).Children().Select(token =>
@@ -40,12 +40,18 @@ public class DynamicParser
     var playerPosition = new Vector2(positionArr[0].Value<float>(), positionArr[1].Value<float>());
     var narrator = new Narrator(IdentityParseUtils.Parse(json));
 
-    List<ObjectiveDisplayGroup> displayGroups = ((JArray)dyn.objectives ?? new JArray())
+    List<ObjectiveDisplayGroup> displayGroups = ((JArray)dyn.objectiveDisplayGroups ?? new JArray())
       .Children().Select(token =>
       {
         return DynamicParse<ObjectiveDisplayGroup, JObject>(token,
           null, o => ObjectiveGroupParseUtils.Parse(o, this));
       }).ToList();
+    
+    foreach (var touchObjective in displayGroups.SelectMany(group=>group.objectives)
+               .Where(hasObjective=>hasObjective is TouchObjective))
+    {
+      level.AddChild((TouchObjective)touchObjective);
+    }
     
     skeleton = Level.LevelBuilder.Init()
       .AppendNpcList(npcs)
@@ -54,7 +60,7 @@ public class DynamicParser
       .AppendIObjectiveGroups(displayGroups)
       .SetDynamicParser(this);
 
-    return levelScene.Instantiate<Level>();
+    return level;
   }
 
   /**

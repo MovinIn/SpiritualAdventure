@@ -215,7 +215,6 @@ public partial class Level : Node2D
         var line = objective.postCompletionFeedback;
         if (line != null)
         {
-          GD.Print("narrating");
           narrator.Narrate(line);
         }
         else

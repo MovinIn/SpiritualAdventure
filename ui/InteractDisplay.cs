@@ -58,7 +58,6 @@ public partial class InteractDisplay : MarginContainer
     }
 
     currentInteractable = interactable;
-    GD.Print("Isnull:" + (currentInteractable == null));
     speakerDetails.SetIdentity(identity);
     UpdateSpeechLine(speech);
   }
@@ -79,26 +78,15 @@ public partial class InteractDisplay : MarginContainer
       return;
     }
 
-    if(@event.IsActionPressed("interact"))
-    {
-      GD.Print("is null (_input)"+ (currentInteractable == null));
-    }
-    
     if (!IsActive()&&Level.currentCameraMode!=Level.CameraMode.Cutscene)
     {
-      if(@event.IsActionPressed("interact"))
-      {
-        GD.Print("checking");
-      }
       InteractProximityFilter.OnInput(@event);
       return;
     }
 
     if (@event.IsActionPressed("interact"))
     {
-      GD.Print("k");
       if (currentSpeechLine!=null&&currentSpeechDelay<currentSpeechLine.GetDelay()) return;
-      GD.Print("q");
       currentSpeechDelay = 0;
       
       if (!currentInteractable.isInteracting)
@@ -182,7 +170,6 @@ public partial class InteractDisplay : MarginContainer
 
   public static void Exit()
   {
-    GD.Print("Exit");
     PingHandlers(SpeechType.Finished,"");
     singleton.Visible = false;
     speechDisplay.SetSpeech("");

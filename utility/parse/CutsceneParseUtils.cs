@@ -19,7 +19,6 @@ public static class CutsceneParseUtils
     cactionMap = new Dictionary<string, ParseCutsceneAction>
     {
       {"cmovement",ParseMovement},
-      {"wait",ParseWait},
       {"pan",ParsePan},
       {"inline",ParseInline},
       {"flash",ParseFlash},
@@ -69,21 +68,14 @@ public static class CutsceneParseUtils
     return new PanCutsceneAction(position);
   }
 
-  public static WaitCutsceneAction ParseWait(JObject data, DynamicParser parser)
-  {
-    dynamic dyn = data;
-    float delay = dyn.delay;
-    return new WaitCutsceneAction(delay);
-  }
-
   public static MovementCutsceneAction ParseMovement(JObject data, DynamicParser parser)
   {
     dynamic dyn = data;
     var npc=(PathDeterminantNpc) DynamicParseNpc(dyn.npc, parser);
     List<MovementAction> moves=MovementActionParseUtils.Parse(dyn.moves);
-    float moveDelay = dyn.moveDelay;
-    bool isRelativePath = dyn.relativePath;
-    bool repeatMotion = dyn.repeatMotion;
+    float moveDelay = dyn.moveDelay ?? 0;
+    bool isRelativePath = dyn.relativePath ?? true;
+    bool repeatMotion = dyn.repeatMotion ?? false;
     return new MovementCutsceneAction(npc, moves, moveDelay, isRelativePath, repeatMotion,0);
   }
 }

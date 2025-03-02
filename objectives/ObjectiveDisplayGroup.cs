@@ -9,7 +9,7 @@ public class ObjectiveDisplayGroup
   public List<IHasObjective> objectives { get; private set; }
   private readonly float timeLimit;
 
-  public ObjectiveDisplayGroup(List<IHasObjective> objectives,float timeLimit=-1)
+  public ObjectiveDisplayGroup(List<IHasObjective> objectives,float timeLimit=0)
   {
     this.objectives = objectives;
     this.timeLimit = timeLimit;
@@ -17,7 +17,7 @@ public class ObjectiveDisplayGroup
 
   public bool IsTimed()
   {
-    return timeLimit.CompareTo(-1f)!=0;
+    return timeLimit>0;
   }
 
   public float GetTimeLimit()
