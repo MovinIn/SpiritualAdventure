@@ -44,7 +44,7 @@ public partial class ObjectiveDisplay : HBoxContainer
     }
     if (!IsObjectiveRunning()) return;
     
-    RunTimer(objectiveGroup.IsTimed());
+    RunTimer(objectiveGroup!.IsTimed());
   }
 
   public static bool IsObjectiveRunning()

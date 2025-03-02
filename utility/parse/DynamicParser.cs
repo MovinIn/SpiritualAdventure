@@ -6,6 +6,7 @@ using Godot;
 using Newtonsoft.Json.Linq;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
+using SpiritualAdventure.objectives;
 
 namespace SpiritualAdventure.utility.parse;
 
@@ -30,25 +31,29 @@ public class DynamicParser
 
     List<Npc> npcs = ((JArray)dyn.npcs ?? new JArray()).Children().Select(token =>
     {
-      //TODO: replace with DynamicClone()?
-      Npc npc=NpcParseUtils.Parse(OrOfPointer<JObject>(token, null,out bool isPointer), this);
-      if (isPointer)
-      {
-        filteredPointers[token.Value<string>()]=npc;
-      }
+      Npc npc=DynamicClone<Npc, JObject>(token, null, 
+        o => NpcParseUtils.Parse(o, this));
       return npc;
     }).ToList();
 
     JArray positionArr = dyn.playerPosition ?? new JArray(0,0);
     var playerPosition = new Vector2(positionArr[0].Value<float>(), positionArr[1].Value<float>());
     var narrator = new Narrator(IdentityParseUtils.Parse(json));
+
+    List<ObjectiveDisplayGroup> displayGroups = ((JArray)dyn.objectives ?? new JArray())
+      .Children().Select(token =>
+      {
+        return DynamicParse<ObjectiveDisplayGroup, JObject>(token,
+          null, o => ObjectiveGroupParseUtils.Parse(o, this));
+      }).ToList();
     
     skeleton = Level.LevelBuilder.Init()
       .AppendNpcList(npcs)
       .SetPlayerPosition(playerPosition)
-      .SetNarrator(narrator);
+      .SetNarrator(narrator)
+      .AppendIObjectiveGroups(displayGroups)
+      .SetDynamicParser(this);
 
-    //TODO: add preloading of speechlines and npcs, so we can use them inside level!
     return levelScene.Instantiate<Level>();
   }
 
@@ -70,12 +75,12 @@ public class DynamicParser
     string pointer = (string)token;
     if (rawPointers.TryGetValue(pointer!, out var pointerToken))
     {
-      return pointerToken.ToObject<T>();
+      return OrOfPointer<T>(pointerToken,extraPointers,out _);
     }
 
     if (extraPointers.TryGetValue(pointer!, out var extraPointerToken))
     {
-      return extraPointerToken.ToObject<T>();
+      return OrOfPointer<T>(extraPointerToken,extraPointers,out _);
     }
     
     if (ResourceLoader.Exists(pointer))
@@ -101,8 +106,7 @@ public class DynamicParser
       return (TV)value;
     }
 
-    unparsed = OrOfPointer<TP>(token, extraPointers, out var isPointer);
-    isUnparsedPointer = isPointer;
+    unparsed = OrOfPointer<TP>(token, extraPointers, out isUnparsedPointer);
     return default;
   }
 

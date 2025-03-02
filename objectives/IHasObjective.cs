@@ -1,4 +1,4 @@
-﻿namespace SpiritualAdventure.objects;
+﻿namespace SpiritualAdventure.objectives;
 
 public interface IHasObjective
 {

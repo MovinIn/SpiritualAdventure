@@ -1,7 +1,8 @@
 using System;
 using Godot;
+using SpiritualAdventure.objects;
 
-namespace SpiritualAdventure.objects;
+namespace SpiritualAdventure.objectives;
 
 public partial class TouchObjective : Sprite2D, IHasObjective
 {

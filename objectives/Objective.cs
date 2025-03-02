@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Godot;
-using Microsoft.Win32;
 using Newtonsoft.Json;
 using SpiritualAdventure.entities;
-using SpiritualAdventure.ui;
 
-namespace SpiritualAdventure.objects;
+namespace SpiritualAdventure.objectives;
 
 public class Objective:ICloneable<Objective>
 {
@@ -15,14 +12,10 @@ public class Objective:ICloneable<Objective>
     Uninitiated,Initiated,Completed,Failed
   }
   
-  [JsonIgnore]
   public bool completed { get; private set; }
-  [JsonIgnore]
   public bool hardFail { get; private set; }
-  [JsonIgnore]
-  private List<Action<Status,Objective>> handlers=new();
+  private readonly List<Action<Status,Objective>> handlers=new();
   
-  [JsonProperty("postCompletionFeedback", NullValueHandling=NullValueHandling.Ignore)]
 #nullable enable
   public SpeechLine? postCompletionFeedback { get; set; }
 
@@ -56,8 +49,8 @@ public class Objective:ICloneable<Objective>
   }
   
   /**
-   * returns -1 if the objective is not time constrained.
-   */
+ * returns -1 if the objective is not time constrained.
+ */
   public virtual int GetTimeLimit()
   {
     return -1;
@@ -103,8 +96,8 @@ public class Objective:ICloneable<Objective>
   }
   
   /**
-   * Returns true if not completed, not failed, and initiated. Returns false otherwise.
-   */
+ * Returns true if not completed, not failed, and initiated. Returns false otherwise.
+ */
   public bool IsActive()
   {
     return !completed && !hardFail && Initiated();

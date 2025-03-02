@@ -1,5 +1,6 @@
 ﻿#nullable enable
 
+using Godot;
 using Newtonsoft.Json;
 using SpiritualAdventure.objectives;
 using SpiritualAdventure.ui;
@@ -32,8 +33,14 @@ public class Narrator : Interactable
     identity = new Identity(speaker, name);
   }
   
-  public void Narrate(SpeechLine lines)
+  public void Narrate(SpeechLine? lines)
   {
+    if (lines == null)
+    {
+      SetNotInteracting();
+      return;
+    }
+    
     isInteracting = true;
     currLine = lines;
     InteractDisplay.UpdateInteractDisplay(identity,lines,this);

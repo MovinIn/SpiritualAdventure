@@ -2,7 +2,6 @@ using System;
 using Godot;
 using Newtonsoft.Json.Linq;
 using SpiritualAdventure.levels;
-using SpiritualAdventure.utility;
 using SpiritualAdventure.utility.parse;
 
 namespace SpiritualAdventure.ui;
@@ -20,7 +19,7 @@ public partial class Root : Node
   private static LevelSelect levelSelect;
   private static int levelCounter;
   private static Root singleton;
-  public const int MAX_LEVEL_INDEX = 7;
+  public const int MAX_LEVEL_INDEX = 8;
 
   public static Displaying currentDisplay = Displaying.MainMenu;
   
@@ -108,7 +107,7 @@ public partial class Root : Node
 
     if (ResourceLoader.Exists(jsonPath))
     {
-      var parser = new DynamicParser(null); //TODO: somehow get this parser accessible in Level[X].cs
+      var parser = new DynamicParser(null);
       currentLevel = parser.ParseLevel(DynamicParser.ParseFromFile<JObject>(jsonPath),
         out var dataSkeleton);
       currentLevel.AppendBuilder(dataSkeleton);

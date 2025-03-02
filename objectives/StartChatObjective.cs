@@ -1,6 +1,8 @@
 ﻿using SpiritualAdventure.entities;
 using SpiritualAdventure.objects;
 
+namespace SpiritualAdventure.objectives;
+
 public class StartChatObjective: IHasObjective
 {
   private Npc npc;

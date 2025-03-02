@@ -93,6 +93,7 @@ public partial class Level : Node2D
       AppendNpcList(toAppend.npcList);
       AppendIObjectiveGroups(toAppend.iObjectiveGroups);
       narrator= toAppend.narrator;
+      parser = toAppend.parser;
       
       return this;
     }
@@ -106,11 +107,9 @@ public partial class Level : Node2D
   
   protected LevelBuilder builder;
   
-  private Queue<ObjectiveDisplayGroup> objectiveQueue=new();
-  private Dictionary<Type, List<Npc>> npcs=new();
-  private Narrator narrator;
-
-  private bool startObjectives;
+  protected Queue<ObjectiveDisplayGroup> objectiveQueue=new();
+  protected Dictionary<Type, List<Npc>> npcs=new();
+  protected Narrator narrator;
 
   public static Player player;
 
@@ -213,10 +212,11 @@ public partial class Level : Node2D
       {
         GD.Print("Objective Complete!");
         
-        var lines = objective.postCompletionFeedback;
-        if (lines != null)
+        var line = objective.postCompletionFeedback;
+        if (line != null)
         {
-          narrator.Narrate(lines);
+          GD.Print("narrating");
+          narrator.Narrate(line);
         }
         else
         {

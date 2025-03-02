@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using SpiritualAdventure.entities;
+using SpiritualAdventure.objectives;
 using SpiritualAdventure.objects;
 
 namespace SpiritualAdventure.utility.parse;

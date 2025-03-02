@@ -17,7 +17,7 @@ public static class NpcParseUtils
     if (type.ToLower().Contains("path"))
     {
       //I'm a path-determinant npc.
-      float moveDelay = dyn.moveDelay;
+      float moveDelay = dyn.moveDelay ?? 0;
       bool repeatMotion=dyn.repeatMotion ?? false;
       bool isRelativePath = dyn.relativePath ?? true;
       List<MovementAction> movement = MovementActionParseUtils.Parse(

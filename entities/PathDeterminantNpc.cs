@@ -76,9 +76,9 @@ public partial class PathDeterminantNpc : Npc,ICloneable<PathDeterminantNpc>
     return this;
   }
 	
-  public override void _Ready()
+  public override void _EnterTree()
   {
-    base._Ready();
+    base._EnterTree();
     replayPlayer = new ReplayPlayer();
     
     UpdateReplay();

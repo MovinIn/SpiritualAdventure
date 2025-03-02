@@ -21,7 +21,7 @@
     "herod": {
       "type": "regular",
       "x": 2000,
-      "y": 250,
+      "y": 0,
       "speaker": "Red_Merchant",
       "name": "Herod",
       "interactable": true,
@@ -53,15 +53,13 @@
     },
     "joseph": {
       "type": "regular",
-      "x": -5000,
+      "x": -1000,
       "y": 0,
       "speaker": "Layman",
       "name": "Joseph",
       "interactable": true,
-      "trigger": "Give"
+      "content": "Give"
     },
-
-
 
     "s1": {
       "content": "King of the Jews; I'm honestly not sure. Another ten years, I suppose?"
@@ -77,40 +75,40 @@
     },
     "h1": {
       "content": "Ah, King of the Jews, you say? Hmm.. how interesting.",
-      "nextKey": "a",
-      "a": {
+      "nextKey": "h1.a",
+      "h1.a": {
         "content": "What say you, those who seek; may receive! Let us call together all the chief priests and teachers of the law, so that we may discover the birthplace of such a great Messiah!"
       }
     },
     "h2": {
       "content": "Ah, the town of Bethlehem! Praise be his name.",
-      "nextKey": "a",
-      "a": {
+      "nextKey": "h2.a",
+      "h2.a": {
         "content": " Go and search carefully for the child. As soon as you find him, report to me, so that I too may go and worship him."
       }
     },
     "warning1": {
       "content": "h-huh!? What's this?",
-      "nextKey": "a",
-      "a": {
+      "nextKey": "w1.a",
+      "w1.a": {
         "content": "I see... a bright.. light....."
       }
     },
     "warning2": {
       "content": "Do not be afraid, dear Magi. I have been sent from the Holy one above to brief you of the coming of the Messiah.",
-      "nextKey": "a",
-      "a": {
+      "nextKey": "w2.a",
+      "w2.a": {
         "content": "Let it become necessary to NOT report back to the king. For he is wicked and the Messiah's safety must be assured.",
-        "nextKey": "b"
+        "nextKey": "w2.b"
       },
-      "b": {
+      "w2.b": {
         "content": "Peace and grace be to you all who believe in our Lord who is to be named Jesus Christ."
       }
     },
     "end": {
       "content": "And so, the gifts of gold, frankincense, and myrrh were given to the Son of God. Praise be his name.",
-      "nextKey": "a",
-      "a": {
+      "nextKey": "e.a",
+      "e.a": {
         "content": "And you, as the Magi, return back in secrecy, not alerting Herod, the wicked."
       }
     }

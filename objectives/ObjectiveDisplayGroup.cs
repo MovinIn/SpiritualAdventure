@@ -7,7 +7,7 @@ namespace SpiritualAdventure.objectives;
 public class ObjectiveDisplayGroup
 {
   public List<IHasObjective> objectives { get; private set; }
-  private float timeLimit;
+  private readonly float timeLimit;
 
   public ObjectiveDisplayGroup(List<IHasObjective> objectives,float timeLimit=-1)
   {
@@ -34,5 +34,4 @@ public class ObjectiveDisplayGroup
   {
     return objectives.Any(io => io.objective.status == Objective.Status.Failed);
   }
-
 }

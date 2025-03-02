@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Godot;
 using SpiritualAdventure.cutscene.actions;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
+using SpiritualAdventure.objects;
 
-namespace SpiritualAdventure.objects;
+namespace SpiritualAdventure.objectives;
 
 public class SimpleCutsceneObjective: IHasObjective
 {
   public Objective objective { get; }
-  private List<Tuple<SpeechAction, List<ICutsceneAction>>> actions;
+  private readonly List<Tuple<SpeechAction, List<ICutsceneAction>>> actions;
   private int actionIndex;
 
   public SimpleCutsceneObjective(List<Tuple<SpeechAction, List<ICutsceneAction>>> actions)
@@ -77,5 +77,4 @@ public class SimpleCutsceneObjective: IHasObjective
     actions ??= new List<ICutsceneAction>();
     return new Tuple<SpeechAction, List<ICutsceneAction>>(new SpeechAction(new Narrator(), null, delay), actions);
   }
-  
 }

@@ -1,4 +1,5 @@
 ﻿using Godot;
+using SpiritualAdventure.objectives;
 
 namespace SpiritualAdventure.objects;
 
