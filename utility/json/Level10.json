@@ -1,5 +1,5 @@
 ﻿{
-  "template": "Level12",
+  "template": "Level10",
   "playerPosition": [0,0],
   "npcs": [
     
@@ -8,6 +8,6 @@
     
   },
   "objectiveDisplayGroups":[
-    
+
   ]
 }

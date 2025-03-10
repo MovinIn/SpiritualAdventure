@@ -1,0 +1,104 @@
+[gd_scene load_steps=3 format=3 uid="uid://crhpxj6bh5h3w"]
+
+[ext_resource type="Script" path="res://ui/LevelInfoUI.cs" id="1_56ig0"]
+[ext_resource type="Texture2D" uid="uid://m2jsibmrc3wy" path="res://assets/menu.png" id="1_rnudd"]
+
+[node name="LevelInfoUI" type="CanvasLayer"]
+script = ExtResource("1_56ig0")
+
+[node name="ignore" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.00784314)
+offset_right = 46.0
+offset_bottom = 23.0
+text = "."
+
+[node name="Control" type="Control" parent="."]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_top = 150
+theme_override_constants/margin_right = 150
+theme_override_constants/margin_bottom = 150
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("1_rnudd")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/MarginContainer"]
+layout_direction = 3
+layout_mode = 2
+
+[node name="Close" type="Button" parent="Control/MarginContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "Close (X)"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_right = 100
+
+[node name="Title" type="RichTextLabel" parent="Control/MarginContainer/VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[center]A Very Long Title With a Very Long Name Etc [/center]"
+fit_content = true
+
+[node name="Description" type="RichTextLabel" parent="Control/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.161615, 0.219674, 0.450248, 1)
+bbcode_enabled = true
+text = "[center]If i got locked away, 
+and we lost it all today
+tell me honestly
+would you still love me the same?
+If I showed you my flaws
+If I couldn't be strong
+Tell me honestly
+would you still love me the same?
+If I judge for life, man, would you stay by my side?
+Or is you gonna say goodbye?
+Can you tell me right now?
+If I couldn't buy you the fancy things in life
+ [/center]"
+
+[connection signal="pressed" from="Control/MarginContainer/MarginContainer/HBoxContainer/Close" to="." method="OnClose"]

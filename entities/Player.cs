@@ -42,7 +42,7 @@ public partial class Player : CharacterBody2D
     Velocity = inputDirection * Speed;
 
     IdleOrElse(inputDirection==new Vector2(),"walk");
-    sprite.updateRotation(Velocity.X);
+    sprite.UpdateRotation(Velocity.X);
 
     switch (Level.currentCameraMode)
     {

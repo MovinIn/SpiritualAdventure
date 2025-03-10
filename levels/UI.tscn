@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b6xu8o7ytr62t"]
+[gd_scene load_steps=9 format=3 uid="uid://b6xu8o7ytr62t"]
 
 [ext_resource type="Script" path="res://ui/Root.cs" id="1_2bs6p"]
 [ext_resource type="PackedScene" uid="uid://dfbolqsgmpdwr" path="res://ui/GameUI.tscn" id="2_2f72a"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dop7dkgpx804j" path="res://ui/MainMenu.tscn" id="5_2c845"]
 [ext_resource type="Script" path="res://levels/NodeStagingArea.cs" id="6_2sqfh"]
 [ext_resource type="PackedScene" uid="uid://cboso2nglxrl6" path="res://ui/CommandsUI.tscn" id="7_70cp4"]
+[ext_resource type="PackedScene" uid="uid://crhpxj6bh5h3w" path="res://ui/LevelInfoUI.tscn" id="8_ks0s3"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_2bs6p")
@@ -24,3 +25,5 @@ script = ExtResource("3_yrf1k")
 script = ExtResource("6_2sqfh")
 
 [node name="CommandsUI" parent="." instance=ExtResource("7_70cp4")]
+
+[node name="LevelInfoUI" parent="." instance=ExtResource("8_ks0s3")]

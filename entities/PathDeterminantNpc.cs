@@ -48,14 +48,14 @@ public partial class PathDeterminantNpc : Npc,ICloneable<PathDeterminantNpc>
     foreach (var action in actions)
     {
       double delta = Math.Abs(previousPosition.DistanceTo(action.nextPoint)/SPEED);
-      past.scale = sprite.getScale((action.nextPoint-previousPosition).X);
+      past.scale = sprite.GetScale((action.nextPoint-previousPosition).X);
       sprite.Scale = past.scale;
       past = new TimedInfoFrame(action.nextPoint, past.scale, delta,action.initialDelay);
       previousPosition=action.nextPoint;
       replay.add(past);
     }
 
-    sprite.updateRotation(1);
+    sprite.UpdateRotation(1);
   }
 
   public PathDeterminantNpc UpdateMovement(List<MovementAction> actions,float moveDelay,

@@ -196,7 +196,11 @@
                 }
               ]
             },
-            ["wait",6]
+            ["wait",0.2],
+            {
+              "actions": [{"type": "inline","pointer": "devilDisappearance"}]
+            },
+            ["wait",5.8]
           ]
         }
       ]

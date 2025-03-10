@@ -1,6 +1,7 @@
 ﻿using Godot;
 using SpiritualAdventure.cutscene.actions;
 using SpiritualAdventure.entities;
+using SpiritualAdventure.utility;
 
 namespace SpiritualAdventure.levels;
 
@@ -15,11 +16,15 @@ public partial class Level11 : Level
       GD.Print(filteredPointersKey);
     }
     var devil = (Npc)pointers["devil"];
-    InlineCutsceneAction devilAppearance, moveDevil1, moveDevil2;
+    InlineCutsceneAction devilAppearance,devilDisappearance, moveDevil1, moveDevil2;
     devilAppearance = (InlineCutsceneAction)pointers["devilAppearance"];
     moveDevil1 = (InlineCutsceneAction)pointers["moveDevil1"];
     moveDevil2 = (InlineCutsceneAction)pointers["moveDevil2"];
+    devilDisappearance=(InlineCutsceneAction)pointers["devilDisappearance"];
 
+    devil.SetDirection(CharacterSprite.Direction.Left);
+    devil.Visible = false;
+    
     devilAppearance.action = () =>
     {
       devil.Visible = true;
@@ -28,10 +33,19 @@ public partial class Level11 : Level
     moveDevil1.action = () =>
     {
       GD.Print("Moving Devil1");
+      devil.Position = GameUnitUtils.Vector2(-5, 3);
+      devil.SetDirection(CharacterSprite.Direction.Right);
     };
     moveDevil2.action = () =>
     {
       GD.Print("Moving Devil2");
+      devil.Position = GameUnitUtils.Vector2(7, -2);
+      devil.SetDirection(CharacterSprite.Direction.Left);
+    };
+
+    devilDisappearance.action = () =>
+    {
+      devil.Visible = false;
     };
 
     LoadLevel();

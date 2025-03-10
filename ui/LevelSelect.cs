@@ -4,39 +4,39 @@ using SpiritualAdventure.ui;
 public partial class LevelSelect : CanvasLayer
 {
 
-  private LevelSelectPopulator populator;
+  private SpiritualAdventure.ui.LevelSelectPopulator populator;
   private Button previous, next;
   
-    
+	
   // Called when the node enters the scene tree for the first time.
   public override void _Ready()
   {
-    populator = GetNode<LevelSelectPopulator>("%LevelFlowPanel");
-    previous = GetNode<Button>("%PreviousPageButton");
-    next = GetNode<Button>("%NextPageButton");
+	populator = GetNode<SpiritualAdventure.ui.LevelSelectPopulator>("%LevelFlowPanel");
+	previous = GetNode<Button>("%PreviousPageButton");
+	next = GetNode<Button>("%NextPageButton");
   }
   
   public void OnMainMenuPressed()
   {
-    Root.MainMenu();
+	Root.MainMenu();
   }
 
   public void LoadLevels()
   {
-    var tuple=LevelSelectPopulator.LoadLevels(LevelSelectPopulator.Action.None);
-    
-    previous.Disabled=!tuple.Item1;
-    next.Disabled=!tuple.Item2;
+	var tuple=SpiritualAdventure.ui.LevelSelectPopulator.LoadLevels(SpiritualAdventure.ui.LevelSelectPopulator.Action.None);
+	
+	previous.Disabled=!tuple.Item1;
+	next.Disabled=!tuple.Item2;
   }
   
   public void OnPreviousPagePressed()
   {
-    previous.Disabled=!LevelSelectPopulator.LoadLevels(LevelSelectPopulator.Action.Previous).Item1;
+	previous.Disabled=!SpiritualAdventure.ui.LevelSelectPopulator.LoadLevels(SpiritualAdventure.ui.LevelSelectPopulator.Action.Previous).Item1;
   }
 
   public void OnNextPagePressed()
   {
-    next.Disabled=!LevelSelectPopulator.LoadLevels(LevelSelectPopulator.Action.Next).Item2;
+	next.Disabled=!SpiritualAdventure.ui.LevelSelectPopulator.LoadLevels(SpiritualAdventure.ui.LevelSelectPopulator.Action.Next).Item2;
   }
   
 }

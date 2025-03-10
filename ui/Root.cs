@@ -21,6 +21,7 @@ public partial class Root : Node
   private static CanvasLayer gameUI,mainMenu;
   private static LevelSelect levelSelect;
   private static CommandsUI commandsUI;
+  private static LevelInfoUI levelInfoUI;
   private static int levelCounter;
   private static Root singleton;
   public const int MAX_LEVEL_INDEX = 13;
@@ -34,6 +35,7 @@ public partial class Root : Node
     levelSelect=GetNode<LevelSelect>("LevelSelect");
     mainMenu = GetNode<CanvasLayer>("MainMenu");
     commandsUI = GetNode<CommandsUI>("CommandsUI");
+    levelInfoUI = GetNode<LevelInfoUI>("LevelInfoUI");
     
     levelCounter = 1;
     singleton = this;
@@ -86,6 +88,16 @@ public partial class Root : Node
     HideAll();
     levelSelect.Visible = true;
     currentDisplay = Displaying.LevelSelect;
+  }
+
+  public static void DisplayLevelInfo(string title,string description)
+  {
+    levelInfoUI.Display(title,description);
+  }
+
+  public static void CloseLevelInfo()
+  {
+    levelInfoUI.OnClose();
   }
 
   private static void LoadLevel()

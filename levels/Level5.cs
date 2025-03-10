@@ -37,7 +37,7 @@ public partial class Level5 : Level
   {
 
     string gospelVerse = "Romans 6:23 - 'For the wages of sin is death, " +
-                         "but the gift of God is eternal life in Christ Jesus our Lord.";
+                         "but the gift of God is eternal life in Christ Jesus our Lord.'";
     
     var prologue = SimpleLinearSpeechBuilder.Of(new List<string>
     {

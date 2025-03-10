@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dc2y8gkkve5dh"]
+[gd_scene load_steps=3 format=3 uid="uid://dc2y8gkkve5dh"]
 
 [ext_resource type="Script" path="res://ui/LevelSelectButton.cs" id="1_03whc"]
+[ext_resource type="Texture2D" uid="uid://c0muscj7t6t1k" path="res://assets/infoIconNew.png" id="2_seymc"]
 
 [node name="LevelSelectButton" type="Button"]
 custom_minimum_size = Vector2(150, 150)
@@ -8,4 +9,39 @@ theme_override_font_sizes/font_size = 48
 text = "1"
 script = ExtResource("1_03whc")
 
+[node name="Title" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -75.0
+offset_right = 75.0
+grow_horizontal = 2
+grow_vertical = 0
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+
+[node name="InfoVisibilityHandle" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 129
+theme_override_constants/margin_top = 5
+
+[node name="Info" type="TextureButton" parent="InfoVisibilityHandle"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture_normal = ExtResource("2_seymc")
+
 [connection signal="pressed" from="." to="." method="OnPressed"]
+[connection signal="pressed" from="InfoVisibilityHandle/Info" to="." method="OnInfoPressed"]

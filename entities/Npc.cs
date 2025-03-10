@@ -170,9 +170,12 @@ public partial class Npc : AnimatableBody2D, ICloneable<Npc>
     }
   }
 
+  /**
+   * looks left if `direction` is negative; looks right if `direction` is non-negative.
+   */
   public void SetDirection(float direction)
   {
-    sprite.updateRotation(direction);
+    sprite.UpdateRotation(direction);
   }
 	
   public void OnInteract()
