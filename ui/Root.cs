@@ -2,6 +2,7 @@ using System;
 using Godot;
 using Newtonsoft.Json.Linq;
 using SpiritualAdventure.levels;
+using SpiritualAdventure.utility;
 using SpiritualAdventure.utility.parse;
 
 namespace SpiritualAdventure.ui;
@@ -13,10 +14,13 @@ public partial class Root : Node
   {
     Game,MainMenu,LevelSelect
   }
+
+  public const bool IsDeveloper = true;
   
   private static Level currentLevel;
   private static CanvasLayer gameUI,mainMenu;
   private static LevelSelect levelSelect;
+  private static CommandsUI commandsUI;
   private static int levelCounter;
   private static Root singleton;
   public const int MAX_LEVEL_INDEX = 13;
@@ -29,6 +33,7 @@ public partial class Root : Node
     gameUI = GetNode<CanvasLayer>("GameUI");
     levelSelect=GetNode<LevelSelect>("LevelSelect");
     mainMenu = GetNode<CanvasLayer>("MainMenu");
+    commandsUI = GetNode<CommandsUI>("CommandsUI");
     
     levelCounter = 1;
     singleton = this;
@@ -125,9 +130,14 @@ public partial class Root : Node
 
   public override void _Input(InputEvent @event)
   {
+    if (!IsDeveloper) return;
+    
     if (Level.InGame()&&@event.IsActionPressed("printCameraPosition"))
     {
-      GD.Print(GetViewport().GetCamera2D().GetScreenCenterPosition());
+      Vector2 pixelVector = GetViewport().GetCamera2D().GetScreenCenterPosition();
+      GD.Print("Pixel Vector: "+pixelVector);
+      GD.Print("Game Unit Vector: "+GameUnitUtils.FromPixels(pixelVector));
+      return;
     }
 
     if (Level.InGame() && @event.IsActionPressed("ghostMode"))
@@ -135,6 +145,19 @@ public partial class Root : Node
       Level.SetCameraMode(Level.currentCameraMode!=Level.CameraMode.Ghost 
         ? Level.CameraMode.Ghost : Level.CameraMode.Player);
       GD.Print("toggling to mode: "+Level.currentCameraMode);
+      return;
+    }
+
+    if (@event.IsActionPressed("command"))
+    {
+      commandsUI.FocusCommandTerminal();
+      return;
+    }
+
+    if (@event.IsActionPressed("pause"))
+    {
+      PauseSplash.SetPaused(!PauseSplash.Paused());
+      return;
     }
   }
 }

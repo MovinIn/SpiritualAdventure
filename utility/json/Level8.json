@@ -7,7 +7,7 @@
   "rawPointers": {
     "p-npc": {
       "type": "path-determinant",
-      "movement": [[0,0,5],[20,0,5],[0,0,5],[-20,0,5],[0,0,5]],
+      "movement": [[0,0,5],[4,0,5],[0,0,5],[-4,0,5],[0,0,5]],
       "x": 0,
       "y": 0,
       "repeatMotion": true,
@@ -20,7 +20,7 @@
     "7": "p-npc", "8": "p-npc",
     "herod": {
       "type": "regular",
-      "x": 2000,
+      "x": 125,
       "y": 0,
       "speaker": "Red_Merchant",
       "name": "Herod",
@@ -29,31 +29,31 @@
     },
     "priest1": {
       "type": "regular",
-      "x": 5000,
-      "y": 250,
+      "x": 312,
+      "y": 16,
       "speaker": "Swordsman",
       "name": "Priest 1",
       "interactable": false
     },
     "priest2": {
       "type": "regular",
-      "x": 5200,
-      "y": 250,
+      "x": 325,
+      "y": 16,
       "speaker": "Swordsman",
       "name": "Priest 2",
       "interactable": false
     },
     "priest3": {
       "type": "regular",
-      "x": 5400,
-      "y": 250,
+      "x": 338,
+      "y": 16,
       "speaker": "Swordsman",
       "name": "Priest 3",
       "interactable": false
     },
     "joseph": {
       "type": "regular",
-      "x": -1000,
+      "x": -63,
       "y": 0,
       "speaker": "Layman",
       "name": "Joseph",

@@ -7,7 +7,7 @@
   "rawPointers": {
     "person": {
       "type": "path-determinant",
-      "movement": [[0,0],[100,0]],
+      "movement": [[0,0],[6,0]],
       "x": 0,
       "y": 0,
       "repeatMotion": false,

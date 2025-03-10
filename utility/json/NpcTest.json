@@ -1,6 +1,6 @@
 ﻿{
   "type": "path-determinant",
-  "movement": [[100,0],[200,100],[0,0]],
+  "movement": [[6,0],[12,6],[0,0]],
   "x": 1,
   "y": 1,
   "moveDelay": 2.3,

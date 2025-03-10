@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Godot;
 using Newtonsoft.Json.Linq;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.objectives;

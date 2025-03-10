@@ -58,7 +58,7 @@ public static class FlashParseUtils
     {
       case JTokenType.Array:
         JArray a = (JArray)t;
-        if (a.Count!=3||a.Count!=4)
+        if (a.Count!=3&&a.Count!=4)
         {
           throw new ArgumentException("Failed to parse color, expected length of color array " +
                                       "to be 3 or 4, but was <"+a.Count+">.");

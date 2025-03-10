@@ -1,8 +1,8 @@
 {
   "template": "Level2",
   "playerPosition": [
-    500,
-    500
+    31,
+    31
   ],
   "npcs": [
     "utility/json/NpcTest.json",
@@ -13,7 +13,7 @@
       "type": "path-determinant",
       "movement": [
         [
-          300,
+          19,
           0
         ],
         [
@@ -21,8 +21,8 @@
           0
         ]
       ],
-      "x": -300,
-      "y": 300,
+      "x": -19,
+      "y": 19,
       "moveDelay": 2.3,
       "repeatMotion": true,
       "speaker": "Archer",

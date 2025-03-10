@@ -1,6 +1,7 @@
 using Godot;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
+using SpiritualAdventure.utility;
 
 public partial class Player : CharacterBody2D
 {

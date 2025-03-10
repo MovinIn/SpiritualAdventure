@@ -13,7 +13,8 @@ public static class MovementActionParseUtils
     {
       JArray actionData = (JArray)token;
       double delay=actionData.Count==3 ? actionData[2].ToObject<double>() : 0;
-      var movementAction = new MovementAction(actionData[0].Value<int>(), actionData[1].Value<int>(),delay);
+      var movementAction = new MovementAction(
+        GameUnitUtils.Vector2(actionData[0].Value<int>(), actionData[1].Value<int>()),delay);
       movementActions.Add(movementAction);
     }
 

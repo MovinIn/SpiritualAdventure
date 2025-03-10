@@ -82,34 +82,51 @@ public static class HasObjectiveParseUtils
     JArray tupleArray=dyn.actions;
     List<Tuple<SpeechAction,List<ICutsceneAction>>> actions=tupleArray.Children().Select(token =>
     {
-      if (token.Type == JTokenType.Array)
-      {
-        return SimpleCutsceneObjective.DelayedActionsWithoutSpeech(((JArray)token)[1].Value<float>());
-      }
-      
-      dynamic tupleDyn = token.ToObject<JObject>();
-      SpeechAction speechAction;
-      if (tupleDyn.speechAction == null)
-      {
-        speechAction = new SpeechAction(new Narrator(), null, 0);
-      }
-      else{
-        speechAction = parser.DynamicParse<SpeechAction, JObject>((JToken)tupleDyn.speechAction,
-          null,o  => CutsceneParseUtils.ParseSpeechAction(o, parser));
-      }
-      JArray actions=tupleDyn.actions;
-      List<ICutsceneAction> cutsceneActions=actions.Children().Select(actionToken => CutsceneParseUtils.Parse(
-        parser.OrOfPointer<JObject>(actionToken, null, out _), parser)).ToList();
-      return new Tuple<SpeechAction, List<ICutsceneAction>>(speechAction,cutsceneActions);
+      return parser.DynamicParse<Tuple<SpeechAction,List<ICutsceneAction>>,JToken>(token,null,
+        t=>ParseSimpleCutsceneObjectiveTuple(t,parser));
     }).ToList();
 
     return new SimpleCutsceneObjective(actions);
+  }
+
+  private static Tuple<SpeechAction,List<ICutsceneAction>> ParseSimpleCutsceneObjectiveTuple(
+    JToken token,DynamicParser parser)
+  {
+    if (token.Type == JTokenType.Array)
+    {
+      return SimpleCutsceneObjective.DelayedActionsWithoutSpeech(((JArray)token)[1].Value<float>());
+    }
+
+    dynamic tupleDyn = token.ToObject<JObject>();
+    SpeechAction speechAction;
+    if (tupleDyn.speechAction == null)
+    {
+      speechAction = new SpeechAction(new Narrator(), null, 0);
+    }
+    else{
+      GD.Print(tupleDyn.speechAction);
+      speechAction = parser.DynamicParse<SpeechAction, JObject>((JToken)tupleDyn.speechAction,
+        null,o  => CutsceneParseUtils.ParseSpeechAction(o, parser));
+    }
+    JArray actions=tupleDyn.actions;
+    List<ICutsceneAction> cutsceneActions;
+    if (actions == null)
+    {
+      cutsceneActions = new List<ICutsceneAction>();
+    }
+    else
+    {
+      cutsceneActions=actions.Children().Select(actionToken => CutsceneParseUtils.Parse(
+        parser.OrOfPointer<JObject>(actionToken, null, out _), parser)).ToList();
+    }
+
+    return new Tuple<SpeechAction, List<ICutsceneAction>>(speechAction,cutsceneActions);
   }
   
   private static IHasObjective ParseTouch(dynamic dyn, DynamicParser parser)
   {
     JArray positionArr = dyn.position;
-    var position = new Vector2(positionArr[0].Value<float>(), positionArr[1].Value<float>());
+    var position = GameUnitUtils.Vector2(positionArr[0].Value<float>(), positionArr[1].Value<float>());
     Objective objective = DynamicCloneObjective(dyn.objective,parser);
     var touchObjective = TouchObjective.Instantiate(objective);
     touchObjective.Position = position;

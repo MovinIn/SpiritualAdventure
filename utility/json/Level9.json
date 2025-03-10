@@ -33,7 +33,7 @@
     
     "p-warrior": {
       "type": "path-determinant",
-      "movement": [[0,0,5],[20,0,5],[0,0,5],[-20,0,5],[0,0,5]],
+      "movement": [[0,0,5],[4,0,5],[0,0,5],[-4,0,5],[0,0,5]],
       "x": 0,
       "y": 0,
       "repeatMotion": true,

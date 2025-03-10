@@ -37,7 +37,7 @@ public class DynamicParser
     }).ToList();
 
     JArray positionArr = dyn.playerPosition ?? new JArray(0,0);
-    var playerPosition = new Vector2(positionArr[0].Value<float>(), positionArr[1].Value<float>());
+    var playerPosition = GameUnitUtils.Vector2(positionArr[0].Value<float>(), positionArr[1].Value<float>());
     var narrator = new Narrator(IdentityParseUtils.Parse(json));
 
     List<ObjectiveDisplayGroup> displayGroups = ((JArray)dyn.objectiveDisplayGroups ?? new JArray())

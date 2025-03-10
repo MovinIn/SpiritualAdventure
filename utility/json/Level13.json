@@ -7,7 +7,7 @@
   "rawPointers": {
     "1": {
       "type": "regular",
-      "x": 200,
+      "x": 12,
       "y": 0,
       "speaker": "Red_Warrior",
       "name": "1",
@@ -16,7 +16,7 @@
     },
     "2": {
       "type": "regular",
-      "x": 400,
+      "x": 25,
       "y": 0,
       "speaker": "Layman",
       "name": "2",
@@ -25,7 +25,7 @@
     },
     "3": {
       "type": "path-determinant",
-      "x": 600,
+      "x": 37,
       "y": 0,
       "speaker": "Archer",
       "name": "3",
@@ -79,7 +79,7 @@
       "objectives":[
         {
           "type":"touch",
-          "position": [200,200],
+          "position": [12,12],
           "objective": {"type": "objective","description": "Touch cp at [200,200]"}
         },
         {
@@ -128,14 +128,14 @@
                 {
                   "type": "cmovement",
                   "npc": "3",
-                  "moves": [[0,-100],[-100,100,3],[0,0]]
+                  "moves": [[0,-6],[-6,6,3],[0,0]]
                 }
               ]
             },
             ["wait",5],
             {
               "actions": [
-                {"type": "pan","position": [200,200]},
+                {"type": "pan","position": [12,12]},
                 {"type": "inline","pointer": "inline-pointer"},
                 {
                   "type": "flash",

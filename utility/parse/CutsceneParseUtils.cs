@@ -55,6 +55,7 @@ public static class CutsceneParseUtils
   public static InlineCutsceneAction ParseInline(JObject data, DynamicParser parser)
   {
     string pointer=data.Value<string>("pointer");
+    GD.Print("ParseInline: "+pointer);
     var inline=new InlineCutsceneAction(() => { });
     parser.filteredPointers[pointer] = inline;
     return inline;
@@ -64,7 +65,7 @@ public static class CutsceneParseUtils
   {
     dynamic dyn = data;
     JArray positionArr = dyn.position;
-    var position = new Vector2(positionArr[0].Value<float>(), positionArr[1].Value<float>());
+    var position = GameUnitUtils.Vector2(positionArr[0].Value<float>(), positionArr[1].Value<float>());
     return new PanCutsceneAction(position);
   }
 

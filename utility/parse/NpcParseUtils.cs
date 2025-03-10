@@ -33,7 +33,7 @@ public static class NpcParseUtils
   {
     Npc npc=ParseNpcSkeleton(data,parser);
     dynamic dyn = data;
-    npc.Position = new Vector2((float)dyn.x, (float)dyn.y);
+    npc.Position = GameUnitUtils.Vector2((float)dyn.x, (float)dyn.y);
     NodeStagingArea.Add(npc);
     
     if (!Enum.TryParse((string)dyn.speaker, out Speaker speaker))

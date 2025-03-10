@@ -8,6 +8,7 @@ public partial class PauseSplash : MarginContainer
   private static Button restart, menu, next,cancel;
   private static RichTextLabel description;
   private static bool buttonsEnabled;
+  private static bool paused;
   
   private static PauseSplash singleton;
   
@@ -26,6 +27,7 @@ public partial class PauseSplash : MarginContainer
     cancel = GetNode<Button>("%Cancel");
     description = GetNode<RichTextLabel>("%PauseDescription");
 	buttonsEnabled = false;
+    paused = false;
   }
 
   public static void Display(State state)
@@ -63,17 +65,24 @@ public partial class PauseSplash : MarginContainer
     }
 
 	singleton.Visible = true;
+    paused = true;
   }
 
+  public static void SetPaused(bool pause)
+  {
+    paused = pause;
+  }
+  
   public static bool Paused()
   {
-	return singleton.Visible;
+	return paused;
   }
 
   public void RestartPressed()
   {
 	if (!ButtonsEnabled()) return;
 	Visible = false;
+    paused = false;
     
 	Root.RestartLevel();
   }
@@ -82,6 +91,7 @@ public partial class PauseSplash : MarginContainer
   {
 	if (!ButtonsEnabled()) return;
 	Visible = false;
+    paused = false;
 
 	Root.MainMenu();
   }
@@ -90,6 +100,7 @@ public partial class PauseSplash : MarginContainer
   {
 	if (!ButtonsEnabled()) return;
 	Visible = false;
+    paused = false;
     
 	Root.NextLevel();
   }
@@ -98,6 +109,7 @@ public partial class PauseSplash : MarginContainer
   {
     if (!ButtonsEnabled()) return;
     Visible = false;
+    paused = false;
   }
 
   private bool ButtonsEnabled()
@@ -105,6 +117,7 @@ public partial class PauseSplash : MarginContainer
 	if (!buttonsEnabled)
 	{
 	  Visible = false;
+      paused = false;
 	  return false;
 	}
 	
