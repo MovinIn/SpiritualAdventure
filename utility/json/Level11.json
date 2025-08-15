@@ -90,7 +90,7 @@
       "actions": [
         {
           "type": "flash",
-          "actions": [
+          "queue": [
             {
               "type": "toColor",
               "color": "red",
@@ -130,7 +130,7 @@
               "actions": [
                 {
                   "type": "flash",
-                  "actions": [
+                  "queue": [
                     {
                       "type": "set",
                       "color": [0,0,0,0.7]
@@ -140,6 +140,7 @@
                 }
               ]
             },
+            ["wait",2],
             {
               "speechAction": "narration1"
             },
@@ -175,7 +176,7 @@
               "actions": [
                 {
                   "type": "flash",
-                  "actions": [
+                  "queue": [
                     {
                       "type": "toColor",
                       "color": [1,1,1,1],

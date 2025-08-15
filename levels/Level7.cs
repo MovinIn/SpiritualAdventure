@@ -65,7 +65,7 @@ public partial class Level7 : Level
     SimpleCutsceneObjective cutsceneObjective=new(
       new List<Tuple<SpeechAction, List<ICutsceneAction>>> {
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0,new List<ICutsceneAction>
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(0,new List<ICutsceneAction>
         {
           new PanCutsceneAction(camPosition)
         }),
@@ -80,7 +80,7 @@ public partial class Level7 : Level
                                                              "Christ to be guilty of sedition!" ),1.5f),
           new List<ICutsceneAction>()),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1,new List<ICutsceneAction>
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(1,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -90,7 +90,7 @@ public partial class Level7 : Level
           })
         }),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0.3f)
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(0.3f)
       });
 
 
@@ -144,7 +144,7 @@ public partial class Level7 : Level
     SimpleCutsceneObjective cutsceneObjective=new(
       new List<Tuple<SpeechAction, List<ICutsceneAction>>> {
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0,new List<ICutsceneAction>
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(0,new List<ICutsceneAction>
         {
           new PanCutsceneAction(camPosition),
           new InlineCutsceneAction(() =>
@@ -186,7 +186,7 @@ public partial class Level7 : Level
         
         FlashRed(),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0.3f,new List<ICutsceneAction>
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(0.3f,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() => { red1.Visible=true;})
         }),
@@ -223,7 +223,7 @@ public partial class Level7 : Level
         
         FlashRed(),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0.3f,new List<ICutsceneAction>
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(0.3f,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() => { red2.Visible=true;})
         }),
@@ -261,13 +261,13 @@ public partial class Level7 : Level
         
         FlashRed(),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0.3f,new List<ICutsceneAction>
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(0.3f,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() => { red3.Visible=true;})
         }),
         
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(2f, new List<ICutsceneAction>
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(2f, new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -278,7 +278,7 @@ public partial class Level7 : Level
           })
         }),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(3f, new List<ICutsceneAction>
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(3f, new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -293,7 +293,7 @@ public partial class Level7 : Level
                                                           "paid for the penalty of our sin for those who " +
                                                           "believe in him."),7),new List<ICutsceneAction>()),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(2f, new List<ICutsceneAction>
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(2f, new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -307,7 +307,7 @@ public partial class Level7 : Level
           new List<ICutsceneAction>()),
         
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(4)
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(4)
         
       });
     
@@ -317,7 +317,7 @@ public partial class Level7 : Level
 
   private Tuple<SpeechAction, List<ICutsceneAction>> FlashRed()
   {
-    return SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1, new List<ICutsceneAction>
+    return SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(1, new List<ICutsceneAction>
     {
       new InlineCutsceneAction(() =>
       {

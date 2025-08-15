@@ -63,7 +63,7 @@ public partial class Level8:Level
     SimpleCutsceneObjective c1 = new SimpleCutsceneObjective(
       new List<Tuple<SpeechAction, List<ICutsceneAction>>>
       {
-        DelayedActionsWithoutSpeech(1.5f,new List<ICutsceneAction>
+        DelayedActionGroupWithoutSpeech(1.5f,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -71,7 +71,7 @@ public partial class Level8:Level
             Flash.Initiate();
           }),
         }),
-        DelayedActionsWithoutSpeech(4,new List<ICutsceneAction>
+        DelayedActionGroupWithoutSpeech(4,new List<ICutsceneAction>
         {
           new PanCutsceneAction(c1Cam),
           new InlineCutsceneAction(() =>
@@ -81,10 +81,10 @@ public partial class Level8:Level
             Flash.Initiate();
           })
         }),
-        DelayedActionsWithoutSpeech(4),
+        DelayedActionGroupWithoutSpeech(4),
         new(new SpeechAction(new Narrator(),DynamicParseSpeech("h2"),1),
           new List<ICutsceneAction>()),
-        DelayedActionsWithoutSpeech(1.5f,new List<ICutsceneAction>
+        DelayedActionGroupWithoutSpeech(1.5f,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -92,7 +92,7 @@ public partial class Level8:Level
             Flash.Initiate();
           })
         }),
-        DelayedActionsWithoutSpeech(4,new List<ICutsceneAction>
+        DelayedActionGroupWithoutSpeech(4,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -102,7 +102,7 @@ public partial class Level8:Level
             Flash.Initiate();
           })
         }),
-        DelayedActionsWithoutSpeech(2,new List<ICutsceneAction>())
+        DelayedActionGroupWithoutSpeech(2,new List<ICutsceneAction>())
       });
 
     c1.objective.postCompletionFeedback = new SpeechLine("Great work discovering the birthplace of the Messiah! " +
@@ -118,7 +118,7 @@ public partial class Level8:Level
     var c2 = new SimpleCutsceneObjective(
       new List<Tuple<SpeechAction, List<ICutsceneAction>>>
       {
-        DelayedActionsWithoutSpeech(0,new List<ICutsceneAction>
+        DelayedActionGroupWithoutSpeech(0,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -126,7 +126,7 @@ public partial class Level8:Level
             Flash.Initiate();
           }),
         }),
-        DelayedActionsWithoutSpeech(4,new List<ICutsceneAction>
+        DelayedActionGroupWithoutSpeech(4,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -138,7 +138,7 @@ public partial class Level8:Level
           new List<ICutsceneAction>()),
         new(new SpeechAction(new Narrator(),DynamicParseSpeech("warning2"),1),
           new List<ICutsceneAction>()),
-        DelayedActionsWithoutSpeech(2,new List<ICutsceneAction>
+        DelayedActionGroupWithoutSpeech(2,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -147,7 +147,7 @@ public partial class Level8:Level
           }),
           new PanCutsceneAction(c2Cam),
         }),
-        DelayedActionsWithoutSpeech(2)
+        DelayedActionGroupWithoutSpeech(2)
       });
     c2.objective.postCompletionFeedback = new SpeechLine("Good work! Now impart your gifts to the Messiah, Jesus Christ.");
     return c2;

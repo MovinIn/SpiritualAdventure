@@ -83,7 +83,7 @@
           "objective": {"type": "objective","description": "Touch cp at [200,200]"}
         },
         {
-          "type": "finishChatObjective",
+          "type": "finishChat",
           "npc": "1",
           "objective": {"type": "objective", "description": "Finish talking to \"1\""}
         },
@@ -121,7 +121,7 @@
       "objectives": [
         {
           "type": "cutscene",
-          "actions": [
+          "actionGroups": [
             {
               "speechAction": "speechAction1",
               "actions": [
@@ -139,7 +139,7 @@
                 {"type": "inline","pointer": "inline-pointer"},
                 {
                   "type": "flash",
-                  "actions": [
+                  "queue": [
                     {"type": "set","color": "Black"},
                     {"type": "dissolve","duration": 1},
                     {"type": "toColor","color": "red","duration":0.3},
@@ -152,8 +152,8 @@
                 }
               ]
             },
-            ["wait",3.5],
-            {"actions": [{"type": "flash", "actions": [{"type": "hardReset"}]}]},
+            ["wait",8.5],
+            {"actions": [{"type": "flash", "queue": [{"type": "hardReset"}]}]},
             ["wait",1.5]
           ]
         }

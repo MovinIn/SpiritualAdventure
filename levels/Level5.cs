@@ -206,7 +206,7 @@ public partial class Level5 : Level
     SimpleCutsceneObjective cutsceneObjective=new(
       new List<Tuple<SpeechAction, List<ICutsceneAction>>> {
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0,new List<ICutsceneAction>
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(0,new List<ICutsceneAction>
         {
           new InlineCutsceneAction(() =>
           {
@@ -216,7 +216,7 @@ public partial class Level5 : Level
           })
         }),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1.5f,new List<ICutsceneAction>
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(1.5f,new List<ICutsceneAction>
         {
           new PanCutsceneAction(new Vector2(2303f, 530f)),
           new InlineCutsceneAction(() =>
@@ -239,7 +239,7 @@ public partial class Level5 : Level
         new(new SpeechAction(narrator,new SpeechLine("And baby Jesus was born. "),7),
           new List<ICutsceneAction> {spawnJesus}),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1)
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(1)
         
       });
     

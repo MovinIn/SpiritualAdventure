@@ -26,7 +26,7 @@ public partial class LevelWithTestExtensions:Level
     SimpleCutsceneObjective cutsceneObjective=new(
       new List<Tuple<SpeechAction, List<ICutsceneAction>>> {
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0,new List<ICutsceneAction>
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(0,new List<ICutsceneAction>
         {
           new PanCutsceneAction(new Vector2(1000, 1000))
         }),
@@ -46,7 +46,7 @@ public partial class LevelWithTestExtensions:Level
         new(new SpeechAction(redWarrior,new SpeechLine("How life is meaningless without God."),3),
           new List<ICutsceneAction>()),
         
-        SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1)
+        SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(1)
         
       });
     return new ObjectiveDisplayGroup(new List<IHasObjective>{cutsceneObjective});

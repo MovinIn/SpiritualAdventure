@@ -21,6 +21,7 @@
     <Content Include="utility\json\Level9.json" />
     <Content Include="utility\json\LevelInfo.json" />
     <Content Include="utility\json\NpcTest.json" />
+    <Content Include="utility\json\Parsing_README.md" />
     <Content Include="utility\json\SpeechLineTest.json" />
   </ItemGroup>
   <ItemGroup>

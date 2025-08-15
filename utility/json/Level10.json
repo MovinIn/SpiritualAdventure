@@ -2,12 +2,142 @@
   "template": "Level10",
   "playerPosition": [0,0],
   "npcs": [
-    
+
   ],
   "rawPointers": {
-    
+    "jtb": {
+      "type": "regular",
+      "x": 0,
+      "y": 0,
+      "speaker": "Layman",
+      "name": "John the Baptist",
+      "interactable": true,
+      "speech": ["b1"]
+    },
+    "phillip": {
+      "type": "regular",
+      "x": 0,
+      "y": 0,
+      "speaker": "Layman",
+      "name": "Phillip",
+      "interactable": true,
+      "speech": ["phillip-speech"]
+    },
+    "b1": {
+      "content": "Look, the Lamb of God, who takes away the sin of the world!",
+      "nextKey": "a"
+    },
+    "a": {
+      "content": "This is the one I meant when I said, ‘A man who comes after me has surpassed me because he was before me.’",
+      "nextKey": "b"
+    },
+    "b": {
+      "content": "I myself did not know him, but the reason I came baptizing with water was that he might be revealed to Israel."
+    },
+    "jtb-testimony": {
+      "content": "Then John gave this testimony: “I saw the Spirit come down from heaven as a dove and remain on him.",
+      "nextKey": "jtb-testimony-2"
+    },
+    "jtb-testimony-2": {
+      "content": "And I myself did not know him, but the one who sent me to baptize with water told me, 'The man on whom you see the Spirit come down and remain is the one who will baptize with the Holy Spirit.'",
+      "nextKey": "jtb-testimony-3"
+    },
+    "jtb-testimony-3": {
+      "content": "I have seen and I testify that this is God’s Chosen One.”"
+    },
+    "narration1": {
+      "content": "The two disciples heard him say this, and they followed Jesus.",
+      "nextKey": "narration1.1"
+    },
+    "narration1.1": {
+      "content": "Andrew, Simon Peter's brother, was one of the two who heard what John had said and who had followed Jesus.",
+      "nextKey": "narration1.2"
+    },
+    "narration1.2": {
+      "content": "The first thing Andrew did was to find his brother Simon and tell him, 'We have found the Messiah' (that is, the Christ).",
+      "nextKey": "narration1.3"
+    },
+    "narration1.3": {
+      "content": "And he brought him to Jesus. Jesus looked at him and said, 'You are Simon son of John. You will be called Cephas' (which, when translated, is Peter)."
+    },
+    "narration2": {
+      "content": "The next day Jesus decided to leave for Galilee.",
+      "nextKey": "narration2.1"
+    },
+    "narration2.1": {
+      "content": "Go and find Phillip to join us as well."
+    },
+    "phillip-speech": {
+      "content": "Hey! What's up!",
+      "options": [
+        ["Follow me.","phillip-yes"],
+        ["The sky.","phillip-no"]
+      ]
+    }
   },
-  "objectiveDisplayGroups":[
+  "objectiveDisplayGroups": [
+    {
+      "objectives": [
+        {
+          "type": "cutscene",
+          "actions": [
+            {
+              "type": "speechAction",
+              "speaker": "Archer",
+              "speech": {"content": "Fast forward a couple of years. Jesus makes himself known to John the Baptist."}
+            }
+          ]
+        },
+        {
+          "type": "finishChat",
+          "npc": "jtb",
+          "objective": {"type": "objective", "description": "Meet John The Baptist"}
+        }
+      ]
+    },
+    {
+      "objectives": [
+        {
+          "type": "cutscene",
+          "actions": [
+            {
+              "type": "speechAction",
+              "speaker": "Archer",
+              "speech": {"content": "The next day, John saw Jesus passing by and said, 'Look, the Lamb of God!'"}
+            },
+            {
+              "type": "inline",
+              "pointer": "move2disciples"
+            },
+            ["wait",3],
+            {
+              "type": "speechAction",
+              "speaker": "Archer",
+              "speech": "narration1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "objectives": [
+        {
+          "type": "cutscene",
+          "actions": [
+            {
+              "type": "speechAction",
+              "speaker": "Archer",
+              "speech": "narration2"
+            }
+          ]
+        },
+        {
+          "type": "startChatObjective",
+          "npc": "philip",
+          "objective": {"type": "objective", "description": "Find Phillip"}
+        }
+      ]
+    }
 
   ]
 }

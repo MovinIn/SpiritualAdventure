@@ -4,7 +4,6 @@ using Newtonsoft.Json.Linq;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
 using SpiritualAdventure.objectives;
-using SpiritualAdventure.utility;
 using SpiritualAdventure.utility.parse;
 
 public partial class Level1 : LevelWithTestExtensions

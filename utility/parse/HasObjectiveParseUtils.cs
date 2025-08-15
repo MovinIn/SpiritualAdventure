@@ -21,7 +21,7 @@ public static class HasObjectiveParseUtils
   {
 	ihoMap = new Dictionary<string, ParseIHasObjective>
 	{
-	  {"finishChatObjective",ParseFinishChat},
+	  {"finishChat",ParseFinishChat},
 	  {"negative",ParseNegative},
 	  {"option",ParseOption},
 	  {"cutscene",ParseSimpleCutscene},
@@ -79,14 +79,14 @@ public static class HasObjectiveParseUtils
   
   private static IHasObjective ParseSimpleCutscene(dynamic dyn, DynamicParser parser)
   {
-	JArray tupleArray=dyn.actions;
-	List<Tuple<SpeechAction,List<ICutsceneAction>>> actions=tupleArray.Children().Select(token =>
+	JArray tupleArray=dyn.actionGroups;
+	List<Tuple<SpeechAction,List<ICutsceneAction>>> actionGroups=tupleArray.Children().Select(token =>
 	{
 	  return parser.DynamicParse<Tuple<SpeechAction,List<ICutsceneAction>>,JToken>(token,null,
 		t=>ParseSimpleCutsceneObjectiveTuple(t,parser));
 	}).ToList();
 
-	return new SimpleCutsceneObjective(actions);
+	return new SimpleCutsceneObjective(actionGroups);
   }
 
   private static Tuple<SpeechAction,List<ICutsceneAction>> ParseSimpleCutsceneObjectiveTuple(
@@ -94,7 +94,7 @@ public static class HasObjectiveParseUtils
   {
 	if (token.Type == JTokenType.Array)
 	{
-	  return SimpleCutsceneObjective.DelayedActionsWithoutSpeech(((JArray)token)[1].Value<float>());
+	  return SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(((JArray)token)[1].Value<float>());
 	}
 
 	dynamic tupleDyn = token.ToObject<JObject>();

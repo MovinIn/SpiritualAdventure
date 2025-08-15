@@ -46,7 +46,7 @@ public static class CutsceneParseUtils
   
   public static InlineCutsceneAction ParseFlash(JObject data, DynamicParser _)
   {
-    return FlashParseUtils.Parse(data["actions"].ToObject<JArray>());
+    return FlashParseUtils.Parse(data["queue"].ToObject<JArray>());
   }
   
   /**

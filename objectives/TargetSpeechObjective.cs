@@ -1,5 +1,4 @@
-﻿using SpiritualAdventure.objects;
-using SpiritualAdventure.ui;
+﻿using SpiritualAdventure.ui;
 
 namespace SpiritualAdventure.objectives;
 

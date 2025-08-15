@@ -46,7 +46,7 @@ public partial class Level6 : Level
     SimpleCutsceneObjective cutsceneObjective = new(new List<Tuple<SpeechAction, List<ICutsceneAction>>>
     {
 	  
-      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0, new List<ICutsceneAction>
+      SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(0, new List<ICutsceneAction>
       {
         new InlineCutsceneAction(() =>
         {
@@ -73,7 +73,7 @@ public partial class Level6 : Level
             }))),3),
         new List<ICutsceneAction>()),
 	  
-      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(2,new List<ICutsceneAction>
+      SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(2,new List<ICutsceneAction>
       {
         new InlineCutsceneAction(() =>
         {
@@ -210,7 +210,7 @@ public partial class Level6 : Level
     var actions = new List<Tuple<SpeechAction, List<ICutsceneAction>>>
     {
 
-      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(2, new List<ICutsceneAction>
+      SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(2, new List<ICutsceneAction>
       {
         new InlineCutsceneAction(() =>
         {
@@ -219,7 +219,7 @@ public partial class Level6 : Level
         })
       }),
 
-      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(3, new List<ICutsceneAction>
+      SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(3, new List<ICutsceneAction>
       {
         new PanCutsceneAction(jesusPosition),
         new InlineCutsceneAction(() =>
@@ -236,7 +236,7 @@ public partial class Level6 : Level
 
     foreach(Npc n in npcArray)
     {
-      actions.Add(SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0.3f,
+      actions.Add(SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(0.3f,
         new List<ICutsceneAction> { new InlineCutsceneAction(() =>
         {
           
@@ -247,7 +247,7 @@ public partial class Level6 : Level
     actions.AddRange(new []
     {
       
-      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(2, new List<ICutsceneAction>
+      SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(2, new List<ICutsceneAction>
       {
         new InlineCutsceneAction(() =>
         {
@@ -257,7 +257,7 @@ public partial class Level6 : Level
         })
       }),
       
-      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0.5f, new List<ICutsceneAction>
+      SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(0.5f, new List<ICutsceneAction>
       {
         new PanCutsceneAction(phariseeCutscenePosition)
       }),
@@ -272,7 +272,7 @@ public partial class Level6 : Level
         new List<ICutsceneAction>()),
       
       new(new SpeechAction(romanSoldierNarrator,new SpeechLine("Sir yes sir!"),0.2),soldierMovement),
-      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(0, new List<ICutsceneAction>
+      SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(0, new List<ICutsceneAction>
       {
         new InlineCutsceneAction(() =>
         {
@@ -288,7 +288,7 @@ public partial class Level6 : Level
       new(new SpeechAction(new Narrator(Speaker.Red_Merchant,"That Second Pharisee"),
         new SpeechLine("Shut it. And close the door on your way out."),1),new List<ICutsceneAction>()),
       
-      SimpleCutsceneObjective.DelayedActionsWithoutSpeech(1.5f)
+      SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(1.5f)
       
     });
 
