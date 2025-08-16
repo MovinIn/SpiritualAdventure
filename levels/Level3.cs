@@ -54,25 +54,26 @@ public partial class Level3 : LevelWithTestExtensions
     npc.UseTrigger("interact","Talk");
     var speechLines = new List<SpeechLine>
     {
-      SimpleLinearSpeechBuilder.Of(new List<string>
+      SimpleLinearSpeechBuilder.Of(npc.identity,new List<string>
       {
         "Hello! My name is Roman and I love soccer.", "Test Text 2", "Test Text 3"
       }),
-      new("Here is a list of options you can choose from. Option 3 has more extensive dialogue.",
-        new Dictionary<string, SpeechLine>
+      new SpeechLine(npc.identity,
+        "Here is a list of options you can choose from. Option 3 has more extensive dialogue.")
+        .SetOptions(new Dictionary<string, SpeechLine>
         {
-          { "Option 1", new SpeechLine("You chose option 1! Nice :)") },
-          { "Option 2", new SpeechLine("You chose option 2! Nice :)") },
+          { "Option 1", new SpeechLine(npc.identity,"You chose option 1! Nice :)") },
+          { "Option 2", new SpeechLine(npc.identity,"You chose option 2! Nice :)") },
           {
-            "Option 3", new SpeechLine("You chose option 3! Nice :)",
-              SimpleLinearSpeechBuilder.Of(new List<string>
-              {
+            "Option 3", new SpeechLine(npc.identity,"You chose option 3! Nice :)")
+              .SetNext(SimpleLinearSpeechBuilder.Of(npc.identity,new List<string> {
                 "This speech is really really hard to write, " +
                 "so we should make a speech parser that parses" +
                 " a text file one day :D"
               }))
           }
         })
+        
     };
     
     string speechLinesJson = JsonSpeechDeserializer.Serialize(speechLines);

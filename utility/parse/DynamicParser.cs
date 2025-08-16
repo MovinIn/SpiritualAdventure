@@ -38,7 +38,6 @@ public class DynamicParser
 
     JArray positionArr = dyn.playerPosition ?? new JArray(0,0);
     var playerPosition = GameUnitUtils.Vector2(positionArr[0].Value<float>(), positionArr[1].Value<float>());
-    var narrator = new Narrator(IdentityParseUtils.Parse(json));
 
     List<ObjectiveDisplayGroup> displayGroups = ((JArray)dyn.objectiveDisplayGroups ?? new JArray())
       .Children().Select(token =>
@@ -56,7 +55,7 @@ public class DynamicParser
     skeleton = Level.LevelBuilder.Init()
       .AppendNpcList(npcs)
       .SetPlayerPosition(playerPosition)
-      .SetNarrator(narrator)
+      .SetNarrator(new Narrator())
       .AppendIObjectiveGroups(displayGroups)
       .SetDynamicParser(this);
 

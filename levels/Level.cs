@@ -109,7 +109,7 @@ public partial class Level : Node2D
   
   protected Queue<ObjectiveDisplayGroup> objectiveQueue=new();
   protected Dictionary<Type, List<Npc>> npcs=new();
-  protected Narrator narrator;
+  protected Narrator narrator=new();
 
   public static Player player;
 

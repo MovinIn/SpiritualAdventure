@@ -22,14 +22,14 @@ public partial class Npc : AnimatableBody2D, ICloneable<Npc>
   
   protected Queue<SpeechLine> speech;
 
-  protected Identity identity;
-  
 #nullable enable
   public Action? FinishedSpeech { private get; set; }
   public Action<string>? NewSpeechLine { private get; set; }
 #nullable disable
-  
-  
+
+  public Identity identity { get; private set; }
+
+
   protected static T Instantiate<T>(string path) where T:Npc
   {
     return Instantiate().SafelySetScript<T>(path);
@@ -70,13 +70,13 @@ public partial class Npc : AnimatableBody2D, ICloneable<Npc>
 
   public void Who(Speaker speaker, string name)
   {
-    identity = new Identity(speaker, name);
-    sprite.SetSpriteFrames(identity.speaker.asFrames());
+    Who(new Identity(speaker,name));
   }
   
   public void Who(Identity identity)
   {
-    Who(identity.speaker,identity.name);
+    this.identity = identity;
+    sprite.SetSpriteFrames(identity.speaker.asFrames());
   }
 
   public void SetInteractHandler(Action interactHandler=null)
@@ -194,7 +194,7 @@ public partial class Npc : AnimatableBody2D, ICloneable<Npc>
 	
     NewSpeechLine?.Invoke(line.line);
 	
-    InteractDisplay.UpdateInteractDisplay(identity,line,interactTrigger);
+    InteractDisplay.UpdateInteractDisplay(line,interactTrigger);
   }
 
   public void OnOption(string option)

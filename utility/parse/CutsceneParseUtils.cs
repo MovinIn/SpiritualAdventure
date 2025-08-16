@@ -39,9 +39,8 @@ public static class CutsceneParseUtils
   public static SpeechAction ParseSpeechAction(JObject data, DynamicParser parser)
   {
     dynamic dyn = data;
-    var narrator=new Narrator(IdentityParseUtils.Parse(dyn));
     SpeechLine line = SpeechParseUtils.Parse(dyn.speech, parser);
-    return new SpeechAction(narrator, line, 0);
+    return new SpeechAction(new Narrator(),line, 0);
   }
   
   public static InlineCutsceneAction ParseFlash(JObject data, DynamicParser _)

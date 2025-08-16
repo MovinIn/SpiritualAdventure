@@ -1,0 +1,89 @@
+﻿{
+  "template": "Level14",
+  "playerPosition": [0, 0],
+  "npcs": [
+    {
+      "type": "regular",
+      "x": 4,
+      "y": 0,
+      "speaker": "Jesus",
+      "name": "Jesus",
+      "interactable": true,
+      "speech": "speech_jesus_start"
+    },
+    {
+      "type": "regular",
+      "x": 10,
+      "y": 0,
+      "speaker": "Priest",
+      "name": "Priest",
+      "interactable": true,
+      "speech": "speech_priest"
+    }
+  ],
+  "rawPointers": {
+    "speech_jesus_start": {
+      "content": "Lord, if you are willing, you can make me clean."
+    },
+    "cutscene_healing": [
+      {
+        "speechAction": "speech_jesus_reply",
+        "actions": [
+          {
+            "type": "flash",
+            "queue": [
+              { "type": "initiate" },
+              { "type": "toColor", "color": "white", "duration": 0.2 },
+              { "type": "stayStagnant", "duration": 0.1 },
+              { "type": "dissolve", "duration": 0.4 },
+              { "type": "queueReset" }
+            ]
+          }
+        ]
+      },
+      {
+        "speechAction": "speech_jesus_instruction",
+        "actions": []
+      }
+    ],
+    "speech_jesus_reply": {
+      "content": "I am willing. Be clean!"
+    },
+    "speech_jesus_instruction": {
+      "content": "See that you don't tell anyone. But go, show yourself to the priest and offer the gift Moses commanded, as a testimony to them."
+    },
+    "speech_priest": {
+      "content": "You have been healed! This is indeed a testimony to God's power."
+    },
+    "obj_startChat_jesus": {
+      "type": "startChat",
+      "npc": "Jesus",
+      "objective": {
+        "type": "objective",
+        "description": "Ask Jesus for healing."
+      }
+    },
+    "obj_touch_priest": {
+      "type": "touch",
+      "position": [10, 0],
+      "objective": {
+        "type": "objective",
+        "description": "Show yourself to the priest."
+      }
+    }
+  },
+  "objectiveDisplayGroups": [
+    {
+      "hiddenObjectives": [],
+      "objectives": ["obj_startChat_jesus"]
+    },
+    {
+      "hiddenObjectives": [],
+      "objectives": ["cutscene_healing"]
+    },
+    {
+      "hiddenObjectives": [],
+      "objectives": ["obj_touch_priest"]
+    }
+  ]
+}

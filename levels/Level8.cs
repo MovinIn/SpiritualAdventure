@@ -105,7 +105,7 @@ public partial class Level8:Level
         DelayedActionGroupWithoutSpeech(2,new List<ICutsceneAction>())
       });
 
-    c1.objective.postCompletionFeedback = new SpeechLine("Great work discovering the birthplace of the Messiah! " +
+    c1.objective.postCompletionFeedback = new SpeechLine(Narrator.Identity,"Great work discovering the birthplace of the Messiah! " +
                                                          "Now go back to bed and carry out Herod's orders tomorrow.");
     return c1;
   }
@@ -149,7 +149,7 @@ public partial class Level8:Level
         }),
         DelayedActionGroupWithoutSpeech(2)
       });
-    c2.objective.postCompletionFeedback = new SpeechLine("Good work! Now impart your gifts to the Messiah, Jesus Christ.");
+    c2.objective.postCompletionFeedback = new SpeechLine(Narrator.Identity,"Good work! Now impart your gifts to the Messiah, Jesus Christ.");
     return c2;
   }
 

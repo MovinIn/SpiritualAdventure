@@ -50,7 +50,7 @@ public partial class InteractDisplay : MarginContainer
     Visible = false;
   }
 
-  public static void UpdateInteractDisplay(Identity identity, SpeechLine speech, Interactable interactable)
+  public static void UpdateInteractDisplay(SpeechLine speech, Interactable interactable)
   {
     if (currentInteractable != interactable)
     {
@@ -58,7 +58,6 @@ public partial class InteractDisplay : MarginContainer
     }
 
     currentInteractable = interactable;
-    speakerDetails.SetIdentity(identity);
     UpdateSpeechLine(speech);
   }
 
@@ -111,10 +110,7 @@ public partial class InteractDisplay : MarginContainer
     
     currentSpeechLine = speech;
     speechDisplay.SetSpeech(speech.line);
-    if (speech.identity != null)
-    {
-      speakerDetails.SetIdentity(speech.identity.Value);
-    }
+    speakerDetails.SetIdentity(speech.identity);
     PingHandlers(SpeechType.Line,speech.line);
     singleton.Visible = true;
     HideOptions();

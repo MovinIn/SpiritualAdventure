@@ -52,7 +52,7 @@ public partial class Level7 : Level
 
     var rightJudgePosition = new Vector2(-1267, 162);
 
-    var evilJudgeNarrator = new Narrator(Speaker.Red_Cowboy, "Evil Judge");
+    var evilJudgeIdentity = new Identity(Speaker.Red_Cowboy, "Evil Judge");
     
     for (int i = 0; i < 6; i++)
     {
@@ -61,7 +61,6 @@ public partial class Level7 : Level
       AddChild(npc);
     } 
     
-    var narrator = new Narrator(Speaker.Archer,"Narrator");
     SimpleCutsceneObjective cutsceneObjective=new(
       new List<Tuple<SpeechAction, List<ICutsceneAction>>> {
         
@@ -70,14 +69,14 @@ public partial class Level7 : Level
           new PanCutsceneAction(camPosition)
         }),
         
-        new(new SpeechAction(narrator,new SpeechLine("Using their high political power, they lied to charge Jesus" +
-                                                     " of sedition in a kangaroo court. He was arrested and " +
-                                                     "forced up a hill wearing a crown of thorns while bearing " +
-                                                     "the cross."),1),
+        new(new SpeechAction(narrator,new SpeechLine(Narrator.Identity,"Using their high political power, they lied to charge Jesus" +
+                                                                       " of sedition in a kangaroo court. He was arrested and " +
+                                                                       "forced up a hill wearing a crown of thorns while bearing " +
+                                                                       "the cross."),1),
           new List<ICutsceneAction>()),
         
-        new(new SpeechAction(evilJudgeNarrator,new SpeechLine("Here, here! We have unanimously found Jesus " +
-                                                             "Christ to be guilty of sedition!" ),1.5f),
+        new(new SpeechAction(narrator,new SpeechLine(evilJudgeIdentity,"Here, here! We have unanimously found Jesus " +
+                                                                       "Christ to be guilty of sedition!" ),1.5f),
           new List<ICutsceneAction>()),
         
         SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(1,new List<ICutsceneAction>
@@ -129,11 +128,10 @@ public partial class Level7 : Level
     AddChild(guard1);
     AddChild(guard2);
 
-    var guardNarrator = new Narrator(Speaker.Red_Warrior, "Soldier");
-    var narrator = new Narrator(Speaker.Archer,"Narrator");
+    var guardIdentity = new Identity(Speaker.Red_Warrior, "Soldier");
 
     var failString="Yeah I know. It's tempting to use power when an opportunity presents itself. " +
-                      "But Jesus's plan is selfless, dying on the cross to pay for the penalty of our sins.";
+                   "But Jesus's plan is selfless, dying on the cross to pay for the penalty of our sins.";
 
     var targetSpeechObjective = new TargetSpeechObjective(failString,new Objective(""));
     
@@ -154,17 +152,16 @@ public partial class Level7 : Level
           })
         }),
         
-        new(new SpeechAction(guardNarrator,new SpeechLine("Move it! Why don't you save yourself if you are the Son of God?",
-            new Dictionary<string, SpeechLine>
+        new(new SpeechAction(narrator,new SpeechLine(guardIdentity,"Move it! Why don't you save yourself if you are the Son of God?").SetOptions(            new Dictionary<string, SpeechLine>
+          {
+            { "Shut up the Guard and free yourself through God's power", 
+              new SpeechLine(Narrator.Identity,failString)
+            },
             {
-              { "Shut up the Guard and free yourself through God's power", 
-                new SpeechLine(failString)
-              },
-              {
-                "Continue",
-                new SpeechLine("Hahaha. Keep walking, you blasphemer.")
-              }
-            }),2),
+              "Continue",
+              new SpeechLine(guardIdentity,"Hahaha. Keep walking, you blasphemer.")
+            }
+          }),2),
           new List<ICutsceneAction>
           {
             new MovementCutsceneAction(jesus,new List<MovementAction>
@@ -191,17 +188,16 @@ public partial class Level7 : Level
           new InlineCutsceneAction(() => { red1.Visible=true;})
         }),
         
-        new(new SpeechAction(guardNarrator,new SpeechLine("Let's Go! I don't have all day!",
-            new Dictionary<string, SpeechLine>
+        new(new SpeechAction(narrator,new SpeechLine(guardIdentity,"Let's Go! I don't have all day!").SetOptions(            new Dictionary<string, SpeechLine>
+          {
+            { "Shut up the Guard and free yourself through God's power", 
+              new SpeechLine(Narrator.Identity,failString)
+            },
             {
-              { "Shut up the Guard and free yourself through God's power", 
-                new SpeechLine(failString)
-              },
-              {
-                "Continue",
-                new SpeechLine("Yep. Knew it.")
-              }
-            }),2),
+              "Continue",
+              new SpeechLine(guardIdentity,"Yep. Knew it.")
+            }
+          }),2),
           new List<ICutsceneAction>
           {
             new MovementCutsceneAction(jesus,new List<MovementAction>
@@ -229,15 +225,14 @@ public partial class Level7 : Level
         }),
         
         
-        new(new SpeechAction(guardNarrator,new SpeechLine("A good service well done. Are you finished stalling?",
-            new Dictionary<string, SpeechLine>
-            {
+        new(new SpeechAction(narrator,new SpeechLine(guardIdentity,"A good service well done. Are you finished stalling?").SetOptions(
+            new Dictionary<string, SpeechLine> {
               { "Shut up the Guard and free yourself through God's power", 
-                new SpeechLine(failString)
+                new SpeechLine(Narrator.Identity,failString)
               },
               {
                 "Continue",
-                new SpeechLine("I get my paycheck after this. Hurry it up, loser.")
+                new SpeechLine(guardIdentity,"I get my paycheck after this. Hurry it up, loser.")
               }
             }),2),
           new List<ICutsceneAction>
@@ -288,10 +283,10 @@ public partial class Level7 : Level
         }),
         
         
-        new(new SpeechAction(narrator,new SpeechLine("So, after 24 hours of grueling torture; Jesus, the " +
-                                                          "Son of God who did not sin, died on the cross and " +
-                                                          "paid for the penalty of our sin for those who " +
-                                                          "believe in him."),7),new List<ICutsceneAction>()),
+        new(new SpeechAction(narrator,new SpeechLine(Narrator.Identity,"So, after 24 hours of grueling torture; Jesus, the " +
+                                                                       "Son of God who did not sin, died on the cross and " +
+                                                                       "paid for the penalty of our sin for those who " +
+                                                                       "believe in him."),7),new List<ICutsceneAction>()),
         
         SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(2f, new List<ICutsceneAction>
         {
@@ -302,8 +297,8 @@ public partial class Level7 : Level
           })
         }),
         
-        new(new SpeechAction(narrator,new SpeechLine("'For the wages of sin is death, but the gift of God is " +
-                                                          "eternal life in Christ Jesus our Lord.' - Romans 6:23"),7),
+        new(new SpeechAction(narrator,new SpeechLine(Narrator.Identity,"'For the wages of sin is death, but the gift of God is " +
+                                                                       "eternal life in Christ Jesus our Lord.' - Romans 6:23"),7),
           new List<ICutsceneAction>()),
         
         

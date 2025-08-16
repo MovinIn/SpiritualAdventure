@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Godot;
+using NUnit.Framework.Internal;
 using SpiritualAdventure.cutscene.actions;
 using SpiritualAdventure.entities;
 using SpiritualAdventure.levels;
@@ -40,7 +42,9 @@ public class SimpleCutsceneObjective: IHasObjective
 
   private void QueueNextActions()
   {
-    
+    GD.Print("asdaksdokxaso: ");
+    GD.Print(actionGroups[actionGroupIndex].Item1.narrator==null);
+    GD.Print(actionGroups[actionGroupIndex].Item1.narrator.NotInteracting==null);
     actionGroups[actionGroupIndex].Item1.narrator.NotInteracting = ()=>
     {
       
@@ -75,6 +79,6 @@ public class SimpleCutsceneObjective: IHasObjective
     List<ICutsceneAction> actionGroup=null)
   {
     actionGroup ??= new List<ICutsceneAction>();
-    return new Tuple<SpeechAction, List<ICutsceneAction>>(new SpeechAction(new Narrator(), null, delay), actionGroup);
+    return new Tuple<SpeechAction, List<ICutsceneAction>>(new SpeechAction(new Narrator(),null, delay), actionGroup);
   }
 }

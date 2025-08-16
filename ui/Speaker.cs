@@ -28,7 +28,9 @@ public enum Speaker
     Black_Merchant,
     Black_Merchant2,
     
-    Skeleton
+    Skeleton, 
+    
+    Unknown
 }
 
 internal static class SpeakerExtensions

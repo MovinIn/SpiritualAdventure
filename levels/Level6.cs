@@ -31,12 +31,10 @@ public partial class Level6 : Level
   }
 
   
-  //TODO: objectives need rework. We have options within a cutscene objective, and we can't fail the user for picking the wrong option.
   public ObjectiveDisplayGroup BlindCutsceneObjective()
   {
-    var narrator=new Narrator();
-    var jesusNarrator = new Narrator(Speaker.Layman, "Jesus");
-    var youNarrator = new Narrator(Speaker.Layman,"You");
+    var jesusIdentity = new Identity(Speaker.Layman, "Jesus");
+    var youIdentity = new Identity(Speaker.Layman,"You");
 
     string targetOption = "Wash in the Pool of Siloam";
     var optionObjective = new OptionObjective(targetOption, new Objective("Obey Jesus"),
@@ -55,22 +53,25 @@ public partial class Level6 : Level
         })
       }),
 	  
-      new(new SpeechAction(narrator,new SpeechLine("The scene we are now depicting is Jesus healing a blind man. " +
-                                                   "Through this, he reveals he is the Son of Man " +
-                                                   "(and in later levels we will show scripture detailing him as " +
-                                                   "the one and only Son of God), and also brings to light the evil " +
-                                                   "in the Pharisees and Jewish leaders (who would eventually crucify " +
-                                                   "Him).",
-          new SpeechLine("If you couldn't tell already, you're the blind man - you've been blind your whole life.")),2),
+      new(new SpeechAction(narrator,
+          new SpeechLine(Narrator.Identity,
+              "The scene we are now depicting is Jesus healing a blind man. " +
+              "Through this, he reveals he is the Son of Man " +
+              "(and in later levels we will show scripture detailing him as " +
+              "the one and only Son of God), and also brings to light the evil " +
+              "in the Pharisees and Jewish leaders (who would eventually crucify " +
+              "Him).")
+            .SetNext(new SpeechLine(Narrator.Identity,"If you couldn't tell already," +
+                                                      " you're the blind man - you've been blind your whole life.")),2),
         new List<ICutsceneAction>()),
 	  
-      new(new SpeechAction(jesusNarrator,new SpeechLine("<Spits on the ground and makes mud>",
-          new SpeechLine("<Puts it on the blind man's (you) eyes>",
-            new SpeechLine("Go, wash in the Pool of Siloam",new Dictionary<string, SpeechLine>
-            {
-              { targetOption, new SpeechLine("Swish... Swish.....") },
+      new(new SpeechAction(narrator,new SpeechLine(jesusIdentity,"<Spits on the ground and makes mud>")
+          .SetNext(new SpeechLine(jesusIdentity,"<Puts it on the blind man's (you) eyes>")
+            .SetNext(new SpeechLine(jesusIdentity,"Go, wash in the Pool of Siloam"))
+            .SetOptions(new Dictionary<string, SpeechLine> {
+              { targetOption, new SpeechLine(jesusIdentity,"Swish... Swish.....") },
               {"Do not", null}
-            }))),3),
+            })),3),
         new List<ICutsceneAction>()),
 	  
       SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(2,new List<ICutsceneAction>
@@ -84,8 +85,8 @@ public partial class Level6 : Level
         })
       }),
 	  
-      new(new SpeechAction(youNarrator,new SpeechLine("Wha..... What....? I can see again..!!",
-          new SpeechLine("I must spread the word to my neighbors: how God has blessed my life!")),8),
+      new(new SpeechAction(narrator,new SpeechLine(youIdentity,"Wha..... What....? I can see again..!!")
+          .SetNext(new SpeechLine(youIdentity,"I must spread the word to my neighbors: how God has blessed my life!")),8),
         new List<ICutsceneAction>())
     });
     return new ObjectiveDisplayGroup(new List<IHasObjective>{cutsceneObjective,optionObjective});
@@ -94,6 +95,10 @@ public partial class Level6 : Level
   public ObjectiveDisplayGroup TouchHomeObjective()
   {
     Npc neighbor1, neighbor2, neighbor3;
+    Identity i1, i2, i3;
+    i1 = new Identity(Speaker.Archer,"Alivia");
+    i2 = new Identity(Speaker.Black_Cowboy,"Eli");
+    i3 = new Identity(Speaker.Red_Warrior,"Caleb");
     neighbor1 = Npc.Instantiate().WithPosition(new Vector2(1796,351));
     neighbor2 = Npc.Instantiate().WithPosition(new Vector2(1344,371));
     neighbor3 = Npc.Instantiate().WithPosition(new Vector2(287,446));
@@ -105,24 +110,24 @@ public partial class Level6 : Level
     neighbor2.UseTrigger("interact","Talk");
     neighbor3.UseTrigger("interact","Talk");
     
-    neighbor1.Who(Speaker.Archer,"Alivia");
-    neighbor2.Who(Speaker.Black_Cowboy,"Eli");
-    neighbor3.Who(Speaker.Red_Warrior,"Caleb");
+    neighbor1.Who(i1);
+    neighbor2.Who(i2);
+    neighbor3.Who(i3);
     
-    neighbor1.SetSpeech(new List<SpeechLine> {new ("What??! Is that really you, Ryan? YOU CAN SEE!!", 
-      new SpeechLine("Trust in the Lord with all your heart, and" +
-                     " lean not on your own understanding. In all your" +
-                     " ways submit to him and he will make your paths " +
-                     "straight :) " +
-                     "Proverbs 3:5-6"))});
-    neighbor2.SetSpeech(new List<SpeechLine> {new ("In...INCREDIBLE!!!! PRAISE THE LORD! ", 
-      new SpeechLine("Heal me, Lord, and I will be healed; save me and " +
-                     "I will be saved, for you are the one I praise :) " +
-                     "Jeremiah 17:14"))});
-    neighbor3.SetSpeech(new List<SpeechLine>{new("My goodness..! I'm going to cry... ",
-      new SpeechLine("Praise the Lord, my soul, and " +
-                     "forget not all his benefits - who forgives us of our sins" +
-                     " and heals us of our diseases Psalms 103:3-5 :) "))});
+    neighbor1.SetSpeech(new List<SpeechLine> {new SpeechLine(i1,"What??! Is that really you, Ryan? YOU CAN SEE!!")
+      .SetNext(new SpeechLine(i1,"Trust in the Lord with all your heart, and" +
+                                 " lean not on your own understanding. In all your" +
+                                 " ways submit to him and he will make your paths " +
+                                 "straight :) Proverbs 3:5-6"))
+    });
+    neighbor2.SetSpeech(new List<SpeechLine> {new SpeechLine(i2,"In...INCREDIBLE!!!! PRAISE THE LORD! ")
+      .SetNext(new SpeechLine(i2,"Heal me, Lord, and I will be healed; save me and " +
+                                 "I will be saved, for you are the one I praise :) " +
+                                 "Jeremiah 17:14"))});
+    neighbor3.SetSpeech(new List<SpeechLine>{new SpeechLine(i3,"My goodness..! I'm going to cry... ")
+      .SetNext(new SpeechLine(i3,"Praise the Lord, my soul, and " +
+                                 "forget not all his benefits - who forgives us of our sins" +
+                                 " and heals us of our diseases Psalms 103:3-5 :) "))});
     
     
     
@@ -139,9 +144,10 @@ public partial class Level6 : Level
 
   public ObjectiveDisplayGroup JesusCutsceneObjective()
   {
-    var narrator = new Narrator();
-    var phariseeNarrator = new Narrator(Speaker.Red_Merchant,"That One Pharisee");
-    var romanSoldierNarrator=new Narrator(Speaker.Red_Warrior,"Roman Soldiers");
+    var phariseeIdentity = new Identity(Speaker.Red_Merchant,"That One Pharisee");
+    var romanSoldierIdentity=new Identity(Speaker.Red_Warrior,"Roman Soldiers");
+    var nicodemusIdentity = new Identity(Speaker.Red_Merchant,"Nicodemus");
+    var secondPhariseeIdentity = new Identity(Speaker.Red_Merchant,"That Second Pharisee");
 
     var jesusPosition=new Vector2(-1547f, -278f);
     var rightPhariseePosition = new Vector2(-1218f, 474f);
@@ -229,8 +235,8 @@ public partial class Level6 : Level
         })
       }),
 
-      new(new SpeechAction(narrator, new SpeechLine("He healed the sick and paralyzed, and performed countless" +
-                                                    " miracles and broke numerous cultural barriers."), 2),
+      new(new SpeechAction(narrator, new SpeechLine(Narrator.Identity,"He healed the sick and paralyzed, and performed countless" +
+                                                                      " miracles and broke numerous cultural barriers."), 2),
         new List<ICutsceneAction>())
     };
 
@@ -264,14 +270,14 @@ public partial class Level6 : Level
       
       
       new Tuple<SpeechAction, List<ICutsceneAction>>(new SpeechAction(narrator,
-          new SpeechLine("Because of this, the Pharisees and Jewish leaders were afraid of losing their political power" +
-                         " and that their evil may be put into the light, so they plotted to kill Jesus. "),1),
+          new SpeechLine(Narrator.Identity,"Because of this, the Pharisees and Jewish leaders were afraid of losing their political power" +
+                                           " and that their evil may be put into the light, so they plotted to kill Jesus. "),1),
         new List<ICutsceneAction>()),
       
-      new(new SpeechAction(phariseeNarrator,new SpeechLine("GO! Find him and BRING HIM TO ME! >:V >:V"),1.5),
+      new(new SpeechAction(narrator,new SpeechLine(phariseeIdentity,"GO! Find him and BRING HIM TO ME! >:V >:V"),1.5),
         new List<ICutsceneAction>()),
       
-      new(new SpeechAction(romanSoldierNarrator,new SpeechLine("Sir yes sir!"),0.2),soldierMovement),
+      new(new SpeechAction(narrator,new SpeechLine(romanSoldierIdentity,"Sir yes sir!"),0.2),soldierMovement),
       SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(0, new List<ICutsceneAction>
       {
         new InlineCutsceneAction(() =>
@@ -282,11 +288,15 @@ public partial class Level6 : Level
         })
       }),
       
-      new(new SpeechAction(new Narrator(Speaker.Red_Merchant,"Nicodemus"),
-        new SpeechLine("Wait, didn't He do like... nothing wrong?"),6),new List<ICutsceneAction>()),
+      new(new SpeechAction(narrator,
+          new SpeechLine(nicodemusIdentity,"Wait, didn't He do like... nothing wrong?"),6),
+        new List<ICutsceneAction>()
+      ),
       
-      new(new SpeechAction(new Narrator(Speaker.Red_Merchant,"That Second Pharisee"),
-        new SpeechLine("Shut it. And close the door on your way out."),1),new List<ICutsceneAction>()),
+      new(new SpeechAction(narrator, 
+          new SpeechLine(secondPhariseeIdentity,"Shut it. And close the door on your way out."),1),
+        new List<ICutsceneAction>()
+      ),
       
       SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(1.5f)
       

@@ -1,13 +1,14 @@
-﻿using SpiritualAdventure.entities;
+﻿#nullable enable
+using SpiritualAdventure.entities;
 
 namespace SpiritualAdventure.cutscene.actions;
 
 public class SpeechAction : DelayedCutsceneAction
 {
-  private SpeechLine lines;
+  private readonly SpeechLine? lines;
   public Narrator narrator { get; }
 
-  public SpeechAction(Narrator narrator, SpeechLine lines, double initialDelay) : base(initialDelay)
+  public SpeechAction(Narrator narrator, SpeechLine? lines, double initialDelay) : base(initialDelay)
   {
     this.lines = lines;
     this.narrator = narrator;

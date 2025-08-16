@@ -13,21 +13,27 @@ public static class SpeechParseUtils
   private static SpeechLine ParseSpeechLineRecursive(JObject data,JObject extraPointers,DynamicParser parser)
   {
     dynamic dyn = data;
-    var builder=SpeechLine.SpeechLineBuilder.Init((string)dyn.content);
-
+    Identity identity;
+    
     if (dyn.speaker != null && dyn.name != null)
     {
       if (!Enum.TryParse((string)dyn.speaker, out Speaker speaker))
       {
-        speaker = Speaker.Archer;
+        speaker = Speaker.Unknown;
       }
       string name = dyn.name;
-      builder.SetIdentity(new Identity(speaker, name));
+      identity = new Identity(speaker,name);
     }
+    else
+    {
+      identity = Identity.Unknown;
+    }
+    
+    var speechLine=new SpeechLine(identity,(string)dyn.content);
     
     if (dyn.nextKey != null)
     {
-      builder.SetNext(parser.DynamicClone<SpeechLine, JObject>(dyn.nextKey, extraPointers,
+      speechLine.SetNext(parser.DynamicClone<SpeechLine, JObject>(dyn.nextKey, extraPointers,
         new Func<JObject, SpeechLine>(o => ParseSpeechLineRecursive(o, extraPointers,parser))));
     }
 
@@ -43,10 +49,10 @@ public static class SpeechParseUtils
         optionsDict.Add(option[0].Value<string>(),nextLine);
       }
 
-      builder.SetOptions(optionsDict);
+      speechLine.SetOptions(optionsDict);
     }
 
-    return builder.Build();
+    return speechLine;
   }
   
   public static SpeechLine Parse(JObject data,DynamicParser parser)

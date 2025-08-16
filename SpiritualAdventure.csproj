@@ -12,10 +12,12 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="utility\json\Level4.json" />
     <Content Include="utility\json\Level10.json" />
     <Content Include="utility\json\Level11.json" />
     <Content Include="utility\json\Level12.json" />
     <Content Include="utility\json\Level13.json" />
+    <Content Include="utility\json\Level14.json" />
     <Content Include="utility\json\Level2.json" />
     <Content Include="utility\json\Level8.json" />
     <Content Include="utility\json\Level9.json" />

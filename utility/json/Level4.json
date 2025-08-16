@@ -1,0 +1,118 @@
+﻿{
+  "template": "Level4",
+  "playerPosition": [0,0],
+  "npcs": [],
+  "rawPointers": {
+    "prologue": {
+      "content": "In the next 3 levels, we will be exploring the gospel. The gospel is a term to describe “good news.” Before we describe what the gospel is in accordance with Christianity, we must first define a few terms. The verse we will be unpacking to describe the gospel is Romans 6:23 – “For the wages of sin is death, but the gift of God is eternal life in Christ Jesus our Lord.” This verse is provided at the top left of the screen as reference.",
+      "nextKey": "wageQuestion"
+    },
+    "wageQuestion": {
+      "content": "Let's unpack what this is saying. What do you think the word 'wage' means in this context?",
+      "options": [
+        ["A wage is a reward you get in return for some sort of work.","correct"],
+        ["INCORRECT ANSWER","incorrect"]
+      ],
+      "correct": {
+        "content": "Nice job! You're completely right.",
+        "nextKey": "wageExampleAfterQuestion"
+      },
+      "incorrect": {
+        "content": "Close. A wage is a reward you get in return for some sort of work.",
+        "nextKey": "wageExampleAfterQuestion"
+      }
+    },
+    "wageExampleAfterQuestion": {
+      "content": "An easy example of a wage can be seen through jobs. People work in jobs to earn wages, usually money.",
+      "nextKey": "sinQuestion"
+    },
+    "sinQuestion": {
+      "content": "Okay, easy enough. Now, what do you think is sin? This one is a tough question if you’ve never been exposed to Christianity before.",
+      "options": [
+        ["'Missing the mark'. Something must be perfect in order to be regarded as sinless.","correct"],
+        ["Sin is a good thing that people do.","incorrect"]
+      ],
+      "correct": {
+        "content": "Great job! Sin is a bad thing that people do.",
+        "nextKey": "sinExampleAfterQuestion"
+      },
+      "incorrect": {
+        "content": "Almost. The correct answer was “missing the mark.” Something must be perfect in order to be regarded as sinless.",
+        "nextKey": "sinExampleAfterQuestion"
+      }
+    },
+    "sinExampleAfterQuestion": {
+      "content": "Ever lied to your parents? Or gotten angry at someone? Or judged someone at all? These are all examples of sin.",
+      "nextKey": "understandingWagesAndSin"
+    },
+    "wagesAndSin":{
+      "content": "Now that we have those definitions cleared up, we can derive the meaning of the first half, or “The wages of sin is death.”",
+      "nextKey": "wagesAndSin2"
+    },
+    "wagesAndSin2": {
+      "content": "A wage is receiving something in return for your actions. We receive death for committing sin. The rough part about this is that every human is not perfect. So what this is saying is that every single human on Earth is subject to death through sin. Pretty gloomy, right? Well, don’t be afraid. There is a way out.",
+      "nextKey": "giftQuestion"
+    },
+    "giftQuestion": {
+      "content": "Now, let’s look at the second half of the verse. What do you think the word “gift” means in this context?",
+      "options": [
+        ["A gift is something you receive without having to do anything for it.","correct"],
+        ["A gift is something you have to work for.","incorrect"]
+      ],
+      "correct": {
+        "content": "Great job! A gift is something you receive without having to do anything for it.",
+        "nextKey": "giftExampleAfterQuestion"
+      },
+      "incorrect": {
+        "content": "Close. A gift is something you receive without having to do anything for it.",
+        "nextKey": "giftExampleAfterQuestion"
+      }
+    },
+    "giftExampleAfterQuestion": {
+      "content": "An easy example of a gift is a birthday present. You don’t have to do anything to receive it, you just get it.",
+      "nextKey": "eternalLifeQuestion"
+    },
+    "eternalLifeQuestion": {
+      "content": "Now, what do you think eternal life is?",
+      "options": [
+        ["Eternal life is life that lasts forever.","correct"],
+        ["Eternal life is life that lasts for a short time.","incorrect"]
+      ],
+      "correct": {
+        "content": "Great job! Eternal life is life that lasts forever.",
+        "nextKey": "jesusLove"
+      },
+      "incorrect": {
+        "content": "Close. Eternal life is life that lasts forever.",
+        "nextKey": "jesusLove"
+      }
+    },
+    "jesusLove": {
+      "content": "Now, even though we deserved death through our sin, God provides a gift of eternal life through Jesus.",
+      "nextKey": "jesusLove2"
+    },
+    "jesusLove2": {
+      "content": "Who is Jesus, you may ask? Well, he goes by many names: the Messiah, the Savior, Son of God, Son of Man, and many others. But the main thing you need to know about him right now is that he paid for the penalty of everyone’s sins.",
+      "nextKey": "end"
+    },
+    "end": {
+      "content": "We will get into how Jesus is the bridge from death to eternal life, but first I want you to \" +\n        \"observe the life of Jesus through the next 3 levels. Have fun!"
+    },
+
+    "speechAction": {
+      "type": "speechAction",
+      "speech": "prologue"
+    }
+  },
+  "objectiveDisplayGroups": [
+    {
+      "objectives": [
+        {
+          "type": "cutscene",
+          "speechAction": "speechAction",
+          "actionGroups": []
+        }
+      ]
+    }
+  ]
+}
