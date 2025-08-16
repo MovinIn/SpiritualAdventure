@@ -16,11 +16,10 @@ public partial class Level11 : Level
       GD.Print(filteredPointersKey);
     }
     var devil = (Npc)pointers["devil"];
-    InlineCutsceneAction devilAppearance,devilDisappearance, moveDevil1, moveDevil2;
-    devilAppearance = (InlineCutsceneAction)pointers["devilAppearance"];
-    moveDevil1 = (InlineCutsceneAction)pointers["moveDevil1"];
-    moveDevil2 = (InlineCutsceneAction)pointers["moveDevil2"];
-    devilDisappearance=(InlineCutsceneAction)pointers["devilDisappearance"];
+    var devilAppearance = (InlineCutsceneAction)pointers["devilAppearance"];
+    var moveDevil1 = (InlineCutsceneAction)pointers["moveDevil1"];
+    var moveDevil2 = (InlineCutsceneAction)pointers["moveDevil2"];
+    var devilDisappearance = (InlineCutsceneAction)pointers["devilDisappearance"];
 
     devil.SetDirection(CharacterSprite.Direction.Left);
     devil.Visible = false;

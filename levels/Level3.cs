@@ -19,14 +19,11 @@ public partial class Level3 : LevelWithTestExtensions
   {
     Npc n=TestNpc(new Vector2(200,200));
 
-    var builder = LevelBuilder.Init()
+    AppendBuilder(LevelBuilder.Init()
       .SetPlayerPosition(Vector2.Zero)
       .AppendIObjectiveGroups(objectives)
-      .AppendNpcList(new List<Npc> { n })
-      .SetNarrator(new Narrator());
+      .AppendNpcList(new List<Npc> { n }));
     
-    AppendBuilder(builder);
-
     LoadLevel();
     
   }

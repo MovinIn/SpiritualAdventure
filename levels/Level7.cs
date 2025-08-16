@@ -28,16 +28,12 @@ public partial class Level7 : Level
     crossLayer.Visible = false;
 
 
-    var builder=LevelBuilder.Init()
+    AppendBuilder(LevelBuilder.Init()
       .SetPlayerPosition(new Vector2(1000, 1000))
       .AppendIObjectiveGroups(new List<ObjectiveDisplayGroup>
       {
         CourtCutsceneObjective(), JesusTortureCutsceneObjective()
-      })
-      .AppendNpcList(new List<Npc>())
-      .SetNarrator(new Narrator());
-
-    AppendBuilder(builder);
+      }));
     
     LoadLevel();
     

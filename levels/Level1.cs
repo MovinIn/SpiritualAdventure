@@ -15,13 +15,11 @@ public partial class Level1 : LevelWithTestExtensions
 	var parser = new DynamicParser(null);
 	var parsedNpc = NpcParseUtils.Parse(DynamicParser.ParseFromFile<JObject>("utility/json/NpcTest.json"),parser);    
 
-	var builder=LevelBuilder.Init()
+	AppendBuilder(LevelBuilder.Init()
 	  .SetPlayerPosition(Vector2.Zero)
 	  .AppendIObjectiveGroups(new List<ObjectiveDisplayGroup> { objective })
 	  .AppendNpcList(new List<Npc> { parsedNpc })
-	  .SetNarrator(new Narrator());
-	
-	AppendBuilder(builder);
+	  .SetNarrator(new Narrator()));
 	
 	LoadLevel();
 	NextObjective();

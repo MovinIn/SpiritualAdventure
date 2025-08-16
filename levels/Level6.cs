@@ -14,16 +14,12 @@ public partial class Level6 : Level
   public override void _Ready()
   {
 
-    var builder = LevelBuilder.Init()
+    AppendBuilder(LevelBuilder.Init()
       .SetPlayerPosition(Vector2.Zero)
       .AppendIObjectiveGroups(new List<ObjectiveDisplayGroup>
       {
         BlindCutsceneObjective(), TouchHomeObjective(), JesusCutsceneObjective()
-      })
-      .AppendNpcList(new List<Npc>())
-      .SetNarrator(new Narrator());
-    
-    AppendBuilder(builder);
+      }));
     
     LoadLevel();
     

@@ -39,7 +39,7 @@ public partial class Level8:Level
     StartChatObjective j1 = new StartChatObjective(joseph,
       new Objective("Give gifts to Jesus via Joseph",DynamicParseSpeech("end")));
 
-    var objectiveBuilder = LevelBuilder.Init()
+    AppendBuilder(LevelBuilder.Init()
       .AppendIObjectiveGroups(new List<ObjectiveDisplayGroup>
       {
         new(new List<IHasObjective> {h1}),
@@ -47,9 +47,8 @@ public partial class Level8:Level
         new(new List<IHasObjective> {sleepObjective}),
         new(new List<IHasObjective> {c2}),
         new(new List<IHasObjective> {j1})
-      });
-	
-    AppendBuilder(objectiveBuilder);
+      }));
+    
     LoadLevel();
     
     NextObjective();
