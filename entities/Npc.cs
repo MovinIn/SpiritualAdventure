@@ -224,16 +224,21 @@ public partial class Npc : AnimatableBody2D, ICloneable<Npc>
 	}
   }
 
+  protected void CloneHelper(Npc toClone)
+  {
+    toClone.Position = Position;
+    toClone.Who(identity);
+    
+    if (!interactTrigger.HasContent()) return;
+    
+    toClone.UseTrigger(interactTrigger.trigger,interactTrigger.content);
+    toClone.SetSpeech(speech.Select(sl => sl.Clone()).ToList());
+  }
+  
   public Npc Clone()
   {
 	Npc clone=Instantiate();
-	clone.Position = Position;
-	clone.Who(identity);
-	if (interactTrigger.HasContent())
-	{
-	  clone.UseTrigger(interactTrigger.trigger,interactTrigger.content);
-	  clone.SetSpeech(speech.Select(sl => sl.Clone()).ToList());
-	}
+    CloneHelper(clone);
 	
 	return clone;
   }

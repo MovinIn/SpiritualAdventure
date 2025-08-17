@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework.Constraints;
 using SpiritualAdventure.levels;
+using SpiritualAdventure.objectives;
 using SpiritualAdventure.utility;
 
 namespace SpiritualAdventure.entities;
@@ -137,7 +138,9 @@ public partial class PathDeterminantNpc : Npc,ICloneable<PathDeterminantNpc>
   
   public new PathDeterminantNpc Clone()
   {
-    return base.Clone().SafelySetScript<PathDeterminantNpc>(scenePath)
-      .UpdateMovement(actions.ToList(),moveDelay,isRelativePath,repeatMotion);
+    var clone = Instantiate();
+    CloneHelper(clone);
+    clone.UpdateMovement(actions.ToList(), moveDelay, isRelativePath, repeatMotion);
+    return clone;
   }
 }

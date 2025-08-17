@@ -36,11 +36,6 @@ public class DynamicParser
 	  return npc;
 	}).ToList();
 
-    foreach (var vector2 in npcs.Select(npc=>npc.Position))
-    {
-      GD.Print(vector2);
-    }
-
 	JArray positionArr = dyn.playerPosition ?? new JArray(0,0);
 	var playerPosition = GameUnitUtils.Vector2(positionArr[0].Value<float>(), positionArr[1].Value<float>());
 

@@ -16,20 +16,19 @@ public static class NpcParseUtils
   {
     dynamic dyn = data;
     string type=(string)dyn.type;
-    if (type.ToLower().Contains("path"))
+    if (!type.ToLower().Contains("path"))
     {
-      //I'm a path-determinant npc.
-      // float moveDelay = dyn.moveDelay ?? 0;
-      // bool repeatMotion=dyn.repeatMotion ?? false;
-      // bool isRelativePath = dyn.relativePath ?? true;
-      // List<MovementAction> movement = MovementActionParseUtils.Parse(
-      //   parser.OrOfPointer<JArray>(dyn.movement,null,out bool _));
-      // return PathDeterminantNpc.Instantiate().UpdateMovement(movement,moveDelay,isRelativePath,repeatMotion);
-      return PathDeterminantNpc.Instantiate().UpdateMovement(new List<MovementAction>(), 0, false, false);
+      //I'm a regular npc.
+      return Npc.Instantiate();
     }
     
-    //I'm a regular npc.
-    return Npc.Instantiate();
+    //I'm a path-determinant npc.
+    float moveDelay = dyn.moveDelay ?? 0;
+    bool repeatMotion=dyn.repeatMotion ?? false;
+    bool isRelativePath = dyn.relativePath ?? true;
+    List<MovementAction> movement = MovementActionParseUtils.Parse(
+      parser.OrOfPointer<JArray>(dyn.movement,null,out bool _));
+    return PathDeterminantNpc.Instantiate().UpdateMovement(movement,moveDelay,isRelativePath,repeatMotion);
   }
 
   public static Npc Parse(JObject data,DynamicParser parser)
