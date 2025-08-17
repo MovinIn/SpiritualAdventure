@@ -1,64 +1,26 @@
 {
   "template": "Level2",
-  "playerPosition": [
-    31,
-    31
-  ],
-  "npcs": [
-    "utility/json/NpcTest.json",
-    "pointer-npc"
-  ],
+  "playerPosition": [31,31],
+  "npcs": ["p"],
   "rawPointers": {
-    "pointer-npc": {
+    "p": {
       "type": "path-determinant",
-      "movement": [
-        [
-          19,
-          0
-        ],
-        [
-          0,
-          0
-        ]
-      ],
+      "movement": [[19,0], [0,0]],
       "x": -19,
       "y": 19,
-      "moveDelay": 2.3,
       "repeatMotion": true,
-      "speaker": "Archer",
-      "name": "Wick",
       "interactable": true,
-      "speech": [
-        "pointer-speech"
-      ]
+      "identity": "identity",
+      "speech": ["pointer-speech"]
     },
     "pointer-speech": {
       "content": "start speech content",
-      "nextKey": "a",
-      "a": {
-        "content": "a content",
-        "options": [
-          [
-            "option 1",
-            "c"
-          ],
-          [
-            "option 2",
-            "c"
-          ],
-          [
-            "option 3",
-            "c"
-          ]
-        ],
-        "nextKey": "b"
-      },
-      "b": {
-        "content": "b content"
-      },
-      "c": {
-        "content": "c content"
-      }
+      "identity": "identity"
+    },
+    "identity": {
+      "speaker": "Archer",
+      "name": "Wick"
     }
-  }
+  },
+  "objectiveDisplayGroups": []
 }

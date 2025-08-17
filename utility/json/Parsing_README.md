@@ -19,14 +19,17 @@ and _objectiveDisplayGroups_.
 ```
 
 ## Regular NPC: `Npc`
-A regular NPC that can be interacted with, initiating a speech. 
+A regular NPC that can be interacted with, initiating a speech. If an NPC is interactable, 
+_interactable_ must be true and the _speech_ must be defined. <br/>
 ```
 {
     "type": "regular",
     "x": 0,
     "y": 0,
-    "speaker": "Layman",
-    "name": "FOO",
+    "identity": {
+        "speaker": "Layman",
+        "name": "FOO",
+    }
     "interactable": true,
     "speech": [{...}]
 }
@@ -34,6 +37,10 @@ A regular NPC that can be interacted with, initiating a speech.
 
 ## Path-determinant NPC: `PathDeterminantNpc`
 A path-determinant NPC that moves along a specified _movement_ path. <br/>
+_repeatMotion_ indicates whether the NPC should repeat the movement path indefinitely. <br/>
+_isRelativePath_ indicates whether the movement path is relative to the NPC's current position.
+Otherwise, the movement will be interpreted as absolute position. <br/>
+The _movement_ is a list of movements, where each movement is a list of three numbers: [x, y, duration]. <br/>
 ```
 {
     "type": "path-determinant",
@@ -41,6 +48,7 @@ A path-determinant NPC that moves along a specified _movement_ path. <br/>
     "x": 0,
     "y": 0,
     "repeatMotion": true,
+    "isRelativePath": true,
     "speaker": "Archer",
     "name": "FOO",
     "interactable": false
@@ -77,7 +85,9 @@ Each speech line can also have _options_ that allow the player to make a choice.
 ```
 
 ## Objective Display Group
-A group of _objectives_ that can be displayed together, with specified _hiddenObjectives_ being hidden visually. 
+A group of _objectives_ that are displayed together and completed together before proceeding. <br/>
+_hiddenObjectives_ are not visible and are not required to be completed to proceed, but are still active. 
+_hiddenObjectives_ are useful for triggering `NegativeObjective` objectives. 
 ```
 {
     "hiddenObjectives": [
@@ -196,7 +206,8 @@ Otherwise, the actions will execute immediately.
 ## ICutsceneAction
 
 ### Speech Action: `SpeechAction`
-A `SpeechLine` that can be used in a cutscene as an action. 
+A `SpeechLine` that can be used in a cutscene as an action. This is usually specified 
+in the _speechAction_ attribute of a Cutscene Action Group.
 ```
 {
   "type": "speechAction",
@@ -217,7 +228,7 @@ Moves the specified _npc_ through the specified path, _moves_.
 ```
 
 ### Pan: `PanCutsceneAction`
-Pans to the specified _position_.
+Pans the center of the camera to the specified _position_.
 ```
 {
     "type": "pan",

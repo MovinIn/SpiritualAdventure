@@ -9,15 +9,19 @@ using SpiritualAdventure.ui;
 
 namespace SpiritualAdventure.levels;
 
-public partial class LevelWithTestExtensions:Level
+public partial class LevelWithTestExtensions : Level
 {
+  protected LevelWithTestExtensions() { }
+
   protected ObjectiveDisplayGroup TestTouchObjective(Vector2 position,int timeLimit=-1)
   {
     var touchObjective=TouchObjective.Instantiate(new Objective("Touch the Checkpoint at "+position));
     touchObjective.Position = position;
     AddChild(touchObjective);
 
-    return new ObjectiveDisplayGroup(new List<IHasObjective> { touchObjective }, timeLimit);
+    return ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective> { touchObjective })
+      .WithTimeLimit(timeLimit)
+      .Build();
   }
   
   protected ObjectiveDisplayGroup CutsceneTest(PathDeterminantNpc npc)
@@ -49,7 +53,7 @@ public partial class LevelWithTestExtensions:Level
         SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(1)
         
       });
-    return new ObjectiveDisplayGroup(new List<IHasObjective>{cutsceneObjective});
+    return ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective>{cutsceneObjective}).Build();
   }
   
   public ObjectiveDisplayGroup TestChatObjective(Vector2 position,int timeLimit=-1)
@@ -71,7 +75,7 @@ public partial class LevelWithTestExtensions:Level
     
     StartChatObjective c=new(npc,objective);
     
-    return new ObjectiveDisplayGroup(new List<IHasObjective>{c},timeLimit);
+    return ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective>{c}).WithTimeLimit(timeLimit).Build();
   }
   
   public ObjectiveDisplayGroup TestOptionObjective(Vector2 position,int timeLimit=-1)
@@ -95,6 +99,8 @@ public partial class LevelWithTestExtensions:Level
     var optionObjective = new OptionObjective("Option 2",new Objective("Choose the correct objective"),
       new[]{"Option 3"});
     
-    return new ObjectiveDisplayGroup(new List<IHasObjective>{optionObjective},timeLimit);
+    return ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective>{optionObjective})
+      .WithTimeLimit(timeLimit)
+      .Build();
   }
 }

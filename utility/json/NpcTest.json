@@ -5,8 +5,10 @@
   "y": 1,
   "moveDelay": 2.3,
   "repeatMotion": true,
-  "speaker": "Black_Merchant",
-  "name": "Jaquavius",
+  "identity": {
+    "speaker": "Black_Merchant",
+    "name": "Jaquavius"
+  },
   "interactable": true,
   "speech": ["utility/json/SpeechLineTest.json"]
 }

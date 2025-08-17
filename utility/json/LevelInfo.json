@@ -2,5 +2,9 @@
   "Level1": {
     "title": "A sample Level1 Title",
     "description": "Hey rock star!"
+  },
+  "Level2": {
+      "title": "A sample Level2 Title",
+      "description": "Hey rock star! This is Level 2."
   }
 }

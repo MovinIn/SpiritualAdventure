@@ -34,7 +34,9 @@
 	  "x": 37,
 	  "y": 0,
       "identity": "i-3",
-	  "movement": []
+      "repeatMotion": true,
+      
+	  "movement": [[50,0,2],[0,0,2],[-50,0,2],[0,0,2]]
 	},
     "i-3": {
       "speaker": "Archer",
@@ -80,12 +82,11 @@
 	}
   },
 
-
   "objectiveDisplayGroups":[
 	{
 	  "hiddenObjectives": [
-		"option2TargetSpeechObjective"
-	  ],
+        "option2TargetSpeechObjective"
+      ],
 	  "objectives":[
 		{
 		  "type":"touch",

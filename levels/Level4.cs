@@ -124,13 +124,13 @@ public partial class Level4 : Level
         "observe the life of Jesus through the next 3 levels. Have fun!"
       }));
     
-    return new ObjectiveDisplayGroup(new List<IHasObjective>{
+    return ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective>{
       new SimpleCutsceneObjective(new List<Tuple<SpeechAction, List<ICutsceneAction>>>
       {
         new (new SpeechAction(new Narrator(),prologue,1),
           new List<ICutsceneAction>()),
       }),
       new NegativeObjective(new Objective("Understand "+gospelVerse),new List<Objective>())
-    });
+    }).Build();
   }
 }

@@ -184,10 +184,10 @@ public partial class Level : Node2D
     
     ObjectiveDisplay.UpdateObjective(objectiveGroup, () =>
     {
-      objectiveGroup.objectives.ForEach(io=>io.objective.FailedObjective());
+      objectiveGroup.requiredObjectives.ForEach(io=>io.objective.FailedObjective());
     });
 
-    foreach (var iObjective in objectiveGroup.objectives)
+    foreach (var iObjective in objectiveGroup.requiredObjectives)
     {
       iObjective.objective.AddChangeHandler(OnObjectiveStatusChanged);
       iObjective.objective.SetAsObjective();

@@ -232,7 +232,7 @@ public partial class Npc : AnimatableBody2D, ICloneable<Npc>
 	if (interactTrigger.HasContent())
 	{
 	  clone.UseTrigger(interactTrigger.trigger,interactTrigger.content);
-	  clone.SetSpeech(speech.ToList());
+	  clone.SetSpeech(speech.Select(sl => sl.Clone()).ToList());
 	}
 	
 	return clone;

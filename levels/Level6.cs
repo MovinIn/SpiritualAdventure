@@ -85,7 +85,9 @@ public partial class Level6 : Level
           .SetNext(new SpeechLine(youIdentity,"I must spread the word to my neighbors: how God has blessed my life!")),8),
         new List<ICutsceneAction>())
     });
-    return new ObjectiveDisplayGroup(new List<IHasObjective>{cutsceneObjective,optionObjective});
+    return ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective> {
+      cutsceneObjective,optionObjective
+    }).Build();
   }
 
   public ObjectiveDisplayGroup TouchHomeObjective()
@@ -135,7 +137,10 @@ public partial class Level6 : Level
     var chatObjective2 = new FinishChatObjective(neighbor2, objective2);
     var chatObjective3 = new FinishChatObjective(neighbor3, objective3);
     
-    return new ObjectiveDisplayGroup(new List<IHasObjective>{chatObjective1,chatObjective2,chatObjective3});
+    return ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective>
+    {
+      chatObjective1,chatObjective2,chatObjective3
+    }).Build();
   }
 
   public ObjectiveDisplayGroup JesusCutsceneObjective()
@@ -299,7 +304,9 @@ public partial class Level6 : Level
     });
 
     
-    return new ObjectiveDisplayGroup(new List<IHasObjective> { new SimpleCutsceneObjective(actions)});
+    return ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective> {
+      new SimpleCutsceneObjective(actions)
+    }).Build();
   }
   
 }

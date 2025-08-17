@@ -19,12 +19,13 @@ public static class NpcParseUtils
     if (type.ToLower().Contains("path"))
     {
       //I'm a path-determinant npc.
-      float moveDelay = dyn.moveDelay ?? 0;
-      bool repeatMotion=dyn.repeatMotion ?? false;
-      bool isRelativePath = dyn.relativePath ?? true;
-      List<MovementAction> movement = MovementActionParseUtils.Parse(
-        parser.OrOfPointer<JArray>(dyn.movement,null,out bool _));
-      return PathDeterminantNpc.Instantiate().UpdateMovement(movement,moveDelay,isRelativePath,repeatMotion);
+      // float moveDelay = dyn.moveDelay ?? 0;
+      // bool repeatMotion=dyn.repeatMotion ?? false;
+      // bool isRelativePath = dyn.relativePath ?? true;
+      // List<MovementAction> movement = MovementActionParseUtils.Parse(
+      //   parser.OrOfPointer<JArray>(dyn.movement,null,out bool _));
+      // return PathDeterminantNpc.Instantiate().UpdateMovement(movement,moveDelay,isRelativePath,repeatMotion);
+      return PathDeterminantNpc.Instantiate().UpdateMovement(new List<MovementAction>(), 0, false, false);
     }
     
     //I'm a regular npc.
@@ -38,16 +39,9 @@ public static class NpcParseUtils
     npc.Position = GameUnitUtils.Vector2((float)dyn.x, (float)dyn.y);
     NodeStagingArea.Add(npc);
 
-    GD.Print("Parse::Npc");
-    GD.Print(parser.rawPointers);
-    GD.Print(data);
-    
     Identity identity=dyn.identity!=null 
       ? parser.DynamicParse(dyn.identity, data, new Func<JObject,Identity>(IdentityParseUtils.Parse))
       : Identity.Unknown;
-
-    GD.Print(identity.speaker);
-    GD.Print(identity.name);
     
     npc.Who(identity);
 
@@ -67,6 +61,7 @@ public static class NpcParseUtils
       return npc;
     }
 
+    GD.Print("doing speech now");
     //TODO: would likely be useful to encapsulate into external method.
     var speechList = ((JArray)dyn.speech).Children().Select(token =>
     {

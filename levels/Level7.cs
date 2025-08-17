@@ -88,8 +88,7 @@ public partial class Level7 : Level
         SimpleCutsceneObjective.DelayedActionGroupWithoutSpeech(0.3f)
       });
 
-
-    return new ObjectiveDisplayGroup(new List<IHasObjective> { cutsceneObjective });
+    return ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective> {cutsceneObjective}).Build();
   }
 
   public ObjectiveDisplayGroup JesusTortureCutsceneObjective()
@@ -302,7 +301,10 @@ public partial class Level7 : Level
         
       });
     
-    return new ObjectiveDisplayGroup(new List<IHasObjective> { cutsceneObjective,negativeObjective });
+    return ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective>
+    {
+      cutsceneObjective,negativeObjective
+    }).Build();
   }
 
 

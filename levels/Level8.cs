@@ -42,11 +42,11 @@ public partial class Level8:Level
     AppendBuilder(LevelBuilder.Init()
       .AppendIObjectiveGroups(new List<ObjectiveDisplayGroup>
       {
-        new(new List<IHasObjective> {h1}),
-        new(new List<IHasObjective> {c1}),
-        new(new List<IHasObjective> {sleepObjective}),
-        new(new List<IHasObjective> {c2}),
-        new(new List<IHasObjective> {j1})
+        ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective> {h1}).Build(),
+        ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective> {c1}).Build(),
+        ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective> {sleepObjective}).Build(),
+        ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective> {c2}).Build(),
+        ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective> {j1}).Build()
       }));
     
     LoadLevel();

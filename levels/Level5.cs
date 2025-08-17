@@ -42,7 +42,7 @@ public partial class Level5 : Level
           }),1), new List<ICutsceneAction>())
       });
 
-    return new ObjectiveDisplayGroup(new List<IHasObjective>{cutsceneObjective});
+    return ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective>{cutsceneObjective}).Build();
   }
   
   public ObjectiveDisplayGroup CutsceneObjective()
@@ -113,7 +113,7 @@ public partial class Level5 : Level
         
       });
     
-    return new ObjectiveDisplayGroup(new List<IHasObjective>{cutsceneObjective});
+    return ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective>{cutsceneObjective}).Build();
   }
   
   public ObjectiveDisplayGroup JosephObjective()
@@ -161,10 +161,10 @@ public partial class Level5 : Level
     TargetSpeechObjective targetSpeechObjective = new(targetLine,rawTargetSpeechObjective);
 
 
-    return new ObjectiveDisplayGroup(new List<IHasObjective>
+    return ObjectiveDisplayGroup.Builder.Init(new List<IHasObjective>
     {
       startChatObjective, optionObjective, targetSpeechObjective
-    });
+    }).Build();
   }
   
   

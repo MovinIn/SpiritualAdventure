@@ -54,7 +54,7 @@ public partial class ObjectiveDisplay : HBoxContainer
 
   public static bool ContainsObjective(Objective objective)
   {
-    return IsObjectiveRunning() && objectiveGroup!.objectives.Any(i => i.objective == objective);
+    return IsObjectiveRunning() && objectiveGroup!.requiredObjectives.Any(i => i.objective == objective);
   }
   
   public static void UpdateObjective(ObjectiveDisplayGroup objectiveDisplayGroup, Action onFail)
@@ -62,18 +62,18 @@ public partial class ObjectiveDisplay : HBoxContainer
     Failed = onFail;
     objectiveGroup = objectiveDisplayGroup;
     description.Text = "Objectives";
-    objectiveGroup!.objectives.ForEach(io=>description.Text+="\n"+io.objective.description);
+    objectiveGroup!.requiredObjectives.ForEach(io=>description.Text+="\n"+io.objective.description);
 
     if (objectiveDisplayGroup.IsTimed())
     {
       timerDisplay.Visible = true;
-      timerDisplay.Update(objectiveDisplayGroup.GetTimeLimit());
+      timerDisplay.Update(objectiveDisplayGroup.timeLimit);
     }
     else
     {
       timerDisplay.Visible = false;
     }
-    objectiveDisplayGroup.objectives.ForEach(io=>io.objective.AddChangeHandler(UpdateObjectiveStatus));
+    objectiveDisplayGroup.requiredObjectives.ForEach(io=>io.objective.AddChangeHandler(UpdateObjectiveStatus));
   }
 
   public static void UpdateDescription()
@@ -83,7 +83,7 @@ public partial class ObjectiveDisplay : HBoxContainer
 
     if (!IsObjectiveRunning()) return;
     
-    foreach (var iObjective in objectiveGroup!.objectives)
+    foreach (var iObjective in objectiveGroup!.requiredObjectives)
     {
       switch (iObjective.objective.status)
       {
