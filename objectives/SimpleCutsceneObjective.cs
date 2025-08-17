@@ -42,9 +42,6 @@ public class SimpleCutsceneObjective: IHasObjective
 
   private void QueueNextActions()
   {
-    GD.Print("asdaksdokxaso: ");
-    GD.Print(actionGroups[actionGroupIndex].Item1.narrator==null);
-    GD.Print(actionGroups[actionGroupIndex].Item1.narrator.NotInteracting==null);
     actionGroups[actionGroupIndex].Item1.narrator.NotInteracting = ()=>
     {
       

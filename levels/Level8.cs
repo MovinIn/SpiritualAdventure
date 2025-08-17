@@ -155,7 +155,7 @@ public partial class Level8:Level
   //TODO: move to Level.cs and add dynamicparsing of npc as well.
   private SpeechLine DynamicParseSpeech(string pointer)
   {
-    return builder.parser.DynamicParse<SpeechLine, JObject>(pointer, null,
+    return builder.parser.DynamicParse<JObject,SpeechLine>(pointer, null,
       o => SpeechParseUtils.Parse(o,builder.parser));
   }
 }

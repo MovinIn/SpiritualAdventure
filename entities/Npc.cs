@@ -32,24 +32,24 @@ public partial class Npc : AnimatableBody2D, ICloneable<Npc>
 
   protected static T Instantiate<T>(string path) where T:Npc
   {
-    return Instantiate().SafelySetScript<T>(path);
+	return Instantiate().SafelySetScript<T>(path);
   }
   
   public static Npc Instantiate()
   {
-    return ResourceLoader.Load<PackedScene>("res://entities/Npc.tscn").Instantiate<Npc>();
+	return ResourceLoader.Load<PackedScene>("res://entities/Npc.tscn").Instantiate<Npc>();
   }
 
   public Npc WithPosition(Vector2 position)
   {
-    Position = position;
-    return this;
+	Position = position;
+	return this;
   }
 
   public Npc()
   {
-    speech=new Queue<SpeechLine>();
-    InitNodes();
+	speech=new Queue<SpeechLine>();
+	InitNodes();
   }
 
   /**
@@ -57,117 +57,117 @@ public partial class Npc : AnimatableBody2D, ICloneable<Npc>
    */
   private void InitNodes()
   {
-    if (!HasNode("Sprite")) return;
-    sprite=GetNode<CharacterSprite>("Sprite");
-    interactTrigger = GetNode<InteractTriggerDisplay>("InteractTriggerDisplay");
+	if (!HasNode("Sprite")) return;
+	sprite=GetNode<CharacterSprite>("Sprite");
+	interactTrigger = GetNode<InteractTriggerDisplay>("InteractTriggerDisplay");
   }
   
   public override void _PhysicsProcess(double delta)
   {
-    if (Level.Paused()) return;
-    IdleOrElse();
+	if (Level.Paused()) return;
+	IdleOrElse();
   }
 
   public void Who(Speaker speaker, string name)
   {
-    Who(new Identity(speaker,name));
+	Who(new Identity(speaker,name));
   }
   
   public void Who(Identity identity)
   {
-    this.identity = identity;
-    sprite.SetSpriteFrames(identity.speaker.asFrames());
+	this.identity = identity;
+	sprite.SetSpriteFrames(identity.speaker.asFrames());
   }
 
   public void SetInteractHandler(Action interactHandler=null)
   {
-    interactHandler ??= OnInteract;
-    interactTrigger.SetInteractHandler(interactHandler);
+	interactHandler ??= OnInteract;
+	interactTrigger.SetInteractHandler(interactHandler);
   }
 
   public void SetOptionHandler(Action<string> optionHandler=null)
   {
-    optionHandler ??= OnOption;
-    interactTrigger.SetOptionHandler(optionHandler);
+	optionHandler ??= OnOption;
+	interactTrigger.SetOptionHandler(optionHandler);
   }
   
   public void UseTrigger(string trigger,string content,Action interactHandler=null)
   {
-    interactHandler ??= OnInteract;
-    interactTrigger.SetContent(trigger,content);
-    SetInteractHandler(interactHandler);
-    interactTrigger.SetOptionHandler(OnOption);
+	interactHandler ??= OnInteract;
+	interactTrigger.SetContent(trigger,content);
+	SetInteractHandler(interactHandler);
+	interactTrigger.SetOptionHandler(OnOption);
   }
 	
   public void SetSpeech(List<SpeechLine> speech)
   {
-    if (!interactTrigger.HasContent())
-      throw new InvalidOperationException("Trigger does not have content. Please call UseTrigger() first.");
+	if (!interactTrigger.HasContent())
+	  throw new InvalidOperationException("Trigger does not have content. Please call UseTrigger() first.");
 		
-    this.speech.Clear();
-    foreach (var se in speech)
-      this.speech.Enqueue(se);
+	this.speech.Clear();
+	foreach (var se in speech)
+	  this.speech.Enqueue(se);
   }
 
   public SpeechLine NextLine()
   {
-    if (speech.Count == 0) return null;
+	if (speech.Count == 0) return null;
 	
-    if (currLine==null)
-    {
-      currLine = speech.Peek();
-      return currLine;
-    }
-    if (currLine.Finished())
-    {
-      StopInteract();
-      speech.Enqueue(speech.Dequeue());
-      return null;
-    }
-    if (!currLine.HasNext())
-      return currLine;
+	if (currLine==null)
+	{
+	  currLine = speech.Peek();
+	  return currLine;
+	}
+	if (currLine.Finished())
+	{
+	  StopInteract();
+	  speech.Enqueue(speech.Dequeue());
+	  return null;
+	}
+	if (!currLine.HasNext())
+	  return currLine;
 		
-    currLine = currLine.next;
-    return currLine;
+	currLine = currLine.next;
+	return currLine;
   }
 
   public void OnInteractBodyEntered(Node2D body)
   {
-    if (interactTrigger.HasContent() && body is Player)
-    {
-      InteractProximityFilter.Add(interactTrigger,Position);
-    }
+	if (interactTrigger.HasContent() && body is Player)
+	{
+	  InteractProximityFilter.Add(interactTrigger,Position);
+	}
   }
 
   public void StopInteract()
   {
-    if (interactTrigger.isInteracting) {
-      interactTrigger.SetNotInteracting();
-      InteractDisplay.Exit();
-    }
-    currLine = null;
+	if (interactTrigger.isInteracting) {
+	  interactTrigger.SetNotInteracting();
+	  InteractDisplay.Exit();
+	}
+	currLine = null;
   }
 	
   public void DetachInteract()
   {
-    StopInteract();
-    InteractProximityFilter.Remove(interactTrigger);
+	StopInteract();
+	InteractProximityFilter.Remove(interactTrigger);
   }
 	
   public void OnInteractBodyExited(Node2D body)
   {
-    if (body is Player)
-    {
-      DetachInteract();
-    }
+	if (body is Player)
+	{
+	  DetachInteract();
+	}
   }
 
   private void UpdateRotation()
   {
-    if (Level.currentCameraMode!=Level.CameraMode.Cutscene)
-    {
-      SetDirection(Level.player.Position.X-Position.X);
-    }
+	if (Level.currentCameraMode!=Level.CameraMode.Cutscene)
+	{
+	  SetDirection(Level.player.Position.X-Position.X);
+	}
   }
 
   /**
@@ -175,66 +175,66 @@ public partial class Npc : AnimatableBody2D, ICloneable<Npc>
    */
   public void SetDirection(float direction)
   {
-    sprite.UpdateRotation(direction);
+	sprite.UpdateRotation(direction);
   }
 	
   public void OnInteract()
   {
-    UpdateRotation();
+	UpdateRotation();
 	
-    SpeechLine line = NextLine();
-    if (line == null)
-    {
-      interactTrigger.SetNotInteracting();
+	SpeechLine line = NextLine();
+	if (line == null)
+	{
+	  interactTrigger.SetNotInteracting();
 	  
-      FinishedSpeech?.Invoke();
+	  FinishedSpeech?.Invoke();
 	  
-      return;
-    }
+	  return;
+	}
 	
-    NewSpeechLine?.Invoke(line.line);
+	NewSpeechLine?.Invoke(line.line);
 	
-    InteractDisplay.UpdateInteractDisplay(line,interactTrigger);
+	InteractDisplay.UpdateInteractDisplay(line,interactTrigger);
   }
 
   public void OnOption(string option)
   {
-    UpdateRotation();
-    currLine = currLine.options![option];
+	UpdateRotation();
+	currLine = currLine.options![option];
 	
-    if (currLine != null)
-    {
-      NewSpeechLine?.Invoke(currLine.line);
-    }
+	if (currLine != null)
+	{
+	  NewSpeechLine?.Invoke(currLine.line);
+	}
   }
 	
   protected void IdleOrElse(string animation="idle")
   {
-    if (sprite.SpriteFrames.HasAnimation(animation))
-    {
-      sprite.Play(animation);
-    }
+	if (sprite.SpriteFrames.HasAnimation(animation))
+	{
+	  sprite.Play(animation);
+	}
   }
 
   public override void _Notification(int what)
   {
-    if (what == NotificationSceneInstantiated)
-    {
-      InitNodes();
-    }
+	if (what == NotificationSceneInstantiated)
+	{
+	  InitNodes();
+	}
   }
 
   public Npc Clone()
   {
-    Npc clone=Instantiate();
-    clone.Position = Position;
-    clone.Who(identity);
-    if (interactTrigger.HasContent())
-    {
-      clone.UseTrigger(interactTrigger.trigger,interactTrigger.content);
-    }
-    SetSpeech(clone.speech.ToList());
-    
-    return clone;
+	Npc clone=Instantiate();
+	clone.Position = Position;
+	clone.Who(identity);
+	if (interactTrigger.HasContent())
+	{
+	  clone.UseTrigger(interactTrigger.trigger,interactTrigger.content);
+	  clone.SetSpeech(speech.ToList());
+	}
+	
+	return clone;
   }
 }

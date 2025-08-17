@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Nodes;
 using Godot;
 using Newtonsoft.Json.Linq;
 using SpiritualAdventure.entities;
+using SpiritualAdventure.objectives;
 using SpiritualAdventure.ui;
 
 namespace SpiritualAdventure.utility.parse;
@@ -35,13 +37,19 @@ public static class NpcParseUtils
     dynamic dyn = data;
     npc.Position = GameUnitUtils.Vector2((float)dyn.x, (float)dyn.y);
     NodeStagingArea.Add(npc);
+
+    GD.Print("Parse::Npc");
+    GD.Print(parser.rawPointers);
+    GD.Print(data);
     
-    if (!Enum.TryParse((string)dyn.speaker, out Speaker speaker))
-    {
-      speaker = Speaker.Archer;
-    }
-    string name = dyn.name ?? "unknown";
-    npc.Who(speaker,name);
+    Identity identity=dyn.identity!=null 
+      ? parser.DynamicParse(dyn.identity, data, new Func<JObject,Identity>(IdentityParseUtils.Parse))
+      : Identity.Unknown;
+
+    GD.Print(identity.speaker);
+    GD.Print(identity.name);
+    
+    npc.Who(identity);
 
     if (dyn.interactable == null && dyn.trigger == null && dyn.content == null)
     {

@@ -13,27 +13,21 @@ public static class SpeechParseUtils
   private static SpeechLine ParseSpeechLineRecursive(JObject data,JObject extraPointers,DynamicParser parser)
   {
     dynamic dyn = data;
-    Identity identity;
+
+    if (dyn.identity != null)
+    {
+      GD.Print(dyn.identity);
+    }
     
-    if (dyn.speaker != null && dyn.name != null)
-    {
-      if (!Enum.TryParse((string)dyn.speaker, out Speaker speaker))
-      {
-        speaker = Speaker.Unknown;
-      }
-      string name = dyn.name;
-      identity = new Identity(speaker,name);
-    }
-    else
-    {
-      identity = Identity.Unknown;
-    }
+    Identity identity = dyn.identity!=null 
+      ? parser.DynamicParse(dyn.identity,extraPointers, new Func<JObject, Identity>(IdentityParseUtils.Parse))
+      : Identity.Unknown;
     
     var speechLine=new SpeechLine(identity,(string)dyn.content);
     
     if (dyn.nextKey != null)
     {
-      speechLine.SetNext(parser.DynamicClone<SpeechLine, JObject>(dyn.nextKey, extraPointers,
+      speechLine.SetNext(parser.DynamicClone<JObject,SpeechLine>(dyn.nextKey, extraPointers,
         new Func<JObject, SpeechLine>(o => ParseSpeechLineRecursive(o, extraPointers,parser))));
     }
 

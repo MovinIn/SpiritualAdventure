@@ -9,8 +9,10 @@
       "type": "regular",
       "x": 12,
       "y": 0,
-      "speaker": "Red_Merchant",
-      "name": "Satan",
+      "identity": {
+        "speaker": "Red_Merchant",
+        "name": "Satan"
+      },
       "interactable": false
     },
     "narration1": {

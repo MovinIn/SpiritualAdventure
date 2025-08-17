@@ -9,34 +9,44 @@
 	  "type": "regular",
 	  "x": 12,
 	  "y": 0,
-	  "speaker": "Red_Warrior",
-	  "name": "1",
+      "identity": "i-1",
 	  "interactable": true,
 	  "speech": ["1-speech"]
 	},
+    "i-1": {
+      "speaker": "Red_Warrior",
+      "name": "1"
+    },
 	"2": {
 	  "type": "regular",
 	  "x": 25,
 	  "y": 0,
-	  "speaker": "Layman",
-	  "name": "2",
+      "identity": "i-2",
 	  "interactable": true,
 	  "speech": ["2-speech"]
 	},
+    "i-2": {
+      "speaker": "Layman",
+      "name": "2"
+    },
 	"3": {
 	  "type": "path-determinant",
 	  "x": 37,
 	  "y": 0,
-	  "speaker": "Archer",
-	  "name": "3",
+      "identity": "i-3",
 	  "movement": []
 	},
-
+    "i-3": {
+      "speaker": "Archer",
+      "name": "3"
+    },
 	"1-speech": {
-	  "content": "insert some lengthy monologue from `1`."
+	  "content": "insert some lengthy monologue from `1`.",
+      "identity": "i-1"
 	},
 	"2-speech": {
 	  "content": "some target speech content",
+      "identity": "i-2",
 	  "options": [
 		["some target option","option1"],
 		["option2","option2"],

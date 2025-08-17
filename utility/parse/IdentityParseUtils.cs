@@ -1,4 +1,5 @@
 ﻿using System;
+using Godot;
 using Newtonsoft.Json.Linq;
 using SpiritualAdventure.objectives;
 using SpiritualAdventure.ui;
@@ -9,11 +10,13 @@ public static class IdentityParseUtils
 {
   public static Identity Parse(JObject json)
   {
-    if (!Enum.TryParse(json.Value<string>("speaker") ?? Speaker.Archer.ToString(), out Speaker speaker))
+    GD.Print("was here?");
+    
+    if (!Enum.TryParse(json.Value<string>("speaker") ?? Speaker.Unknown.ToString(), out Speaker speaker))
     {
-      speaker = Speaker.Archer;
+      speaker = Speaker.Unknown;
     }
-    string name = json.OrAsOptional("name", "Narrator");
+    string name = json.OrAsOptional("name", "Unknown");
     return new Identity(speaker, name);
   }  
 }

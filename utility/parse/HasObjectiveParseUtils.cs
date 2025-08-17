@@ -54,7 +54,7 @@ public static class HasObjectiveParseUtils
 									  " was not a pointer, but of unparsable type: <"+token.Type+">.");
 		}
 
-		return parser.DynamicParse<Objective,JObject>(token, null, 
+		return parser.DynamicParse<JObject,Objective>(token, null, 
 		  o => ObjectiveParseUtils.Parse(o, parser));
 	  }).ToList();
 
@@ -82,7 +82,7 @@ public static class HasObjectiveParseUtils
 	JArray tupleArray=dyn.actionGroups;
 	List<Tuple<SpeechAction,List<ICutsceneAction>>> actionGroups=tupleArray.Children().Select(token =>
 	{
-	  return parser.DynamicParse<Tuple<SpeechAction,List<ICutsceneAction>>,JToken>(token,null,
+	  return parser.DynamicParse<JToken,Tuple<SpeechAction,List<ICutsceneAction>>>(token,null,
 		t=>ParseSimpleCutsceneObjectiveTuple(t,parser));
 	}).ToList();
 
@@ -105,7 +105,7 @@ public static class HasObjectiveParseUtils
 	}
 	else{
 	  GD.Print(tupleDyn.speechAction);
-	  speechAction = parser.DynamicParse<SpeechAction, JObject>((JToken)tupleDyn.speechAction,
+	  speechAction = parser.DynamicParse<JObject,SpeechAction>((JToken)tupleDyn.speechAction,
 		null,o  => CutsceneParseUtils.ParseSpeechAction(o, parser));
 	}
 	JArray actions=tupleDyn.actions;
